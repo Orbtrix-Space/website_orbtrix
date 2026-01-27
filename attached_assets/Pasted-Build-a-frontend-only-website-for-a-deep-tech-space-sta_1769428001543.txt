@@ -1,0 +1,142 @@
+Build a frontend-only website for a deep-tech space startup using React + Vite + Tailwind CSS.
+The codebase must be clean, modular, and scalable, with no hard-coded assumptions that block future expansion.
+
+Design Principles (Important)
+
+Visual style: pure black background, white text, subtle gray accents.
+
+No flashy AI-style UI, no excessive animations, no gradients.
+
+Minimal, engineering-grade layout suitable for a spacetech company.
+
+White company logo placeholder in the navigation bar (logo will be replaced later).
+
+Layout and components should support future additions (links, pages, team members, products).
+
+Global Layout
+
+Top navigation bar with:
+
+Logo placeholder (white, left aligned)
+
+Navigation links: Home, Products, Mission, About, Contact
+
+Navigation should be implemented using a data-driven structure (array/map), not hard-coded JSX.
+
+Responsive but desktop-first.
+
+Home Page
+
+Headline focused on autonomous spacecraft and autonomous space operations.
+
+Emphasize:
+
+Reducing dependence on continuous ground control
+
+Lowering mission operations cost
+
+Clearly communicate:
+
+Software-first approach today
+
+Long-term goal of building highly autonomous spacecraft (hardware + software)
+
+Simple call-to-action linking to Products.
+
+Products Page
+
+Use a scalable product data structure (array of objects).
+
+Product 1 (Primary)
+
+DISHA – Automated Mission Operations Software
+
+Automates mission operations workflows
+
+Reduces manual ground effort
+
+Designed to scale from single missions to more autonomous operations
+
+Product 2 (Future)
+
+Onboard Autonomy Software (Name To Be Announced)
+
+Marked clearly as “In Development”
+
+Enables higher levels of autonomous decision-making onboard spacecraft
+
+Mission Page
+
+Title: Demonstration Mission – 2028
+
+Earth Observation mission
+
+Demonstrates high-end onboard autonomy
+
+Validates reduction in ground operations
+
+Keep content high-level and realistic
+
+About Page
+
+Include a Team section implemented using a scalable data array, not static markup.
+
+Display space for four team members, with role and name only (no photos required now):
+
+Aswin Sunil — CEO & Chief Engineer
+
+Aaron Steephen — Chief Operating Officer (COO)
+
+Jilsha Saji — Space Systems Engineer
+
+Salinimol TA — Mission Planning Engineer
+
+The team layout should:
+
+Easily support adding/removing members later
+
+Be reusable (component-based)
+
+Avoid decorative cards or AI-style visuals
+
+Also include a short paragraph describing the team’s combined experience in:
+
+Mission design
+
+Spacecraft operations
+
+Space systems engineering
+
+Onboard software
+
+Contact Page
+
+Minimal contact section
+
+Placeholder email or simple contact form
+
+No backend logic
+
+Technical Requirements
+
+Frontend only (no Express, no APIs, no backend)
+
+Clean folder structure:
+
+components/
+
+pages/
+
+data/ (for nav, products, team)
+
+No hard-coded UI assumptions
+
+Easy to extend with:
+
+External links
+
+More products
+
+More team members
+
+Future missions

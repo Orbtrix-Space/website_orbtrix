@@ -35,7 +35,7 @@ export const PRODUCTS: Product[] = [
     id: "disha",
     name: "DISHA",
     description:
-      "Digital Infrastructure for Spacecraft Handling & Analytics (DISHA) is Orbtrix’s mission operations platform, designed to support scalable, automated spacecraft operations with minimal human-in-the-loop dependency.",
+      "Digital Infrastructure for Spacecraft Handling & Analytics (DISHA) is Orbtrix’s mission operations platform, built to support scalable, automated spacecraft operations with reduced human-in-the-loop dependency.",
     status: "In Development",
     features: [
       "Automated mission operations workflows",
@@ -55,7 +55,7 @@ export const PRODUCTS: Product[] = [
       "Onboard execution of mission plans",
       "Autonomous handling of routine operational scenarios",
       "Reduced dependence on continuous ground commanding",
-      "Designed for integration with Orbtrix satellite bus",
+      "Designed for integration with Orbtrix satellite platforms",
     ],
     icon: Cpu,
   },

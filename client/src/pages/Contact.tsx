@@ -1,9 +1,17 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { insertMessageSchema, type InsertMessage } from "@shared/schema";
+import { z } from "zod";
+
 import { useContactForm } from "@/hooks/use-mock-api";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -11,23 +19,35 @@ import { SectionHeader } from "@/components/SectionHeader";
 
 import { Mail, MapPin } from "lucide-react";
 
+/* =========================
+   Local frontend schema
+========================= */
+
+const ContactFormSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("Enter a valid email address"),
+  message: z.string().min(1, "Message is required"),
+});
+
+type ContactFormValues = z.infer<typeof ContactFormSchema>;
+
 export default function Contact() {
-  const form = useForm<InsertMessage>({
-    resolver: zodResolver(insertMessageSchema),
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(ContactFormSchema),
     defaultValues: {
       name: "",
       email: "",
-      message: ""
-    }
+      message: "",
+    },
   });
 
   const mutation = useContactForm();
 
-  const onSubmit = (data: InsertMessage) => {
+  const onSubmit = (data: ContactFormValues) => {
     mutation.mutate(data, {
       onSuccess: () => {
         form.reset();
-      }
+      },
     });
   };
 
@@ -76,7 +96,10 @@ export default function Contact() {
         {/* Right: Contact Form */}
         <div className="bg-neutral-900/20 border border-white/10 p-8 md:p-10">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6"
+            >
               <FormField
                 control={form.control}
                 name="name"

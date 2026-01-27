@@ -2,12 +2,11 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   root: path.resolve(__dirname, "client"),
+  base: "/", // 🔴 THIS IS THE FIX
 
-  plugins: [
-    react(),
-  ],
+  plugins: [react()],
 
   resolve: {
     alias: {
@@ -19,10 +18,4 @@ export default defineConfig(({ mode }) => ({
     outDir: path.resolve(__dirname, "dist"),
     emptyOutDir: true,
   },
-
-  server: {
-    fs: {
-      strict: true,
-    },
-  },
-}));
+});

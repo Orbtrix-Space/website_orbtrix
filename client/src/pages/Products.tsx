@@ -9,7 +9,7 @@ export default function Products() {
     <div className="max-w-7xl mx-auto px-6 py-20">
       <SectionHeader
         title="Products"
-        subtitle="Mission-critical software systems designed to reduce operational complexity and enable autonomous spacecraft operations."
+        subtitle="Software systems engineered for autonomous spacecraft operations, onboard intelligence, and reduced ground dependency across the mission lifecycle."
         align="left"
       />
 
@@ -30,21 +30,28 @@ export default function Products() {
 
                 <Badge
                   variant="outline"
-                  className="font-mono uppercase tracking-wider border-yellow-500/40 text-yellow-400"
+                  className="uppercase tracking-wider border-yellow-500/40 text-yellow-400 text-xs"
                 >
                   {product.status}
                 </Badge>
               </div>
 
               {/* Title */}
-              <h3 className="text-2xl font-bold mb-2 tracking-tight">
+              <h3 className="text-2xl font-semibold mb-2 tracking-tight">
                 {product.name}
               </h3>
 
-              {/* DISHA expansion */}
+              {/* DISHA clarification */}
               {product.name === "DISHA" && (
-                <p className="text-sm text-neutral-500 mb-4 font-mono">
-                  Digital Infrastructure for Spacecraft Handling & Analytics
+                <p className="text-sm text-neutral-500 mb-4">
+                  Digital Infrastructure for Spacecraft Handling and Analytics
+                </p>
+              )}
+
+              {/* Rigel OS clarification */}
+              {product.name === "Rigel OS" && (
+                <p className="text-sm text-neutral-500 mb-4">
+                  Autonomous Onboard Operating Suite for Spacecraft
                 </p>
               )}
 

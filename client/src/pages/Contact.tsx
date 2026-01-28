@@ -2,8 +2,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
-import { useContactForm } from "@/hooks/use-mock-api";
-
 import {
   Form,
   FormControl,
@@ -20,7 +18,7 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { Mail, MapPin } from "lucide-react";
 
 /* =========================
-   Local frontend schema
+   Schema
 ========================= */
 
 const ContactFormSchema = z.object({
@@ -41,14 +39,16 @@ export default function Contact() {
     },
   });
 
-  const mutation = useContactForm();
-
   const onSubmit = (data: ContactFormValues) => {
-    mutation.mutate(data, {
-      onSuccess: () => {
-        form.reset();
-      },
-    });
+    const subject = encodeURIComponent(
+      `Website Contact — ${data.name}`
+    );
+
+    const body = encodeURIComponent(
+      `Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`
+    );
+
+    window.location.href = `mailto:info@orbtrix.space?subject=${subject}&body=${body}`;
   };
 
   return (
@@ -58,11 +58,12 @@ export default function Contact() {
         <div>
           <SectionHeader
             title="Contact"
-            subtitle="Get in touch to learn more about our products, technology, and upcoming missions."
+            subtitle="Get in touch to discuss our products, technology, and upcoming missions."
             align="left"
           />
 
           <div className="space-y-8 mt-12">
+            {/* Email */}
             <div className="flex items-start gap-4">
               <Mail className="w-6 h-6 text-white mt-1" />
               <div>
@@ -76,20 +77,34 @@ export default function Contact() {
               </div>
             </div>
 
+            {/* Location */}
             <div className="flex items-start gap-4">
               <MapPin className="w-6 h-6 text-white mt-1" />
               <div>
                 <h4 className="font-semibold mb-1">Location</h4>
-                <a
-                  href="https://www.google.com/maps/place/Bengaluru"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-neutral-400 hover:text-white transition-colors"
-                >
-                  Bengaluru, India
-                </a>
+                <p className="text-neutral-400">
+                  Orbtrix Space Private Limited<br />
+                  Cabin 4B, Evolve Coworking Space<br />
+                  Doddanakundi Industrial Area, Brookefield<br />
+                  Bengaluru, Karnataka 560048, India
+                </p>
               </div>
             </div>
+
+            {/* Google Maps Embed */}
+            <div className="mt-10 border border-white/10 overflow-hidden">
+              <iframe
+                title="Orbtrix Space Private Limited Location"
+                src="https://www.google.com/maps?q=Orbtrix%20Space%20Private%20Limited%2C%20Doddanakundi%20Industrial%20Area%2C%20Brookefield%2C%20Bengaluru&output=embed"
+                className="w-full h-64 grayscale contrast-125 hover:grayscale-0 transition-all duration-500"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+
+            <p className="text-sm text-neutral-500">
+              Orbtrix Space Private Limited · Bengaluru, Karnataka
+            </p>
           </div>
         </div>
 
@@ -156,10 +171,9 @@ export default function Contact() {
 
               <Button
                 type="submit"
-                disabled={mutation.isPending}
                 className="w-full h-12 bg-white text-black hover:bg-neutral-200 rounded-none font-bold tracking-wide"
               >
-                {mutation.isPending ? "SENDING..." : "SEND MESSAGE"}
+                SEND MESSAGE
               </Button>
             </form>
           </Form>

@@ -7,16 +7,16 @@ export default function Mission() {
       <div className="max-w-7xl mx-auto px-6 py-20">
         <SectionHeader
           title="Validation Mission"
-          subtitle="Establishing Orbtrix as a mission operator through autonomous spacecraft operations."
+          subtitle="A flight demonstration of autonomous Earth observation operations in Low Earth Orbit."
           align="left"
         />
 
         <div className="border border-white/10 bg-neutral-900/20 p-10 md:p-16">
           {/* Mission Content */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             {/* Left: Mission Narrative */}
             <div>
-              <div className="inline-block mb-6 px-4 py-1 border border-white/30 rounded-full font-mono text-sm text-white/80">
+              <div className="inline-block mb-6 px-4 py-1 border border-white/30 rounded-full text-sm text-white/80">
                 TARGET LAUNCH · 2028
               </div>
 
@@ -26,74 +26,109 @@ export default function Mission() {
 
               <div className="space-y-6 text-neutral-400 text-lg leading-relaxed">
                 <p>
-                  The Orbtrix Validation Mission is a dedicated Low Earth Orbit
-                  satellite mission designed to establish Orbtrix as a full
-                  mission operator, not merely a software provider.
+                  The Orbtrix Validation Mission is a Low Earth Orbit Earth
+                  observation mission designed to validate autonomous spacecraft
+                  operations under real orbital conditions.
                 </p>
 
                 <p>
-                  This mission represents the first end-to-end deployment of
-                  Orbtrix’s standardized satellite bus integrated with its
-                  onboard autonomy software stack, operated under a unified
-                  mission architecture.
+                  The mission features a 6U-class satellite equipped with a
+                  multispectral imaging payload and an in-house autonomous flight
+                  computing system executing onboard decision-making.
                 </p>
 
                 <p>
-                  The objective is to validate a new operational paradigm where
-                  spacecraft execute routine mission planning, system
-                  management, and decision-making onboard, while Orbtrix
-                  maintains centralized mission oversight.
+                  Core mission functions including mission planning, spacecraft
+                  health management, and operational decision logic are executed
+                  onboard, significantly reducing dependence on continuous
+                  ground commanding.
                 </p>
 
                 <p>
-                  This mission serves as the foundation for Orbtrix’s transition
-                  into a Mission-as-a-Service model, enabling customers to
-                  deploy space missions without building or maintaining
-                  dedicated ground operations infrastructure.
+                  This mission establishes a flight-proven operational model
+                  where spacecraft intelligence is shifted onboard, enabling
+                  scalable, resilient, and energy-efficient mission execution.
                 </p>
               </div>
             </div>
 
-            {/* Right: Mission Objectives */}
-            <div className="border border-white/10 bg-black p-8 md:p-10">
-              <h4 className="text-2xl font-semibold mb-6">
-                Mission Objectives
-              </h4>
+            {/* Right: Mission Panels */}
+            <div className="space-y-10">
+              {/* Mission Profile */}
+              <div className="border border-white/10 bg-black p-8 md:p-10">
+                <h4 className="text-2xl font-semibold mb-6">
+                  Mission Profile
+                </h4>
 
-              <ul className="space-y-4 text-neutral-400 leading-relaxed">
-                <li>• Validate Orbtrix’s autonomous satellite bus in orbit</li>
-                <li>
-                  • Demonstrate end-to-end mission execution under Orbtrix
-                  operational control
-                </li>
-                <li>
-                  • Establish a repeatable architecture for hosted payload
-                  missions
-                </li>
-                <li>
-                  • Lay the operational groundwork for Mission-as-a-Service
-                  deployments
-                </li>
-                <li>
-                  • Enable future commercial missions built on a standardized
-                  spacecraft platform
-                </li>
-              </ul>
+                <div className="space-y-5 text-neutral-400">
+                  <div className="flex justify-between border-b border-white/10 pb-2">
+                    <span>Mission Type</span>
+                    <span className="text-white">Earth Observation</span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-white/10 pb-2">
+                    <span>Orbit Class</span>
+                    <span className="text-white">Low Earth Orbit (LEO)</span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-white/10 pb-2">
+                    <span>Mission Class</span>
+                    <span className="text-white">6U Small Satellite</span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-white/10 pb-2">
+                    <span>Primary Payload</span>
+                    <span className="text-white">
+                      Multispectral Imager (MSI)
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-white/10 pb-2">
+                    <span>Flight Compute</span>
+                    <span className="text-white">
+                      In-house Autonomous Compute
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Mission Impact */}
+              <div className="border border-white/10 bg-black p-8 md:p-10">
+                <h4 className="text-2xl font-semibold mb-6">
+                  Mission Impact
+                </h4>
+
+                <div className="space-y-4 text-neutral-400 leading-relaxed">
+                  <p>
+                    Designed to demonstrate a 50–60% reduction in ground
+                    operations workload through onboard autonomy and intelligent
+                    mission execution.
+                  </p>
+                  <p>
+                    Optimized power usage and reduced communication overhead
+                    enable improved component utilization and extended mission
+                    lifetime.
+                  </p>
+                  <p>
+                    Validates a scalable operational model suitable for future
+                    Earth observation and hosted payload missions.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Payload Hosting CTA */}
-          <div className="mt-16 pt-10 border-t border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+          <div className="mt-20 pt-10 border-t border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div>
               <h4 className="text-2xl font-semibold mb-3">
-                Payload Hosting Opportunities
+                Payload Hosting & Collaboration
               </h4>
               <p className="text-neutral-400 max-w-xl leading-relaxed">
-                Orbtrix is engaging with organizations interested in hosting
-                payloads on its 2028 validation mission as part of its transition
-                toward a Mission-as-a-Service offering. Discussions focus on
-                mission alignment, system compatibility, and long-term
-                operational integration.
+                Orbtrix is engaging with organizations interested in hosting Earth
+                observation or experimental payloads on its 2028 validation
+                mission. Discussions focus on payload compatibility and
+                autonomous operations integration.
               </p>
             </div>
 
@@ -101,7 +136,7 @@ export default function Mission() {
               href="/contact"
               className="px-8 py-4 border border-white text-white hover:bg-white hover:text-black transition-colors font-medium"
             >
-              Explore Payload Hosting
+              Register Interest
             </Link>
           </div>
         </div>

@@ -64,18 +64,19 @@ export default function Home() {
       <section className="py-24 px-6 max-w-7xl mx-auto w-full">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-14">
           <div className="border-t border-white/20 pt-8">
-            <h3 className="text-xl font-bold mb-4 font-mono">
+            <h3 className="text-xl font-semibold mb-4 tracking-tight">
               01. Software-Defined Missions
             </h3>
             <p className="text-neutral-400 leading-relaxed">
-              Mission behavior is driven by software, not rigid hardware
-              constraints. This enables in-orbit updates, evolving capabilities,
-              and longer mission lifetimes without physical intervention.
+              Mission behavior is driven by software, with hardware architected and
+              optimized to support adaptability. This enables in-orbit updates,
+              evolving capabilities, and extended mission lifetimes without
+              physical intervention.
             </p>
           </div>
 
           <div className="border-t border-white/20 pt-8">
-            <h3 className="text-xl font-bold mb-4 font-mono">
+            <h3 className="text-xl font-semibold mb-4 tracking-tight">
               02. Onboard Decision Making
             </h3>
             <p className="text-neutral-400 leading-relaxed">
@@ -86,14 +87,14 @@ export default function Home() {
           </div>
 
           <div className="border-t border-white/20 pt-8">
-            <h3 className="text-xl font-bold mb-4 font-mono">
+            <h3 className="text-xl font-semibold mb-4 tracking-tight">
               03. Sustainable Scale
             </h3>
             <p className="text-neutral-400 leading-relaxed">
-              By minimizing continuous ground intervention, missions consume
-              less energy, require smaller operations teams, and scale
-              efficiently—supporting environmentally and economically
-              sustainable space infrastructure.
+              By minimizing continuous ground intervention, missions consume less
+              energy, require smaller operations teams, and scale efficiently
+              while supporting environmentally and economically sustainable
+              space infrastructure.
             </p>
           </div>
         </div>

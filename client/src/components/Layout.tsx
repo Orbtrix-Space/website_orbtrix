@@ -41,12 +41,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
             : "bg-transparent border-b border-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-5 md:px-8 xl:px-12 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-5 md:px-8 xl:px-12 h-20 flex items-center justify-between">
           <Link href="/" className="hover:opacity-80 transition-opacity">
             <img
               src="/logo-white.png"
               alt="Orbtrix Space"
-              className="h-7 w-auto"
+              className="h-9 w-auto"
             />
           </Link>
 
@@ -55,7 +55,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative text-[13px] tracking-wide transition-colors ${
+                className={`relative text-sm tracking-wide transition-colors ${
                   location === item.href
                     ? "text-white"
                     : "text-neutral-500 hover:text-neutral-300"
@@ -94,7 +94,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-16 z-40 bg-black/95 backdrop-blur-md md:hidden"
+            className="fixed inset-0 top-20 z-40 bg-black/95 backdrop-blur-md md:hidden"
           >
             <nav className="flex flex-col px-5 py-8 gap-6">
               {NAV_ITEMS.map((item) => (
@@ -117,7 +117,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </AnimatePresence>
 
       {/* Main */}
-      <main className="flex-grow pt-16">{children}</main>
+      <main className="flex-grow pt-20">{children}</main>
 
       {/* Footer */}
       <footer className="border-t border-white/[0.06] mt-10">

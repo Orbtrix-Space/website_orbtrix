@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="w-full">
       {/* Hero */}
-      <section className="min-h-[calc(100dvh-4rem)] flex items-center relative">
+      <section className="min-h-[calc(100dvh-5rem)] flex items-center relative">
         <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-5 md:px-8 xl:px-12 w-full py-16">

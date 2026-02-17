@@ -37,9 +37,10 @@ export default function Home() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            We build software-defined satellite systems — starting with
+            We build software-defined satellite systems, starting with
             commercial LEO missions that deliver Earth intelligence at radically
-            lower economics, building toward lunar infrastructure.
+            lower cost. Our long-term vision: building the autonomous
+            infrastructure that makes sustained lunar operations possible.
           </motion.p>
 
           <motion.div
@@ -85,17 +86,17 @@ export default function Home() {
               {
                 step: "Now",
                 title: "Autonomous LEO Missions",
-                desc: "Commercial Earth observation missions with onboard decision-making — delivering raw intelligence at a fraction of traditional costs.",
+                desc: "Commercial Earth observation missions with onboard decision-making, delivering raw intelligence at a fraction of traditional costs.",
               },
               {
                 step: "Near-term",
                 title: "Scaled Operations",
-                desc: "Multiple concurrent missions powered by DISHA and Rigel OS — our ground and onboard software stack that eliminates manual operations overhead.",
+                desc: "Multiple concurrent missions powered by DISHA and Rigel OS, our ground and onboard software stack that eliminates manual operations overhead.",
               },
               {
                 step: "Long-term",
-                title: "Lunar Infrastructure",
-                desc: "Extending our autonomous operations framework to support sustained lunar missions — communications, navigation, and surface operations.",
+                title: "Building Lunar Infrastructure",
+                desc: "Extending our autonomous operations framework to build sustained lunar infrastructure: communications relays, precision navigation, and surface operations systems that enable permanent human presence beyond Earth.",
               },
             ].map((item, idx) => (
               <ScrollReveal key={idx} delay={idx * 0.1}>
@@ -123,7 +124,7 @@ export default function Home() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
               <div>
                 <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-600 block mb-4">
-                  Go-to-Market
+                  Core Systems
                 </span>
                 <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold tracking-tight">
                   The software stack
@@ -151,7 +152,7 @@ export default function Home() {
                     Digital Infrastructure for Spacecraft Handling & Analytics
                   </p>
                   <p className="text-neutral-500 leading-relaxed text-sm flex-grow">
-                    Automated ground operations — command sequencing, telemetry
+                    Automated ground operations: command sequencing, telemetry
                     analysis, and anomaly triage with minimal human intervention.
                   </p>
                   <span className="mt-8 inline-flex items-center gap-1.5 text-sm text-neutral-600 group-hover:text-white transition-colors">
@@ -173,7 +174,7 @@ export default function Home() {
                     Autonomous Onboard Operating Suite
                   </p>
                   <p className="text-neutral-500 leading-relaxed text-sm flex-grow">
-                    Onboard spacecraft intelligence — real-time GNC, mission
+                    Onboard spacecraft intelligence: real-time GNC, mission
                     execution, and autonomous decision-making without ground
                     dependency.
                   </p>
@@ -198,7 +199,7 @@ export default function Home() {
               </h2>
               <p className="text-neutral-500 max-w-lg">
                 Whether it's payload hosting, technology collaboration, or
-                joining the team — we'd like to hear from you.
+                joining the team, we'd like to hear from you.
               </p>
             </div>
 

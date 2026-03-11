@@ -10,6 +10,7 @@ import { AnimatePresence } from "framer-motion";
 
 import Home from "@/pages/Home";
 import Products from "@/pages/Products";
+import Disha from "@/pages/Disha";
 import Mission from "@/pages/Mission";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
@@ -26,6 +27,7 @@ function Router() {
           <Switch location={location}>
             <Route path="/" component={Home} />
             <Route path="/products" component={Products} />
+            <Route path="/products/disha" component={Disha} />
             <Route path="/mission" component={Mission} />
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />

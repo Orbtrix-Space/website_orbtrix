@@ -1,12 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: 'Space Mono', monospace;
+  --font-sans: 'Space Grotesk', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Rajdhani', sans-serif;
 
   --background: 0 0% 0%;
   --foreground: 0 0% 100%;
@@ -31,6 +32,11 @@
   --ring: 0 0% 100%;
 
   --radius: 0px;
+
+  /* New color palette — electric indigo + teal mint */
+  --neon-cyan: #6366f1;
+  --neon-purple: #14b8a6;
+  --neon-blue: #818cf8;
 }
 
 @layer base {
@@ -39,7 +45,8 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased font-sans;
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
   }
 
   html {
@@ -47,17 +54,401 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-sans tracking-tight;
+    font-family: var(--font-display);
+    @apply tracking-tight;
+    font-weight: 700;
+  }
+
+  p, span, a, li, div, label, input, textarea, button {
+    font-family: var(--font-sans);
   }
 
   .bg-grid {
-    background-size: 40px 40px;
+    background-size: 60px 60px;
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      linear-gradient(to right, rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
   }
 }
 
 .font-mono {
   font-family: var(--font-mono);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* ==========================================
+   GLITCH TEXT EFFECT
+   ========================================== */
+.glitch {
+  position: relative;
+  font-family: var(--font-display);
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.glitch::before {
+  animation: glitch-1 2.5s infinite linear alternate-reverse;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  color: var(--neon-cyan);
+  opacity: 0.6;
+}
+
+.glitch::after {
+  animation: glitch-2 2.5s infinite linear alternate-reverse;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+  color: var(--neon-purple);
+  opacity: 0.6;
+}
+
+@keyframes glitch-1 {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, 1px); }
+  80% { transform: translate(1px, -1px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitch-2 {
+  0% { transform: translate(0); }
+  20% { transform: translate(2px, -1px); }
+  40% { transform: translate(-2px, 1px); }
+  60% { transform: translate(1px, -1px); }
+  80% { transform: translate(-1px, 1px); }
+  100% { transform: translate(0); }
+}
+
+/* ==========================================
+   NEON EDGE BORDERS
+   ========================================== */
+.neon-edge {
+  position: relative;
+  border: 1px solid rgba(99, 102, 241, 0.12);
+  transition: all 0.4s ease;
+}
+
+.neon-edge::before,
+.neon-edge::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+.neon-edge::before {
+  top: -1px;
+  left: -1px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid var(--neon-cyan);
+  border-left: 2px solid var(--neon-cyan);
+  opacity: 0.5;
+}
+
+.neon-edge::after {
+  bottom: -1px;
+  right: -1px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid var(--neon-cyan);
+  border-right: 2px solid var(--neon-cyan);
+  opacity: 0.5;
+}
+
+.neon-edge:hover {
+  border-color: rgba(99, 102, 241, 0.25);
+  box-shadow:
+    0 0 15px rgba(99, 102, 241, 0.06),
+    inset 0 0 15px rgba(99, 102, 241, 0.02);
+}
+
+.neon-edge:hover::before,
+.neon-edge:hover::after {
+  width: 30px;
+  height: 30px;
+  opacity: 0.8;
+}
+
+/* Teal variant */
+.neon-edge-purple {
+  position: relative;
+  border: 1px solid rgba(20, 184, 166, 0.12);
+  transition: all 0.4s ease;
+}
+
+.neon-edge-purple::before,
+.neon-edge-purple::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+.neon-edge-purple::before {
+  top: -1px;
+  left: -1px;
+  width: 20px;
+  height: 20px;
+  border-top: 2px solid var(--neon-purple);
+  border-left: 2px solid var(--neon-purple);
+  opacity: 0.5;
+}
+
+.neon-edge-purple::after {
+  bottom: -1px;
+  right: -1px;
+  width: 20px;
+  height: 20px;
+  border-bottom: 2px solid var(--neon-purple);
+  border-right: 2px solid var(--neon-purple);
+  opacity: 0.5;
+}
+
+.neon-edge-purple:hover {
+  border-color: rgba(20, 184, 166, 0.25);
+  box-shadow:
+    0 0 15px rgba(20, 184, 166, 0.06),
+    inset 0 0 15px rgba(20, 184, 166, 0.02);
+}
+
+.neon-edge-purple:hover::before,
+.neon-edge-purple:hover::after {
+  width: 30px;
+  height: 30px;
+  opacity: 0.8;
+}
+
+/* ==========================================
+   NEON GLOW TEXT
+   ========================================== */
+.neon-text-cyan {
+  text-shadow:
+    0 0 7px rgba(99, 102, 241, 0.4),
+    0 0 20px rgba(99, 102, 241, 0.15);
+}
+
+.neon-text-purple {
+  text-shadow:
+    0 0 7px rgba(20, 184, 166, 0.4),
+    0 0 20px rgba(20, 184, 166, 0.15);
+}
+
+/* ==========================================
+   GRADIENT TEXT
+   ========================================== */
+.gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, var(--neon-cyan) 50%, var(--neon-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-cyan {
+  background: linear-gradient(90deg, #ffffff 30%, var(--neon-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ==========================================
+   PULSE DOT
+   ========================================== */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; box-shadow: 0 0 4px currentColor; }
+  50% { opacity: 0.4; box-shadow: 0 0 12px currentColor; }
+}
+
+.pulse-dot {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ==========================================
+   FLOATING ANIMATION
+   ========================================== */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* ==========================================
+   CARD HOVER LIFT
+   ========================================== */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* ==========================================
+   SCAN LINES (subtle)
+   ========================================== */
+.scan-lines::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(99, 102, 241, 0.004) 2px,
+    rgba(99, 102, 241, 0.004) 4px
+  );
+}
+
+/* ==========================================
+   SCROLLBAR
+   ========================================== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.3);
+}
+
+/* ==========================================
+   SELECTION
+   ========================================== */
+::selection {
+  background: rgba(99, 102, 241, 0.15);
+  color: #fff;
+}
+
+/* ==========================================
+   SCROLL-TRIGGERED COLOR ANIMATIONS
+   ========================================== */
+@keyframes glow-sweep-indigo {
+  0% {
+    box-shadow: inset 0 0 0 rgba(99, 102, 241, 0), 0 0 0 rgba(99, 102, 241, 0);
+    border-color: rgba(99, 102, 241, 0.12);
+  }
+  40% {
+    box-shadow: inset 0 0 30px rgba(99, 102, 241, 0.06), 0 0 20px rgba(99, 102, 241, 0.08);
+    border-color: rgba(99, 102, 241, 0.3);
+  }
+  100% {
+    box-shadow: inset 0 0 0 rgba(99, 102, 241, 0), 0 0 0 rgba(99, 102, 241, 0);
+    border-color: rgba(99, 102, 241, 0.12);
+  }
+}
+
+@keyframes glow-sweep-teal {
+  0% {
+    box-shadow: inset 0 0 0 rgba(20, 184, 166, 0), 0 0 0 rgba(20, 184, 166, 0);
+    border-color: rgba(20, 184, 166, 0.12);
+  }
+  40% {
+    box-shadow: inset 0 0 30px rgba(20, 184, 166, 0.06), 0 0 20px rgba(20, 184, 166, 0.08);
+    border-color: rgba(20, 184, 166, 0.3);
+  }
+  100% {
+    box-shadow: inset 0 0 0 rgba(20, 184, 166, 0), 0 0 0 rgba(20, 184, 166, 0);
+    border-color: rgba(20, 184, 166, 0.12);
+  }
+}
+
+.scroll-glow-indigo > .neon-edge,
+.scroll-glow-indigo.neon-edge {
+  animation: glow-sweep-indigo 1.5s ease-out forwards;
+}
+
+.scroll-glow-teal > .neon-edge-purple,
+.scroll-glow-teal.neon-edge-purple {
+  animation: glow-sweep-teal 1.5s ease-out forwards;
+}
+
+/* Color line that sweeps on scroll */
+@keyframes color-line-sweep {
+  0% { width: 0; opacity: 0; }
+  20% { opacity: 1; }
+  100% { width: 100%; opacity: 0.5; }
+}
+
+.scroll-color-line {
+  position: relative;
+}
+
+.scroll-color-line::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 0;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple));
+  animation: color-line-sweep 1.2s ease-out forwards;
+}
+
+/* Heading color shift on scroll */
+@keyframes text-color-shift {
+  0% { filter: hue-rotate(0deg) brightness(0.8); }
+  50% { filter: hue-rotate(15deg) brightness(1.1); }
+  100% { filter: hue-rotate(0deg) brightness(1); }
+}
+
+.scroll-glow-indigo .gradient-text-cyan,
+.scroll-glow-indigo .neon-text-cyan {
+  animation: text-color-shift 2s ease-out forwards;
+}
+
+.scroll-glow-teal .gradient-text,
+.scroll-glow-teal .neon-text-purple {
+  animation: text-color-shift 2s ease-out forwards;
+}
+
+/* Stat card entrance glow */
+@keyframes stat-entrance-glow {
+  0% {
+    box-shadow: 0 0 0 rgba(99, 102, 241, 0);
+    border-color: rgba(99, 102, 241, 0.05);
+  }
+  30% {
+    box-shadow: 0 0 25px rgba(99, 102, 241, 0.1), inset 0 0 20px rgba(99, 102, 241, 0.04);
+    border-color: rgba(99, 102, 241, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(99, 102, 241, 0);
+    border-color: rgba(99, 102, 241, 0.12);
+  }
+}
+
+.stat-card-glow {
+  animation: stat-entrance-glow 1.8s ease-out forwards;
+  animation-play-state: paused;
+}
+
+.stat-card-glow[style*="opacity: 1"] {
+  animation-play-state: running;
 }

@@ -97,4 +97,16 @@ export const TEAM: TeamMember[] = [
     photo: "/team/salinimol.jpg",
     linkedin: "https://www.linkedin.com/in/salinimol-t-a-1a9990290/"
   },
+  {
+    name: "BP Dakshayani",
+    role: "Chief Scientific Advisor",
+    photo: "/team/dakshayani.jpg",
+    linkedin: "#"
+  },
+  {
+    name: "Rahul Dandamudi",
+    role: "Board Strategic Advisor",
+    photo: "/team/rahul.jpg",
+    linkedin: "#"
+  },
 ];

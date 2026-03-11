@@ -1,113 +1,164 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
+import { ScrollColorLine } from "@/components/ScrollColorLine";
+import { TypewriterText } from "@/components/TypewriterText";
 
 export default function Home() {
   return (
-    <div className="w-full">
+    <div className="w-full scan-lines">
       {/* Hero */}
-      <section className="min-h-[calc(100dvh-5rem)] flex items-center relative">
+      <section className="min-h-[calc(100dvh-5rem)] flex items-center relative overflow-hidden">
         <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-5 md:px-8 xl:px-12 w-full py-16">
-          <motion.span
-            className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-500 block mb-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+        {/* Ambient orbs */}
+        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-[var(--neon-cyan)] rounded-full opacity-[0.025] blur-[130px] animate-float pointer-events-none" />
+        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-[var(--neon-purple)] rounded-full opacity-[0.02] blur-[130px] animate-float pointer-events-none" style={{ animationDelay: "3s" }} />
+
+        <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto px-5 md:px-8 xl:px-12 2xl:px-24 w-full py-16">
+          <motion.div
+            className="font-mono text-xs 2xl:text-sm uppercase tracking-[0.3em] text-[var(--neon-cyan)] block mb-8 flex items-center gap-3"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Space Systems & Autonomy
-          </motion.span>
+            <span className="w-8 h-px bg-[var(--neon-cyan)]" />
+            <span className="neon-text-cyan opacity-70">Space Systems & Autonomy</span>
+          </motion.div>
 
           <motion.h1
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight leading-[1.08] max-w-5xl"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold tracking-tight leading-[1.08] max-w-6xl font-display"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
           >
-            Autonomous spacecraft.
-            <br />
-            <span className="text-neutral-500">From LEO to the Moon.</span>
+            <span className="gradient-text-cyan">Autonomous spacecraft.</span>
           </motion.h1>
 
-          <motion.p
-            className="text-neutral-400 text-base md:text-lg xl:text-xl max-w-xl xl:max-w-2xl mt-8 leading-relaxed"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+          <motion.h2
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold tracking-tight leading-[1.08] max-w-6xl mt-2 font-display"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
           >
-            We build software-defined satellite systems, starting with
-            commercial LEO missions that deliver Earth intelligence at radically
-            lower cost. Our long-term vision: building the autonomous
-            infrastructure that makes sustained lunar operations possible.
-          </motion.p>
+            <span className="gradient-text-cyan">From LEO to the Moon.</span>
+          </motion.h2>
 
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 mt-12"
+            className="mt-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+          >
+            <div className="text-neutral-400 text-lg md:text-xl xl:text-2xl 2xl:text-3xl max-w-2xl xl:max-w-3xl 2xl:max-w-4xl leading-relaxed mb-3">
+              We engineer intelligent, autonomous satellites capable of in-orbit decision-making, 
+              designed to maximize mission sustainability while drastically reducing operational workload.
+            </div>
+            <div className="h-7">
+              <TypewriterText
+                texts={[
+                  "// Autonomous operations in orbit",
+                  "// Software-defined spacecraft",
+                  "// From LEO to lunar infrastructure",
+                  "// Mission autonomy redefined",
+                ]}
+                className="text-[var(--neon-cyan)] text-base 2xl:text-lg opacity-50"
+              />
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4 mt-14"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.7 }}
           >
             <Link
               href="/products"
-              className="group inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white text-black text-sm font-semibold tracking-wide hover:bg-neutral-100 transition-colors"
+              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black text-base 2xl:text-lg font-semibold tracking-wide hover:bg-[var(--neon-cyan)] hover:text-white transition-all duration-300 font-display uppercase"
             >
               Our Products
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
 
             <Link
               href="/mission"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 border border-white/20 text-sm font-medium text-white hover:border-white/40 hover:bg-white/[0.03] transition-all"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 neon-edge text-base 2xl:text-lg font-medium text-white hover:bg-[var(--neon-cyan)]/5 transition-all duration-300 font-display uppercase"
             >
               2028 Mission
             </Link>
           </motion.div>
         </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+        >
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <ChevronDown className="w-6 h-6 text-[var(--neon-cyan)] opacity-30" />
+          </motion.div>
+        </motion.div>
       </section>
 
+      {/* Color line divider */}
+      <ScrollColorLine color="indigo" />
+
       {/* Vision Path */}
-      <section className="py-14 md:py-20 xl:py-24 px-5 md:px-8 xl:px-12 border-t border-white/[0.06]">
-        <div className="max-w-7xl mx-auto">
-          <ScrollReveal>
-            <div className="max-w-2xl mb-10">
-              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-600 block mb-4">
+      <section className="py-16 md:py-24 xl:py-28 2xl:py-32 px-5 md:px-8 xl:px-12 2xl:px-24">
+        <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto">
+          <ScrollReveal glow="indigo">
+            <div className="max-w-3xl mb-12">
+              <span className="font-mono text-xs 2xl:text-sm uppercase tracking-[0.3em] text-[var(--neon-cyan)] opacity-50 block mb-4 flex items-center gap-3">
+                <span className="w-5 h-px bg-[var(--neon-cyan)]" />
                 Our Approach
               </span>
-              <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold tracking-tight">
+              <h2 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold tracking-tight font-display">
                 The path to the Moon starts in LEO
               </h2>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/[0.06]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 2xl:gap-8">
             {[
               {
                 step: "Now",
                 title: "Autonomous LEO Missions",
                 desc: "Commercial Earth observation missions with onboard decision-making, delivering raw intelligence at a fraction of traditional costs.",
+                variant: "neon-edge",
+                glow: "indigo" as const,
               },
               {
                 step: "Near-term",
                 title: "Scaled Operations",
                 desc: "Multiple concurrent missions powered by DISHA and Rigel OS, our ground and onboard software stack that eliminates manual operations overhead.",
+                variant: "neon-edge",
+                glow: "indigo" as const,
               },
               {
                 step: "Long-term",
                 title: "Building Lunar Infrastructure",
-                desc: "Extending our autonomous operations framework to build sustained lunar infrastructure: communications relays, precision navigation, and surface operations systems that enable permanent human presence beyond Earth.",
+                desc: "Extending our autonomous operations framework to build sustained lunar infrastructure: communications relays, precision navigation, and surface operations systems.",
+                variant: "neon-edge-purple",
+                glow: "teal" as const,
               },
             ].map((item, idx) => (
-              <ScrollReveal key={idx} delay={idx * 0.1}>
-                <div className="bg-black p-8 md:p-10 h-full">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-cyan-400/60 block mb-6">
+              <ScrollReveal key={idx} delay={idx * 0.15} glow={item.glow}>
+                <div className={`${item.variant} bg-black p-8 md:p-10 2xl:p-12 h-full hover-lift`}>
+                  <span className={`font-mono text-xs uppercase tracking-[0.3em] ${idx < 2 ? "text-[var(--neon-cyan)]" : "text-[var(--neon-purple)]"} opacity-50 block mb-6 flex items-center gap-2`}>
+                    <span className={`w-1.5 h-1.5 rounded-full pulse-dot ${idx < 2 ? "bg-[var(--neon-cyan)]" : "bg-[var(--neon-purple)]"} opacity-60`} />
                     {item.step}
                   </span>
-                  <h3 className="text-lg font-semibold mb-4 tracking-tight">
+                  <h3 className="text-xl 2xl:text-2xl font-semibold mb-4 tracking-tight font-display">
                     {item.title}
                   </h3>
-                  <p className="text-neutral-500 leading-relaxed text-sm">
+                  <p className="text-neutral-500 leading-relaxed text-base 2xl:text-lg">
                     {item.desc}
                   </p>
                 </div>
@@ -117,70 +168,76 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Color line divider */}
+      <ScrollColorLine color="mixed" />
+
       {/* Products Preview */}
-      <section className="py-14 md:py-20 xl:py-24 px-5 md:px-8 xl:px-12 border-t border-white/[0.06]">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-16 md:py-24 xl:py-28 2xl:py-32 px-5 md:px-8 xl:px-12 2xl:px-24">
+        <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto">
           <ScrollReveal>
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
               <div>
-                <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-600 block mb-4">
+                <span className="font-mono text-xs 2xl:text-sm uppercase tracking-[0.3em] text-[var(--neon-cyan)] opacity-50 block mb-4 flex items-center gap-3">
+                  <span className="w-5 h-px bg-[var(--neon-cyan)]" />
                   Core Systems
                 </span>
-                <h2 className="text-3xl md:text-4xl xl:text-5xl font-bold tracking-tight">
+                <h2 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold tracking-tight font-display">
                   The software stack
                 </h2>
               </div>
               <Link
                 href="/products"
-                className="group text-sm text-neutral-500 hover:text-white transition-colors flex items-center gap-1.5"
+                className="group text-base 2xl:text-lg text-neutral-500 hover:text-[var(--neon-cyan)] transition-colors flex items-center gap-1.5 font-mono"
               >
                 View all products
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <ScrollReveal delay={0.05}>
-              <Link href="/products" className="block group h-full">
-                <div className="border border-white/[0.08] p-8 md:p-10 xl:p-12 hover:border-white/[0.15] transition-colors h-full flex flex-col">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-cyan-400/50 block mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 2xl:gap-8">
+            <ScrollReveal delay={0.05} glow="indigo">
+              <Link href="/products/disha" className="block group h-full">
+                <div className="neon-edge p-8 md:p-10 xl:p-12 2xl:p-14 h-full flex flex-col hover-lift">
+                  <span className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)] opacity-40 block mb-6 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] opacity-50 pulse-dot" />
                     Ground Segment
                   </span>
-                  <h3 className="text-2xl font-bold mb-2">DISHA</h3>
-                  <p className="text-sm text-neutral-600 font-mono mb-4">
-                    Digital Infrastructure for Spacecraft Handling & Analytics
+                  <h3 className="text-3xl 2xl:text-4xl font-bold mb-2 font-display">DISHA</h3>
+                  <p className="text-base 2xl:text-lg text-neutral-600 font-mono mb-4">
+                    AI-Native Ground Operations Platform
                   </p>
-                  <p className="text-neutral-500 leading-relaxed text-sm flex-grow">
-                    Automated ground operations: command sequencing, telemetry
-                    analysis, and anomaly triage with minimal human intervention.
+                  <p className="text-neutral-500 leading-relaxed text-base 2xl:text-lg flex-grow">
+                    Automated ground operations: real-time monitoring, AI-based FDIR,
+                    collision avoidance, and fleet management with minimal human intervention.
                   </p>
-                  <span className="mt-8 inline-flex items-center gap-1.5 text-sm text-neutral-600 group-hover:text-white transition-colors">
-                    Learn more
-                    <ArrowRight className="w-3.5 h-3.5" />
+                  <span className="mt-8 inline-flex items-center gap-1.5 text-base text-neutral-600 group-hover:text-[var(--neon-cyan)] transition-colors font-mono">
+                    Explore DISHA
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </div>
               </Link>
             </ScrollReveal>
 
-            <ScrollReveal delay={0.15}>
+            <ScrollReveal delay={0.15} glow="teal">
               <Link href="/products" className="block group h-full">
-                <div className="border border-white/[0.08] p-8 md:p-10 xl:p-12 hover:border-white/[0.15] transition-colors h-full flex flex-col">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-purple-400/50 block mb-6">
+                <div className="neon-edge-purple p-8 md:p-10 xl:p-12 2xl:p-14 h-full flex flex-col hover-lift">
+                  <span className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--neon-purple)] opacity-40 block mb-6 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--neon-purple)] opacity-50 pulse-dot" />
                     Space Segment
                   </span>
-                  <h3 className="text-2xl font-bold mb-2">Rigel OS</h3>
-                  <p className="text-sm text-neutral-600 font-mono mb-4">
+                  <h3 className="text-3xl 2xl:text-4xl font-bold mb-2 font-display">Rigel OS</h3>
+                  <p className="text-base 2xl:text-lg text-neutral-600 font-mono mb-4">
                     Autonomous Onboard Operating Suite
                   </p>
-                  <p className="text-neutral-500 leading-relaxed text-sm flex-grow">
+                  <p className="text-neutral-500 leading-relaxed text-base 2xl:text-lg flex-grow">
                     Onboard spacecraft intelligence: real-time GNC, mission
                     execution, and autonomous decision-making without ground
                     dependency.
                   </p>
-                  <span className="mt-8 inline-flex items-center gap-1.5 text-sm text-neutral-600 group-hover:text-white transition-colors">
+                  <span className="mt-8 inline-flex items-center gap-1.5 text-base text-neutral-600 group-hover:text-[var(--neon-purple)] transition-colors font-mono">
                     Learn more
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </div>
               </Link>
@@ -189,15 +246,53 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Color line divider */}
+      <ScrollColorLine color="indigo" />
+
+      {/* Stats */}
+      <section className="py-16 md:py-20 px-5 md:px-8 xl:px-12 2xl:px-24">
+        <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto">
+          <ScrollReveal>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 2xl:gap-8 text-center">
+              {[
+                { value: "2025", label: "Founded" },
+                { value: "6U", label: "Satellite Class" },
+                { value: "LEO", label: "First Orbit" },
+                { value: "2028", label: "Launch Target" },
+              ].map((stat, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ delay: idx * 0.1, duration: 0.6 }}
+                  viewport={{ once: true }}
+                  className="neon-edge p-8 2xl:p-10 hover-lift stat-card-glow"
+                >
+                  <div className="text-3xl md:text-4xl 2xl:text-5xl font-bold font-display neon-text-cyan mb-2">
+                    {stat.value}
+                  </div>
+                  <div className="text-sm 2xl:text-base text-neutral-600 font-mono uppercase tracking-widest">
+                    {stat.label}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Color line divider */}
+      <ScrollColorLine color="teal" />
+
       {/* CTA */}
-      <section className="border-t border-white/[0.06] py-14 md:py-20 xl:py-24 px-5 md:px-8 xl:px-12">
-        <ScrollReveal>
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      <section className="py-16 md:py-24 xl:py-28 2xl:py-32 px-5 md:px-8 xl:px-12 2xl:px-24">
+        <ScrollReveal glow="indigo">
+          <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div>
-              <h2 className="text-2xl md:text-3xl xl:text-4xl font-bold tracking-tight mb-3">
+              <h2 className="text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold tracking-tight mb-3 font-display">
                 Interested in what we're building?
               </h2>
-              <p className="text-neutral-500 max-w-lg">
+              <p className="text-neutral-500 max-w-xl 2xl:max-w-2xl text-lg 2xl:text-xl">
                 Whether it's payload hosting, technology collaboration, or
                 joining the team, we'd like to hear from you.
               </p>
@@ -205,10 +300,10 @@ export default function Home() {
 
             <Link
               href="/contact"
-              className="group px-7 py-3.5 border border-white text-white text-sm font-medium hover:bg-white hover:text-black transition-all flex items-center gap-2 flex-shrink-0"
+              className="group px-8 py-4 neon-edge text-white text-base 2xl:text-lg font-medium hover:bg-[var(--neon-cyan)]/5 transition-all duration-300 flex items-center gap-2 flex-shrink-0 font-display uppercase"
             >
               Get in Touch
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </ScrollReveal>

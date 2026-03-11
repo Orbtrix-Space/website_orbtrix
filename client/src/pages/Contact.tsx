@@ -40,56 +40,52 @@ export default function Contact() {
 
   return (
     <>
-      <div className="max-w-7xl mx-auto px-5 md:px-8 xl:px-12 py-10 md:py-14 xl:py-20">
+      <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto px-5 md:px-8 xl:px-12 2xl:px-24 py-10 md:py-14 xl:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20">
           {/* Left: Info */}
           <ScrollReveal direction="left">
             <div>
-              <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-600 block mb-4">
+              <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--neon-cyan)] opacity-50 block mb-4 flex items-center gap-3">
+                <span className="w-5 h-px bg-[var(--neon-cyan)]" />
                 Contact
               </span>
-              <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight mb-6">
+              <h1 className="text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight mb-6 font-display">
                 Get in touch
               </h1>
-              <p className="text-neutral-400 leading-relaxed mb-12">
+              <p className="text-neutral-400 leading-relaxed mb-12 text-lg">
                 Reach out to discuss our products, technology, upcoming
                 missions, or collaboration opportunities.
               </p>
-              <div className="w-16 h-px bg-white/20 mb-12" />
+              <div className="w-16 h-px bg-[var(--neon-cyan)]/20 mb-12" />
 
               <div className="space-y-8">
                 <div className="flex items-start gap-4">
-                  <Mail className="w-5 h-5 text-neutral-600 mt-0.5 flex-shrink-0" />
+                  <Mail className="w-5 h-5 text-[var(--neon-cyan)] opacity-40 mt-0.5 flex-shrink-0" />
                   <div>
-                    <h4 className="text-sm font-medium mb-1">Email</h4>
-                    <a
-                      href="mailto:info@orbtrix.space"
-                      className="text-neutral-400 hover:text-white transition-colors text-sm"
-                    >
+                    <h4 className="text-base font-medium mb-1 font-display">Email</h4>
+                    <a href="mailto:info@orbtrix.space" className="text-neutral-400 hover:text-[var(--neon-cyan)] transition-colors text-base">
                       info@orbtrix.space
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <MapPin className="w-5 h-5 text-neutral-600 mt-0.5 flex-shrink-0" />
+                  <MapPin className="w-5 h-5 text-[var(--neon-cyan)] opacity-40 mt-0.5 flex-shrink-0" />
                   <div>
-                    <h4 className="text-sm font-medium mb-1">Office</h4>
-                    <p className="text-neutral-400 text-sm leading-relaxed">
-                      Cabin 4B, Evolve Coworking Space
-                      <br />
+                    <h4 className="text-base font-medium mb-1 font-display">Office</h4>
+                    <p className="text-neutral-400 text-base leading-relaxed">
+                      Cabin 4B, Evolve Coworking Space<br />
                       Doddanakundi, Bengaluru 560048
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* Map */}
-              <div className="mt-12 border border-white/[0.08] overflow-hidden">
+              <div className="mt-12 neon-edge overflow-hidden">
                 <iframe
                   title="Location"
                   src="https://www.google.com/maps?q=Orbtrix%20Space%20Private%20Limited%2C%20Doddanakundi%20Industrial%20Area%2C%20Brookefield%2C%20Bengaluru&output=embed"
-                  className="w-full h-48 grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
+                  className="w-full h-56 2xl:h-64 grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
@@ -99,30 +95,25 @@ export default function Contact() {
 
           {/* Right: Form */}
           <ScrollReveal direction="right" delay={0.1}>
-            <div className="border border-white/[0.08] p-8 md:p-10">
-              <h3 className="text-lg font-semibold mb-1">Send a message</h3>
-              <p className="text-sm text-neutral-600 mb-8">
+            <div className="neon-edge p-10 md:p-12 2xl:p-14">
+              <h3 className="text-xl font-semibold mb-1 font-display">Send a message</h3>
+              <p className="text-base text-neutral-600 mb-8 font-mono">
                 We'll get back to you as soon as we can.
               </p>
 
               <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-6"
-                >
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <FormField
                     control={form.control}
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm text-neutral-400">
-                          Name
-                        </FormLabel>
+                        <FormLabel className="text-base text-neutral-400 font-display">Name</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Your name"
                             {...field}
-                            className="bg-transparent border-white/[0.08] focus-visible:ring-white/20 focus-visible:border-white/20 text-white placeholder:text-neutral-700 rounded-none h-11"
+                            className="bg-transparent border-[var(--neon-cyan)]/10 focus-visible:ring-[var(--neon-cyan)]/20 focus-visible:border-[var(--neon-cyan)]/25 text-white placeholder:text-neutral-700 rounded-none h-12"
                           />
                         </FormControl>
                         <FormMessage />
@@ -135,14 +126,12 @@ export default function Contact() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm text-neutral-400">
-                          Email
-                        </FormLabel>
+                        <FormLabel className="text-base text-neutral-400 font-display">Email</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="your@email.com"
                             {...field}
-                            className="bg-transparent border-white/[0.08] focus-visible:ring-white/20 focus-visible:border-white/20 text-white placeholder:text-neutral-700 rounded-none h-11"
+                            className="bg-transparent border-[var(--neon-cyan)]/10 focus-visible:ring-[var(--neon-cyan)]/20 focus-visible:border-[var(--neon-cyan)]/25 text-white placeholder:text-neutral-700 rounded-none h-12"
                           />
                         </FormControl>
                         <FormMessage />
@@ -155,14 +144,12 @@ export default function Contact() {
                     name="message"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm text-neutral-400">
-                          Message
-                        </FormLabel>
+                        <FormLabel className="text-base text-neutral-400 font-display">Message</FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder="What would you like to discuss?"
                             {...field}
-                            className="bg-transparent border-white/[0.08] focus-visible:ring-white/20 focus-visible:border-white/20 text-white placeholder:text-neutral-700 min-h-[120px] rounded-none resize-none"
+                            className="bg-transparent border-[var(--neon-cyan)]/10 focus-visible:ring-[var(--neon-cyan)]/20 focus-visible:border-[var(--neon-cyan)]/25 text-white placeholder:text-neutral-700 min-h-[120px] rounded-none resize-none"
                           />
                         </FormControl>
                         <FormMessage />
@@ -172,10 +159,10 @@ export default function Contact() {
 
                   <Button
                     type="submit"
-                    className="group w-full h-11 bg-white text-black hover:bg-neutral-100 rounded-none font-medium text-sm tracking-wide"
+                    className="group w-full h-12 bg-[var(--neon-cyan)] text-white hover:bg-[var(--neon-cyan)]/80 rounded-none font-medium text-base tracking-wide font-display uppercase"
                   >
                     Send Message
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-0.5 transition-transform" />
+                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </form>
               </Form>

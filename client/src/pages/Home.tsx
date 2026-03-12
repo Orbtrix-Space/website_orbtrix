@@ -31,7 +31,7 @@ export default function Home() {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold tracking-tight leading-[1.08] max-w-6xl font-display"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            transition={{ duration: 0.7, delay: 0.4 }}
           >
             <span className="gradient-text-cyan">Autonomous spacecraft.</span>
           </motion.h1>
@@ -49,7 +49,7 @@ export default function Home() {
             className="mt-10"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
           >
             <div className="text-neutral-400 text-lg md:text-xl xl:text-2xl 2xl:text-3xl max-w-2xl xl:max-w-3xl 2xl:max-w-4xl leading-relaxed mb-3">
               We engineer intelligent, autonomous satellites capable of in-orbit decision-making, 
@@ -195,49 +195,68 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 2xl:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 2xl:gap-8">
             <ScrollReveal delay={0.05} glow="indigo">
               <Link href="/products/disha" className="block group h-full">
                 <div className="neon-edge p-8 md:p-10 xl:p-12 2xl:p-14 h-full flex flex-col hover-lift">
                   <span className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)] opacity-40 block mb-6 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] opacity-50 pulse-dot" />
-                    Ground Segment
+                    Ground
                   </span>
-                  <h3 className="text-3xl 2xl:text-4xl font-bold mb-2 font-display">DISHA</h3>
-                  <p className="text-base 2xl:text-lg text-neutral-600 font-mono mb-4">
-                    AI-Native Ground Operations Platform
+                  <h3 className="text-2xl 2xl:text-3xl font-bold mb-2 font-display">DISHA</h3>
+                  <p className="text-sm 2xl:text-base text-neutral-600 font-mono mb-4">
+                    AI-Native Ground Ops
                   </p>
-                  <p className="text-neutral-500 leading-relaxed text-base 2xl:text-lg flex-grow">
-                    Automated ground operations: real-time monitoring, AI-based FDIR,
-                    collision avoidance, and fleet management with minimal human intervention.
+                  <p className="text-neutral-500 leading-relaxed text-sm 2xl:text-base flex-grow">
+                    Automated monitoring, AI-based FDIR, collision avoidance, and fleet management.
                   </p>
-                  <span className="mt-8 inline-flex items-center gap-1.5 text-base text-neutral-600 group-hover:text-[var(--neon-cyan)] transition-colors font-mono">
-                    Explore DISHA
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <span className="mt-6 inline-flex items-center gap-1.5 text-sm text-neutral-600 group-hover:text-[var(--neon-cyan)] transition-colors font-mono">
+                    Explore
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </div>
+              </Link>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.1} glow="indigo">
+              <Link href="/products/supersat" className="block group h-full">
+                <div className="neon-edge p-8 md:p-10 xl:p-12 2xl:p-14 h-full flex flex-col hover-lift">
+                  <span className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--neon-cyan)] opacity-40 block mb-6 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[var(--neon-cyan)] opacity-50 pulse-dot" />
+                    Platform
+                  </span>
+                  <h3 className="text-2xl 2xl:text-3xl font-bold mb-2 font-display">SuperSat</h3>
+                  <p className="text-sm 2xl:text-base text-neutral-600 font-mono mb-4">
+                    Autonomous Satellite
+                  </p>
+                  <p className="text-neutral-500 leading-relaxed text-sm 2xl:text-base flex-grow">
+                    Mission-agnostic autonomous satellite platform with in-orbit decision-making.
+                  </p>
+                  <span className="mt-6 inline-flex items-center gap-1.5 text-sm text-neutral-600 group-hover:text-[var(--neon-cyan)] transition-colors font-mono">
+                    Explore
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </div>
               </Link>
             </ScrollReveal>
 
             <ScrollReveal delay={0.15} glow="teal">
-              <Link href="/products" className="block group h-full">
+              <Link href="/products/rigel-os" className="block group h-full">
                 <div className="neon-edge-purple p-8 md:p-10 xl:p-12 2xl:p-14 h-full flex flex-col hover-lift">
                   <span className="font-mono text-xs uppercase tracking-[0.3em] text-[var(--neon-purple)] opacity-40 block mb-6 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-[var(--neon-purple)] opacity-50 pulse-dot" />
-                    Space Segment
+                    Onboard
                   </span>
-                  <h3 className="text-3xl 2xl:text-4xl font-bold mb-2 font-display">Rigel OS</h3>
-                  <p className="text-base 2xl:text-lg text-neutral-600 font-mono mb-4">
-                    Autonomous Onboard Operating Suite
+                  <h3 className="text-2xl 2xl:text-3xl font-bold mb-2 font-display">Rigel OS</h3>
+                  <p className="text-sm 2xl:text-base text-neutral-600 font-mono mb-4">
+                    Autonomous OS
                   </p>
-                  <p className="text-neutral-500 leading-relaxed text-base 2xl:text-lg flex-grow">
-                    Onboard spacecraft intelligence: real-time GNC, mission
-                    execution, and autonomous decision-making without ground
-                    dependency.
+                  <p className="text-neutral-500 leading-relaxed text-sm 2xl:text-base flex-grow">
+                    Onboard GNC, FDIR, data processing, and autonomous mission execution.
                   </p>
-                  <span className="mt-8 inline-flex items-center gap-1.5 text-base text-neutral-600 group-hover:text-[var(--neon-purple)] transition-colors font-mono">
-                    Learn more
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <span className="mt-6 inline-flex items-center gap-1.5 text-sm text-neutral-600 group-hover:text-[var(--neon-purple)] transition-colors font-mono">
+                    Explore
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </div>
               </Link>

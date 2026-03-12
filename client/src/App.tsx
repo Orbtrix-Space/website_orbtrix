@@ -11,6 +11,8 @@ import { AnimatePresence } from "framer-motion";
 import Home from "@/pages/Home";
 import Products from "@/pages/Products";
 import Disha from "@/pages/Disha";
+import RigelOS from "@/pages/RigelOS";
+import SuperSat from "@/pages/SuperSat";
 import Mission from "@/pages/Mission";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
@@ -28,6 +30,8 @@ function Router() {
             <Route path="/" component={Home} />
             <Route path="/products" component={Products} />
             <Route path="/products/disha" component={Disha} />
+            <Route path="/products/rigel-os" component={RigelOS} />
+            <Route path="/products/supersat" component={SuperSat} />
             <Route path="/mission" component={Mission} />
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />

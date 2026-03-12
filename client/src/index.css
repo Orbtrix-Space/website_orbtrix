@@ -1,13 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/futured');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-sans: 'Space Grotesk', sans-serif;
+  --font-sans: 'Futured', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --font-display: 'Rajdhani', sans-serif;
+  --font-display: 'Futured', sans-serif;
 
   --background: 0 0% 0%;
   --foreground: 0 0% 100%;

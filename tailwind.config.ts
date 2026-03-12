@@ -83,10 +83,10 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["'Space Grotesk'", "var(--font-sans)"],
+        sans: ["'Futured'", "var(--font-sans)"],
         serif: ["var(--font-serif)"],
         mono: ["'JetBrains Mono'", "var(--font-mono)"],
-        display: ["'Rajdhani'", "var(--font-sans)"],
+        display: ["'Futured'", "var(--font-sans)"],
       },
       keyframes: {
         "accordion-down": {

@@ -11,9 +11,9 @@ export function ScrollColorLine({ className = "", color = "mixed" }: ScrollColor
   const isInView = useInView(ref, { once: true, margin: "-20px" });
 
   const gradientMap = {
-    indigo: "from-transparent via-[var(--neon-cyan)]/40 to-transparent",
-    teal: "from-transparent via-[var(--neon-purple)]/40 to-transparent",
-    mixed: "from-[var(--neon-cyan)]/0 via-[var(--neon-cyan)]/30 to-[var(--neon-purple)]/0",
+    indigo: "from-transparent via-white/15 to-transparent",
+    teal: "from-transparent via-white/15 to-transparent",
+    mixed: "from-transparent via-white/10 to-transparent",
   };
 
   return (

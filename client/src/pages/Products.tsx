@@ -10,19 +10,18 @@ export default function Products() {
       <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto px-5 md:px-8 xl:px-12 2xl:px-24 py-10 md:py-14 xl:py-20">
         {/* Header */}
         <div className="mb-10">
-          <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--neon-cyan)] opacity-50 block mb-4 flex items-center gap-3">
-            <span className="w-5 h-px bg-[var(--neon-cyan)]" />
+          <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-400 opacity-50 block mb-4 flex items-center gap-3">
+            <span className="w-5 h-px bg-white/20" />
             Our Software
           </span>
           <h1 className="text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight mb-6 font-display">
             Products
           </h1>
           <p className="text-xl xl:text-2xl text-neutral-400 leading-relaxed max-w-2xl xl:max-w-3xl">
-            The autonomous operations stack — ground software, onboard intelligence,
-            and a satellite platform that thinks for itself. Together, they redefine
-            how spacecraft are built, operated, and scaled.
+            The autonomous operations stack — ground software and onboard intelligence
+            that redefine how spacecraft are operated and scaled.
           </p>
-          <div className="mt-8 w-16 h-px bg-[var(--neon-cyan)]/20" />
+          <div className="mt-8 w-16 h-px bg-white/20/20" />
         </div>
 
         {/* Product Cards */}
@@ -35,13 +34,14 @@ export default function Products() {
                   <div className="lg:col-span-3">
                     <span
                       className={`font-mono text-[11px] uppercase tracking-[0.3em] block mb-4 flex items-center gap-2 opacity-50 ${
-                        idx === 1 ? "text-[var(--neon-purple)]" : "text-[var(--neon-cyan)]"
+                        idx === 1 ? "text-neutral-400" : "text-neutral-400"
                       }`}
                     >
                       <span className={`w-1.5 h-1.5 rounded-full pulse-dot ${
-                        idx === 1 ? "bg-[var(--neon-purple)]" : "bg-[var(--neon-cyan)]"
+                        idx === 1 ? "bg-white/20" : "bg-white/20"
                       } opacity-60`} />
-                      {idx === 0 ? "Ground Segment" : idx === 1 ? "Space Segment" : "Satellite Platform"}
+                      {idx === 0 ? "Ground Segment" : "Onboard"}
+
                     </span>
 
                     <h2 className="text-4xl xl:text-5xl font-bold mb-1 font-display">{product.name}</h2>
@@ -50,7 +50,7 @@ export default function Products() {
                         ? "AI-Native Ground Operations Platform"
                         : product.name === "Rigel OS"
                           ? "Autonomous Onboard Operating Suite"
-                          : "Autonomous Satellite Platform"}
+                          : ""}
                     </p>
 
                     <p className="text-lg text-neutral-400 leading-relaxed mb-8">
@@ -64,9 +64,9 @@ export default function Products() {
                       </span>
 
                       <Link
-                        href={idx === 0 ? "/products/disha" : idx === 1 ? "/products/rigel-os" : "/products/supersat"}
+                        href={idx === 0 ? "/products/disha" : "/products/rigel-os"}
                         className={`group inline-flex items-center gap-1.5 text-base opacity-60 hover:opacity-100 transition-opacity font-mono ${
-                          idx === 1 ? "text-[var(--neon-purple)]" : "text-[var(--neon-cyan)]"
+                          idx === 1 ? "text-neutral-400" : "text-neutral-400"
                         }`}
                       >
                         View full details
@@ -77,7 +77,7 @@ export default function Products() {
 
                   {/* Right: Capabilities */}
                   <div className={`lg:col-span-2 border-t lg:border-t-0 lg:border-l pt-8 lg:pt-0 lg:pl-10 ${
-                    idx === 1 ? "border-[var(--neon-purple)]/10" : "border-[var(--neon-cyan)]/10"
+                    idx === 1 ? "border-white/10" : "border-white/10"
                   }`}>
                     <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-600 block mb-6">
                       Capabilities
@@ -91,8 +91,8 @@ export default function Products() {
                           <Check
                             className={`w-4 h-4 mt-0.5 flex-shrink-0 opacity-40 ${
                               idx === 1
-                                ? "text-[var(--neon-purple)]"
-                                : "text-[var(--neon-cyan)]"
+                                ? "text-neutral-400"
+                                : "text-neutral-400"
                             }`}
                           />
                           <span className="text-neutral-400">{feature}</span>
@@ -110,14 +110,14 @@ export default function Products() {
         <ScrollColorLine />
         <ScrollReveal glow="indigo">
           <div className="mt-14 pt-14">
-            <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--neon-cyan)] opacity-50 block mb-4 text-center">
+            <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-400 opacity-50 block mb-4 text-center">
               System Architecture
             </span>
             <h3 className="text-3xl font-bold text-center mb-14 font-display">
               The Complete Autonomous Stack
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-[2fr_auto_2fr_auto_2fr] gap-4 2xl:gap-6 items-center text-center">
+            <div className="grid grid-cols-1 md:grid-cols-[2fr_auto_2fr] gap-4 2xl:gap-6 items-center text-center max-w-3xl mx-auto">
               <div className="neon-edge p-8 2xl:p-12 hover-lift">
                 <div className="text-2xl font-bold font-display mb-2 neon-text-cyan">DISHA</div>
                 <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-600 mb-3">
@@ -129,21 +129,7 @@ export default function Products() {
               </div>
 
               <div className="flex items-center justify-center py-2 md:py-0">
-                <div className="w-full h-px bg-gradient-to-r from-[var(--neon-cyan)]/15 to-white/[0.06]" />
-              </div>
-
-              <div className="neon-edge p-8 2xl:p-12 hover-lift border-[var(--neon-cyan)]/20">
-                <div className="text-2xl font-bold font-display mb-2 gradient-text">SuperSat</div>
-                <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-600 mb-3">
-                  Platform
-                </div>
-                <p className="text-sm text-neutral-500">
-                  Mission-agnostic satellite platform
-                </p>
-              </div>
-
-              <div className="flex items-center justify-center py-2 md:py-0">
-                <div className="w-full h-px bg-gradient-to-r from-white/[0.06] to-[var(--neon-purple)]/15" />
+                <div className="w-full h-px bg-white/10" />
               </div>
 
               <div className="neon-edge-purple p-8 2xl:p-12 hover-lift">

@@ -1,4 +1,4 @@
-import { LucideIcon, Cpu, Globe, Satellite } from "lucide-react";
+import { LucideIcon, Cpu, Globe } from "lucide-react";
 
 /* =========================
    Navigation
@@ -12,7 +12,7 @@ export interface NavItem {
 export const NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Products", href: "/products" },
-  { label: "Mission", href: "/mission" },
+
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
@@ -58,20 +58,6 @@ export const PRODUCTS: Product[] = [
       "Designed for deterministic, flight-qualified onboard execution",
     ],
     icon: Cpu,
-  },
-  {
-    id: "supersat",
-    name: "SuperSat",
-    description:
-      "SuperSat is a mission-agnostic autonomous satellite platform capable of in-orbit decision-making. Powered by Rigel OS and managed by DISHA, it adapts to any mission profile — Earth observation, communications, scientific research, or defense — without waiting for ground commands.",
-    status: "In Development",
-    features: [
-      "Onboard FDIR engine for predictive failure prevention",
-      "Autonomous GNC with adaptive orbit management",
-      "Edge data processing and onboard ML inference",
-      "Intelligent communication and power optimization",
-    ],
-    icon: Satellite,
   },
 ];
 

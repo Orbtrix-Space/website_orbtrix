@@ -45,8 +45,8 @@ export default function Contact() {
           {/* Left: Info */}
           <ScrollReveal direction="left">
             <div>
-              <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--neon-cyan)] opacity-50 block mb-4 flex items-center gap-3">
-                <span className="w-5 h-px bg-[var(--neon-cyan)]" />
+              <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-400 opacity-50 block mb-4 flex items-center gap-3">
+                <span className="w-5 h-px bg-white" />
                 Contact
               </span>
               <h1 className="text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight mb-6 font-display">
@@ -56,21 +56,21 @@ export default function Contact() {
                 Reach out to discuss our products, technology, upcoming
                 missions, or collaboration opportunities.
               </p>
-              <div className="w-16 h-px bg-[var(--neon-cyan)]/20 mb-12" />
+              <div className="w-16 h-px bg-white/20 mb-12" />
 
               <div className="space-y-8">
                 <div className="flex items-start gap-4">
-                  <Mail className="w-5 h-5 text-[var(--neon-cyan)] opacity-40 mt-0.5 flex-shrink-0" />
+                  <Mail className="w-5 h-5 text-neutral-400 opacity-40 mt-0.5 flex-shrink-0" />
                   <div>
                     <h4 className="text-base font-medium mb-1 font-display">Email</h4>
-                    <a href="mailto:info@orbtrix.space" className="text-neutral-400 hover:text-[var(--neon-cyan)] transition-colors text-base">
+                    <a href="mailto:info@orbtrix.space" className="text-neutral-400 hover:text-neutral-400 transition-colors text-base">
                       info@orbtrix.space
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <MapPin className="w-5 h-5 text-[var(--neon-cyan)] opacity-40 mt-0.5 flex-shrink-0" />
+                  <MapPin className="w-5 h-5 text-neutral-400 opacity-40 mt-0.5 flex-shrink-0" />
                   <div>
                     <h4 className="text-base font-medium mb-1 font-display">Office</h4>
                     <p className="text-neutral-400 text-base leading-relaxed">
@@ -113,7 +113,7 @@ export default function Contact() {
                           <Input
                             placeholder="Your name"
                             {...field}
-                            className="bg-transparent border-[var(--neon-cyan)]/10 focus-visible:ring-[var(--neon-cyan)]/20 focus-visible:border-[var(--neon-cyan)]/25 text-white placeholder:text-neutral-700 rounded-none h-12"
+                            className="bg-transparent border-white/10 focus-visible:ring-white/10 focus-visible:border-white/25 text-white placeholder:text-neutral-700 rounded-none h-12"
                           />
                         </FormControl>
                         <FormMessage />
@@ -131,7 +131,7 @@ export default function Contact() {
                           <Input
                             placeholder="your@email.com"
                             {...field}
-                            className="bg-transparent border-[var(--neon-cyan)]/10 focus-visible:ring-[var(--neon-cyan)]/20 focus-visible:border-[var(--neon-cyan)]/25 text-white placeholder:text-neutral-700 rounded-none h-12"
+                            className="bg-transparent border-white/10 focus-visible:ring-white/10 focus-visible:border-white/25 text-white placeholder:text-neutral-700 rounded-none h-12"
                           />
                         </FormControl>
                         <FormMessage />
@@ -149,7 +149,7 @@ export default function Contact() {
                           <Textarea
                             placeholder="What would you like to discuss?"
                             {...field}
-                            className="bg-transparent border-[var(--neon-cyan)]/10 focus-visible:ring-[var(--neon-cyan)]/20 focus-visible:border-[var(--neon-cyan)]/25 text-white placeholder:text-neutral-700 min-h-[120px] rounded-none resize-none"
+                            className="bg-transparent border-white/10 focus-visible:ring-white/10 focus-visible:border-white/25 text-white placeholder:text-neutral-700 min-h-[120px] rounded-none resize-none"
                           />
                         </FormControl>
                         <FormMessage />
@@ -159,7 +159,7 @@ export default function Contact() {
 
                   <Button
                     type="submit"
-                    className="group w-full h-12 bg-[var(--neon-cyan)] text-white hover:bg-[var(--neon-cyan)]/80 rounded-none font-medium text-base tracking-wide font-display uppercase"
+                    className="group w-full h-12 bg-white text-white hover:bg-white/80 rounded-none font-medium text-base tracking-wide font-display uppercase"
                   >
                     Send Message
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />

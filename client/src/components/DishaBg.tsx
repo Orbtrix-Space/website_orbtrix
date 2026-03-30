@@ -22,11 +22,11 @@ interface DataPulse {
 }
 
 const COLORS: [number, number, number][] = [
-  [99, 102, 241],   // indigo
-  [129, 140, 248],  // indigo-light
-  [20, 184, 166],   // teal
-  [45, 212, 191],   // teal-light
-  [167, 139, 250],  // violet
+  [200, 200, 210],
+  [180, 180, 190],
+  [220, 220, 230],
+  [160, 160, 170],
+  [240, 240, 245],
 ];
 
 export function DishaBg() {

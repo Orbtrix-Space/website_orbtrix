@@ -54,7 +54,7 @@ export function TypewriterText({
       transition={{ duration: 0.5 }}
     >
       {displayText}
-      <span className="text-[var(--neon-cyan)] animate-pulse">|</span>
+      <span className="text-neutral-500 animate-pulse">|</span>
     </motion.span>
   );
 }

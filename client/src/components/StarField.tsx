@@ -35,25 +35,22 @@ interface Nebula {
 
 const STAR_COLORS: [number, number, number][] = [
   [255, 255, 255],
-  [200, 210, 255],
-  [170, 180, 255],
-  [129, 140, 248],   // indigo-light
-  [99, 102, 241],    // indigo
-  [167, 139, 250],   // violet
-  [200, 200, 220],
+  [220, 220, 230],
+  [200, 200, 210],
+  [180, 180, 190],
+  [240, 240, 245],
 ];
 
 const METEOR_COLORS: [number, number, number][] = [
-  [99, 102, 241],    // indigo
-  [129, 140, 248],   // indigo-light
-  [20, 184, 166],    // teal
-  [167, 139, 250],   // violet
+  [255, 255, 255],
+  [220, 220, 230],
+  [200, 200, 210],
 ];
 
 const NEBULA_COLORS: [number, number, number][] = [
-  [99, 102, 241],    // indigo
-  [20, 184, 166],    // teal
-  [129, 140, 248],   // indigo-light
+  [180, 180, 190],
+  [200, 200, 210],
+  [160, 160, 170],
 ];
 
 export function StarField() {

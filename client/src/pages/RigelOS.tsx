@@ -103,8 +103,8 @@ export default function RigelOS() {
       {/* Hero */}
       <section className="relative overflow-hidden py-14 md:py-20 xl:py-28 2xl:py-32 px-5 md:px-8 xl:px-12 2xl:px-24 min-h-[70vh] flex items-center">
         <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
-        <div className="absolute top-1/3 -left-32 w-[500px] h-[500px] bg-[var(--neon-purple)] rounded-full opacity-[0.04] blur-[150px] pointer-events-none" />
-        <div className="absolute bottom-0 -right-32 w-[400px] h-[400px] bg-[var(--neon-purple)] rounded-full opacity-[0.03] blur-[150px] pointer-events-none" />
+        <div className="absolute top-1/3 -left-32 w-[500px] h-[500px] bg-white rounded-full opacity-[0.04] blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-0 -right-32 w-[400px] h-[400px] bg-white rounded-full opacity-[0.03] blur-[150px] pointer-events-none" />
 
         <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto relative z-10 w-full">
           <motion.div
@@ -113,8 +113,8 @@ export default function RigelOS() {
             transition={{ duration: 0.5 }}
             className="flex items-center gap-3 mb-6"
           >
-            <span className="w-8 h-px bg-[var(--neon-purple)]" />
-            <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--neon-purple)] opacity-70">
+            <span className="w-8 h-px bg-white" />
+            <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-400 opacity-70">
               Space Segment · Onboard Operating System
             </span>
           </motion.div>
@@ -129,7 +129,7 @@ export default function RigelOS() {
           </motion.h1>
 
           <motion.p
-            className="text-base font-mono text-[var(--neon-purple)] opacity-40 mb-6 uppercase tracking-wider"
+            className="text-base font-mono text-neutral-400 opacity-40 mb-6 uppercase tracking-wider"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -156,7 +156,7 @@ export default function RigelOS() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 neon-edge-purple text-sm font-mono uppercase tracking-wider text-[var(--neon-purple)] opacity-70">
+            <span className="inline-flex items-center gap-2 px-4 py-2 neon-edge-purple text-sm font-mono uppercase tracking-wider text-neutral-400 opacity-70">
               <span className="w-1.5 h-1.5 bg-yellow-400 rounded-full pulse-dot" />
               In Development
             </span>
@@ -170,8 +170,8 @@ export default function RigelOS() {
         <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto">
           <ScrollReveal glow="teal">
             <div className="mb-8">
-              <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--neon-purple)] opacity-50 block mb-3 flex items-center gap-3">
-                <span className="w-5 h-px bg-[var(--neon-purple)]" />
+              <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-400 opacity-50 block mb-3 flex items-center gap-3">
+                <span className="w-5 h-px bg-white" />
                 Design Philosophy
               </span>
               <h2 className="text-4xl md:text-5xl font-bold font-display tracking-tight">
@@ -184,7 +184,7 @@ export default function RigelOS() {
             {DESIGN_PILLARS.map((pillar, idx) => (
               <ScrollReveal key={idx} delay={idx * 0.1} glow="teal">
                 <div className="neon-edge-purple p-6 2xl:p-10 h-full hover-lift">
-                  <pillar.icon className="w-6 h-6 text-[var(--neon-purple)] opacity-60 mb-3" />
+                  <pillar.icon className="w-6 h-6 text-neutral-400 opacity-60 mb-3" />
                   <h3 className="font-display text-base font-semibold mb-2 tracking-tight">
                     {pillar.label}
                   </h3>
@@ -204,8 +204,8 @@ export default function RigelOS() {
         <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto">
           <ScrollReveal glow="teal">
             <div className="mb-10">
-              <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--neon-purple)] opacity-50 block mb-3 flex items-center gap-3">
-                <span className="w-5 h-px bg-[var(--neon-purple)]" />
+              <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-400 opacity-50 block mb-3 flex items-center gap-3">
+                <span className="w-5 h-px bg-white" />
                 Core Modules
               </span>
               <h2 className="text-4xl md:text-5xl xl:text-6xl font-bold font-display tracking-tight">
@@ -221,8 +221,8 @@ export default function RigelOS() {
                   <div className="grid grid-cols-1 lg:grid-cols-5 gap-5 lg:gap-6">
                     <div className="lg:col-span-3">
                       <div className="flex items-center gap-3 mb-1">
-                        <div className="w-10 h-10 border border-[var(--neon-purple)]/20 flex items-center justify-center flex-shrink-0">
-                          <feature.icon className="w-5 h-5 text-[var(--neon-purple)] opacity-60" />
+                        <div className="w-10 h-10 border border-white/20 flex items-center justify-center flex-shrink-0">
+                          <feature.icon className="w-5 h-5 text-neutral-400 opacity-60" />
                         </div>
                         <h3 className="text-xl font-display font-bold tracking-tight">
                           {feature.title}
@@ -233,7 +233,7 @@ export default function RigelOS() {
                       </p>
                     </div>
 
-                    <div className="lg:col-span-2 border-t lg:border-t-0 lg:border-l border-[var(--neon-purple)]/8 pt-4 lg:pt-0 lg:pl-6">
+                    <div className="lg:col-span-2 border-t lg:border-t-0 lg:border-l border-white/8 pt-4 lg:pt-0 lg:pl-6">
                       <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-neutral-600 block mb-3">
                         Technical Details
                       </span>
@@ -243,7 +243,7 @@ export default function RigelOS() {
                             key={didx}
                             className="flex items-start gap-2 text-sm"
                           >
-                            <span className="w-1 h-1 rounded-full bg-[var(--neon-purple)] opacity-50 mt-1.5 flex-shrink-0" />
+                            <span className="w-1 h-1 rounded-full bg-white opacity-50 mt-1.5 flex-shrink-0" />
                             <span className="text-neutral-500">{detail}</span>
                           </div>
                         ))}
@@ -263,7 +263,7 @@ export default function RigelOS() {
         <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto">
           <ScrollReveal glow="teal">
             <div className="text-center mb-10">
-              <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-[var(--neon-purple)] opacity-50 block mb-3">
+              <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-400 opacity-50 block mb-3">
                 Software Architecture
               </span>
               <h2 className="text-4xl md:text-5xl font-bold font-display tracking-tight mb-3">
@@ -280,7 +280,7 @@ export default function RigelOS() {
           <ScrollReveal glow="teal">
             <div className="grid grid-cols-1 md:grid-cols-[2fr_auto_2fr_auto_2fr] gap-4 items-center">
               <div className="neon-edge-purple p-8 2xl:p-12 text-center hover-lift">
-                <div className="text-[var(--neon-purple)] opacity-50 mb-2 flex justify-center">
+                <div className="text-neutral-400 opacity-50 mb-2 flex justify-center">
                   <Layers className="w-8 h-8" />
                 </div>
                 <div className="text-lg font-display font-bold mb-1">
@@ -292,15 +292,15 @@ export default function RigelOS() {
               </div>
 
               <div className="flex flex-col items-center gap-2 py-3 md:py-0 md:px-2">
-                <div className="w-full h-px bg-gradient-to-r from-transparent via-[var(--neon-purple)]/25 to-transparent" />
-                <span className="font-mono text-[10px] text-[var(--neon-purple)] opacity-40 uppercase tracking-widest">
+                <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                <span className="font-mono text-[10px] text-neutral-400 opacity-40 uppercase tracking-widest">
                   RTOS
                 </span>
-                <div className="w-full h-px bg-gradient-to-r from-transparent via-[var(--neon-purple)]/25 to-transparent" />
+                <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
               </div>
 
-              <div className="neon-edge-purple p-8 2xl:p-12 text-center hover-lift border-[var(--neon-purple)]/40">
-                <div className="text-[var(--neon-purple)] opacity-70 mb-2 flex justify-center">
+              <div className="neon-edge-purple p-8 2xl:p-12 text-center hover-lift border-white/40">
+                <div className="text-neutral-400 opacity-70 mb-2 flex justify-center">
                   <Cpu className="w-8 h-8" />
                 </div>
                 <div className="text-lg font-display font-bold mb-1">
@@ -312,15 +312,15 @@ export default function RigelOS() {
               </div>
 
               <div className="flex flex-col items-center gap-2 py-3 md:py-0 md:px-2">
-                <div className="w-full h-px bg-gradient-to-r from-transparent via-[var(--neon-purple)]/25 to-transparent" />
-                <span className="font-mono text-[10px] text-[var(--neon-purple)] opacity-40 uppercase tracking-widest">
+                <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                <span className="font-mono text-[10px] text-neutral-400 opacity-40 uppercase tracking-widest">
                   API
                 </span>
-                <div className="w-full h-px bg-gradient-to-r from-transparent via-[var(--neon-purple)]/25 to-transparent" />
+                <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
               </div>
 
               <div className="neon-edge-purple p-8 2xl:p-12 text-center hover-lift">
-                <div className="text-[var(--neon-purple)] opacity-50 mb-2 flex justify-center">
+                <div className="text-neutral-400 opacity-50 mb-2 flex justify-center">
                   <GitBranch className="w-8 h-8" />
                 </div>
                 <div className="text-lg font-display font-bold mb-1">
@@ -389,7 +389,7 @@ export default function RigelOS() {
             </div>
             <Link
               href="/contact"
-              className="group px-7 py-3.5 bg-[var(--neon-purple)] text-white text-base font-semibold hover:bg-[var(--neon-purple)]/80 transition-all duration-300 flex items-center gap-2 flex-shrink-0 font-display uppercase tracking-wide"
+              className="group px-7 py-3.5 bg-white text-white text-base font-semibold hover:bg-white/80 transition-all duration-300 flex items-center gap-2 flex-shrink-0 font-display uppercase tracking-wide"
             >
               Get in Touch
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

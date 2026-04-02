@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -29,6 +30,14 @@ export default function Contact() {
     resolver: zodResolver(ContactFormSchema),
     defaultValues: { name: "", email: "", message: "" },
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const msg = params.get("message");
+    if (msg) {
+      form.setValue("message", msg);
+    }
+  }, [form]);
 
   const onSubmit = (data: ContactFormValues) => {
     const subject = encodeURIComponent(`Website Contact — ${data.name}`);

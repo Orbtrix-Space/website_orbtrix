@@ -170,18 +170,20 @@ export default function Disha() {
             transition={{ delay: 0.5 }}
           >
             <Link
-              href="/contact"
+              href="/contact?message=I%20am%20interested%20in%20a%20DISHA%20demo."
               className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black text-base font-semibold tracking-wide hover:bg-neutral-200 transition-all duration-300 uppercase"
             >
               Request Demo
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link
-              href="/contact"
+            <a
+              href="https://forms.office.com/r/btRMdhuk4E"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/15 text-white text-base font-medium hover:bg-white/5 transition-all duration-300 uppercase"
             >
               Join Early Adopter Program
-            </Link>
+            </a>
           </motion.div>
         </div>
       </section>
@@ -471,18 +473,20 @@ export default function Disha() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/contact"
+                href="/contact?message=I%20am%20interested%20in%20a%20DISHA%20demo."
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black text-base font-semibold tracking-wide hover:bg-neutral-200 transition-all duration-300 uppercase"
               >
                 Request a Demo
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
-              <Link
-                href="/contact"
+              <a
+                href="https://forms.office.com/r/btRMdhuk4E"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/15 text-white text-base font-medium hover:bg-white/5 transition-all duration-300 uppercase"
               >
                 Join Early Adopter Program
-              </Link>
+              </a>
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/15 text-white text-base font-medium hover:bg-white/5 transition-all duration-300 uppercase"

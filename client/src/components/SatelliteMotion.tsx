@@ -9,11 +9,14 @@ interface SatelliteMotionProps {
  * A real satellite drifting and rotating in space, surrounded by
  * subtle orbit lines and stars. Teal accent.
  */
-export function SatelliteMotion({ size = 420, className = "" }: SatelliteMotionProps) {
+export function SatelliteMotion({ size, className = "" }: SatelliteMotionProps) {
+  const style = size
+    ? { width: size, height: size, maxWidth: "100%" }
+    : { width: "100%", aspectRatio: "1 / 1" };
   return (
     <div
       className={`relative ${className}`}
-      style={{ width: size, height: size, maxWidth: "100%" }}
+      style={style}
     >
       <svg
         viewBox="0 0 420 420"

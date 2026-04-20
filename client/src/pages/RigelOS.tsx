@@ -127,15 +127,17 @@ export default function RigelOS() {
               </motion.div>
             </div>
 
-            {/* Right: real satellite in orbit — hidden on mobile */}
+            {/* Right: real satellite in orbit */}
             <motion.div
-              className="hidden lg:flex justify-center items-center"
+              className="flex justify-center items-center order-first lg:order-last"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.2, delay: 0.4 }}
               aria-hidden="true"
             >
-              <SatelliteMotion size={420} />
+              <div className="w-full max-w-[280px] sm:max-w-[340px] lg:max-w-[420px]">
+                <SatelliteMotion />
+              </div>
             </motion.div>
           </div>
         </div>

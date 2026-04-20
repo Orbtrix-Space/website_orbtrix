@@ -8,16 +8,19 @@ interface GroundStationAnimationProps {
 /**
  * Teal-themed ground-station visual.
  * Parabolic dish tracking a satellite overhead with an animated uplink/downlink beam.
- * Pure SVG. Responsive via viewBox.
+ * Pure SVG. Responsive via viewBox + aspect-square wrapper.
  */
 export function GroundStationAnimation({
-  size = 420,
+  size,
   className = "",
 }: GroundStationAnimationProps) {
+  const style = size
+    ? { width: size, height: size, maxWidth: "100%" }
+    : { width: "100%", aspectRatio: "1 / 1" };
   return (
     <div
       className={`relative ${className}`}
-      style={{ width: size, height: size, maxWidth: "100%" }}
+      style={style}
     >
       <svg
         viewBox="0 0 420 420"

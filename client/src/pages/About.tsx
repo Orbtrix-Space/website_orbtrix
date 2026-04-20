@@ -138,9 +138,16 @@ export default function About() {
                   ["Team", "4 Founding Members"],
                   ["Stage", "Product Development"],
                 ].map(([label, value], idx) => (
-                  <div key={idx} className="flex justify-between border-b border-teal-400/10 last:border-0 py-4 px-8">
-                    <span className="text-base text-neutral-500">{label}</span>
-                    <span className="text-base text-white">{value}</span>
+                  <div
+                    key={idx}
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 border-b border-teal-400/10 last:border-0 py-4 px-6 sm:px-8"
+                  >
+                    <span className="text-xs sm:text-base text-neutral-500 uppercase sm:normal-case tracking-wider sm:tracking-normal shrink-0">
+                      {label}
+                    </span>
+                    <span className="text-base text-white sm:text-right break-words">
+                      {value}
+                    </span>
                   </div>
                 ))}
               </div>

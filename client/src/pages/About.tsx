@@ -1,50 +1,81 @@
 import { TEAM } from "@/data/content";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { ScrollColorLine } from "@/components/ScrollColorLine";
+import { motion } from "framer-motion";
 import { Linkedin } from "lucide-react";
 
 export default function About() {
   return (
-    <>
-      <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto px-5 md:px-8 xl:px-12 2xl:px-24 py-10 md:py-14 xl:py-20">
+    <div className="bg-black relative overflow-hidden">
+      {/* Galaxy backdrop on top portion */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[500px] opacity-20 pointer-events-none"
+        style={{
+          backgroundImage:
+            "url(https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&q=80)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-black/40 via-black/70 to-black pointer-events-none" />
+
+      {/* Ambient teal orbs */}
+      <motion.div
+        className="absolute top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-15 blur-[130px] pointer-events-none"
+        style={{ background: "radial-gradient(circle, #14b8a6 0%, transparent 70%)" }}
+        animate={{ opacity: [0.08, 0.18, 0.08] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-40 -right-40 w-[500px] h-[500px] rounded-full opacity-10 blur-[130px] pointer-events-none"
+        style={{ background: "radial-gradient(circle, #2dd4bf 0%, transparent 70%)" }}
+        animate={{ opacity: [0.05, 0.15, 0.05] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto px-5 md:px-8 xl:px-12 2xl:px-24 py-16 md:py-20 xl:py-24 relative z-10">
         {/* Header */}
-        <div className="mb-10">
-          <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-400 opacity-50 block mb-4 flex items-center gap-3">
-            <span className="w-5 h-px bg-white/20" />
+        <div className="mb-14">
+          <span className="text-xs uppercase tracking-[0.3em] text-teal-400/70 block mb-4 flex items-center gap-3">
+            <span className="w-5 h-px bg-teal-400/40" />
             About Us
           </span>
-          <h1 className="text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight mb-6 font-display">
+          <h1 className="text-5xl md:text-6xl xl:text-7xl font-medium tracking-tight mb-6 text-gradient-teal">
             The Team
           </h1>
-          <p className="text-xl xl:text-2xl text-neutral-400 leading-relaxed max-w-2xl xl:max-w-3xl">
-            A small, focused team with hands-on experience in mission design,
+          <p className="text-xl text-neutral-400 leading-relaxed max-w-3xl">
+            A small, focused team with hands on experience in mission design,
             spacecraft operations, and autonomous systems engineering.
           </p>
-          <div className="mt-8 w-16 h-px bg-white/20/20" />
+          <div className="mt-8 w-16 h-px bg-teal-400/40" />
         </div>
 
         {/* Team Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
           {TEAM.map((member, idx) => (
-            <ScrollReveal key={idx} delay={idx * 0.08}>
-              <div className="group neon-edge hover-lift">
+            <ScrollReveal key={idx} delay={idx * 0.06}>
+              <div className="group border border-teal-400/15 bg-black/40 backdrop-blur-sm hover:border-teal-400/40 transition-all duration-500">
                 {member.photo ? (
                   <div className="overflow-hidden">
                     <img
                       src={member.photo}
                       alt={member.name}
-                      className="w-full aspect-[3/4] object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-[1.03]"
+                      className="w-full aspect-square object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-[1.05]"
                     />
                   </div>
                 ) : (
-                  <div className="w-full aspect-[3/4] bg-neutral-900 flex items-center justify-center text-5xl font-bold font-display text-neutral-700">
+                  <div className="w-full aspect-square bg-neutral-900 flex items-center justify-center text-3xl font-medium text-neutral-700">
                     {member.name.charAt(0)}
                   </div>
                 )}
-                <div className="p-6 2xl:p-8 flex items-start justify-between">
-                  <div>
-                    <h3 className="font-semibold text-base font-display">{member.name}</h3>
-                    <p className="text-neutral-500 text-sm font-mono mt-1 uppercase tracking-wider">
+                <div className="p-3 flex items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-medium text-xs text-white leading-tight break-words">
+                      {member.name}
+                    </h3>
+                    <p
+                      className="text-teal-400/60 text-[10px] mt-1 uppercase leading-snug break-words"
+                      style={{ hyphens: "auto", letterSpacing: "0.02em" }}
+                    >
                       {member.role}
                     </p>
                   </div>
@@ -53,10 +84,10 @@ export default function About() {
                       href={member.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-neutral-700 hover:text-neutral-400 transition-colors"
+                      className="text-neutral-600 hover:text-teal-400 transition-colors flex-shrink-0"
                       aria-label={`${member.name} LinkedIn`}
                     >
-                      <Linkedin className="w-4 h-4" />
+                      <Linkedin className="w-3.5 h-3.5" />
                     </a>
                   )}
                 </div>
@@ -66,27 +97,26 @@ export default function About() {
         </div>
 
         {/* Vision + Company */}
-        <ScrollColorLine color="indigo" />
-        <div className="mt-14 grid grid-cols-1 lg:grid-cols-2 gap-12 pt-12">
-          <ScrollReveal glow="indigo">
+        <div className="mt-16 pt-16 border-t border-teal-400/15 grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <ScrollReveal>
             <div>
-              <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-400 opacity-50 block mb-4 flex items-center gap-3">
-                <span className="w-5 h-px bg-white/20" />
+              <span className="text-xs uppercase tracking-[0.3em] text-teal-400/70 block mb-4 flex items-center gap-3">
+                <span className="w-5 h-px bg-teal-400/40" />
                 Our Vision
               </span>
-              <h2 className="text-4xl xl:text-5xl font-bold tracking-tight mb-6 font-display">
+              <h2 className="text-4xl xl:text-5xl font-medium tracking-tight mb-6 text-white">
                 Building toward lunar infrastructure
               </h2>
               <div className="space-y-5 text-neutral-400 leading-relaxed">
                 <p>
-                  We believe the next leap in space won't come from bigger
-                  rockets — it'll come from spacecraft that can think, decide,
+                  We believe the next leap in space will not come from bigger
+                  rockets. It will come from spacecraft that can think, decide,
                   and operate on their own.
                 </p>
                 <p>
-                  Our long-term vision is to build the infrastructure layer for
+                  Our long term vision is to build the infrastructure layer for
                   sustained lunar operations. We start by proving this technology
-                  in LEO — autonomous Earth observation missions that deliver raw
+                  in LEO. Autonomous Earth observation missions that deliver raw
                   intelligence at dramatically lower costs.
                 </p>
                 <p>Every mission we fly brings us closer to the Moon.</p>
@@ -94,13 +124,13 @@ export default function About() {
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={0.1} glow="teal">
+          <ScrollReveal delay={0.1}>
             <div>
-              <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-400 opacity-50 block mb-6 flex items-center gap-3">
-                <span className="w-5 h-px bg-white/20" />
+              <span className="text-xs uppercase tracking-[0.3em] text-teal-400/70 block mb-6 flex items-center gap-3">
+                <span className="w-5 h-px bg-teal-400/40" />
                 Company
               </span>
-              <div className="neon-edge">
+              <div className="border border-teal-400/15 bg-black/40 backdrop-blur-sm">
                 {[
                   ["Founded", "2025"],
                   ["Location", "Bengaluru, India"],
@@ -108,9 +138,9 @@ export default function About() {
                   ["Team", "4 Founding Members"],
                   ["Stage", "Product Development"],
                 ].map(([label, value], idx) => (
-                  <div key={idx} className="flex justify-between border-b border-white/5 last:border-0 py-4 px-8 2xl:px-10">
-                    <span className="text-base text-neutral-500 font-mono">{label}</span>
-                    <span className="text-base text-white font-display">{value}</span>
+                  <div key={idx} className="flex justify-between border-b border-teal-400/10 last:border-0 py-4 px-8">
+                    <span className="text-base text-neutral-500">{label}</span>
+                    <span className="text-base text-white">{value}</span>
                   </div>
                 ))}
               </div>
@@ -119,27 +149,28 @@ export default function About() {
         </div>
 
         {/* Join Us */}
-        <ScrollColorLine color="indigo" />
-        <ScrollReveal>
-          <div className="mt-14 pt-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-            <div>
-              <h3 className="text-2xl font-semibold mb-3 font-display">Join Us</h3>
-              <p className="text-neutral-500 max-w-lg text-base leading-relaxed">
-                We're looking for engineers, researchers, and operators who want
-                to build the future of autonomous spacecraft operations.
-              </p>
+        <div className="mt-16 pt-12 border-t border-teal-400/15">
+          <ScrollReveal>
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+              <div>
+                <h3 className="text-2xl font-semibold mb-3 text-white">Join Us</h3>
+                <p className="text-neutral-400 max-w-lg text-base leading-relaxed">
+                  We are looking for engineers, researchers, and operators who
+                  want to build the future of autonomous spacecraft operations.
+                </p>
+              </div>
+              <a
+                href="https://www.notion.so/Careers-at-Orbtrix-Space-3135b581cdb7809ea3ccc510b9325b9b"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-8 py-4 border border-teal-400/40 text-white text-base font-medium hover:bg-teal-400/10 hover:border-teal-400/60 transition-all duration-300 flex-shrink-0 uppercase"
+              >
+                View Open Roles
+              </a>
             </div>
-            <a
-              href="https://www.notion.so/Careers-at-Orbtrix-Space-3135b581cdb7809ea3ccc510b9325b9b"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-7 py-3.5 neon-edge text-white text-base font-medium hover:bg-white/20/5 transition-all duration-300 flex-shrink-0 font-display uppercase"
-            >
-              View Open Roles
-            </a>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
+        </div>
       </div>
-    </>
+    </div>
   );
 }

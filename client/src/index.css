@@ -1,13 +1,13 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Poppins', system-ui, -apple-system, sans-serif;
   --font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Mono', 'Segoe UI Mono', monospace;
-  --font-display: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Poppins', system-ui, -apple-system, sans-serif;
 
   --background: 0 0% 0%;
   --foreground: 0 0% 100%;
@@ -33,9 +33,56 @@
 
   --radius: 0px;
 
-  --neon-cyan: #6366f1;
+  --neon-cyan: #14b8a6;
   --neon-purple: #14b8a6;
-  --neon-blue: #818cf8;
+  --neon-blue: #2dd4bf;
+  --teal-primary: #14b8a6;
+  --teal-soft: #2dd4bf;
+}
+
+.bg-teal-gradient {
+  background:
+    radial-gradient(ellipse at top left, rgba(20, 184, 166, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom right, rgba(45, 212, 191, 0.05) 0%, transparent 50%),
+    #000000;
+}
+
+.bg-teal-radial {
+  background: radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.12) 0%, rgba(0, 0, 0, 0) 60%);
+}
+
+.text-gradient-teal {
+  background: linear-gradient(135deg, #ffffff 0%, #2dd4bf 60%, #14b8a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes slow-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-slow-spin {
+  animation: slow-spin 60s linear infinite;
+}
+
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(var(--orbit-radius, 140px)) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(var(--orbit-radius, 140px)) rotate(-360deg); }
+}
+
+.animate-orbit {
+  animation: orbit 20s linear infinite;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(20px, -15px); }
+}
+
+.animate-drift {
+  animation: drift 12s ease-in-out infinite;
 }
 
 @layer base {
@@ -52,10 +99,48 @@
     scroll-behavior: smooth;
   }
 
+  /* Scroll performance: GPU-promote heavy visuals so scrolling stays smooth */
+  .motion-gpu {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  /* Ambient glow orbs are continuously animated. Promote them to
+     their own compositing layer so scroll doesn't repaint them.
+     Matches Tailwind's arbitrary blur utilities: blur-[120px], blur-[130px], blur-[140px] */
+  [class*="blur-["],
+  [data-gpu="orb"] {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    contain: layout paint style;
+  }
+
+  /* The TelemetryStream console and product cards often sit above
+     heavy orbs. Give them their own paint layer so scroll compositing
+     doesn't re-rasterize through the blur on every frame. */
+  .scroll-isolate {
+    contain: layout paint style;
+    transform: translateZ(0);
+  }
+
+  /* Respect reduced-motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-sans);
     @apply tracking-tight;
-    font-weight: 700;
+    font-weight: 500;
   }
 
   p, a, li, label, input, textarea, button {
@@ -185,6 +270,7 @@
 .hover-lift:hover {
   transform: translateY(-2px);
 }
+
 
 /* ==========================================
    SCAN LINES — disabled

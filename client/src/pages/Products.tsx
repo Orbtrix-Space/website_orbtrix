@@ -1,150 +1,224 @@
 import { Link } from "wouter";
+import { motion } from "framer-motion";
 import { PRODUCTS } from "@/data/content";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { ScrollColorLine } from "@/components/ScrollColorLine";
 import { Check, ArrowRight } from "lucide-react";
+
+const PRODUCT_META: Record<string, { segment: string; subtitle: string; href: string }> = {
+  disha: {
+    segment: "Ground Segment",
+    subtitle: "Ground Operations Platform",
+    href: "/products/disha",
+  },
+  "rigel-os": {
+    segment: "Onboard",
+    subtitle: "Autonomous Onboard Operating Suite",
+    href: "/products/rigel-os",
+  },
+};
+
+function ArchitectureDiagram() {
+  return (
+    <svg
+      viewBox="0 0 800 260"
+      className="w-full h-auto max-w-3xl mx-auto"
+      role="img"
+      aria-label="Ground and onboard software connected by a bidirectional link"
+    >
+      <defs>
+        <linearGradient id="arch-node" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#2dd4bf" stopOpacity="0.08" />
+          <stop offset="100%" stopColor="#14b8a6" stopOpacity="0.02" />
+        </linearGradient>
+        <linearGradient id="arch-line" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#14b8a6" stopOpacity="0.3" />
+          <stop offset="50%" stopColor="#2dd4bf" stopOpacity="0.8" />
+          <stop offset="100%" stopColor="#14b8a6" stopOpacity="0.3" />
+        </linearGradient>
+      </defs>
+
+      {/* Ground node */}
+      <g>
+        <rect x="40" y="80" width="220" height="120" fill="url(#arch-node)" stroke="#2dd4bf" strokeOpacity="0.4" strokeWidth="1.2" />
+        <text x="150" y="112" textAnchor="middle" fill="#9ca3af" fontSize="11" letterSpacing="3" style={{ textTransform: "uppercase" }}>
+          Ground
+        </text>
+        <text x="150" y="150" textAnchor="middle" fill="#ffffff" fontSize="26" fontWeight="500">
+          DISHA
+        </text>
+        <text x="150" y="175" textAnchor="middle" fill="#71717a" fontSize="12">
+          Operations Platform
+        </text>
+      </g>
+
+      {/* Onboard node */}
+      <g>
+        <rect x="540" y="80" width="220" height="120" fill="url(#arch-node)" stroke="#2dd4bf" strokeOpacity="0.4" strokeWidth="1.2" />
+        <text x="650" y="112" textAnchor="middle" fill="#9ca3af" fontSize="11" letterSpacing="3" style={{ textTransform: "uppercase" }}>
+          Onboard
+        </text>
+        <text x="650" y="150" textAnchor="middle" fill="#ffffff" fontSize="26" fontWeight="500">
+          Rigel OS
+        </text>
+        <text x="650" y="175" textAnchor="middle" fill="#71717a" fontSize="12">
+          Flight Software
+        </text>
+      </g>
+
+      {/* Commands link */}
+      <g>
+        <line x1="260" y1="120" x2="540" y2="120" stroke="url(#arch-line)" strokeWidth="1.2" />
+        <text x="400" y="108" textAnchor="middle" fill="#2dd4bf" fillOpacity="0.85" fontSize="11" letterSpacing="1.5" style={{ textTransform: "uppercase" }}>
+          Commands
+        </text>
+      </g>
+
+      {/* Telemetry link */}
+      <g>
+        <line x1="540" y1="160" x2="260" y2="160" stroke="url(#arch-line)" strokeWidth="1.2" />
+        <text x="400" y="180" textAnchor="middle" fill="#2dd4bf" fillOpacity="0.85" fontSize="11" letterSpacing="1.5" style={{ textTransform: "uppercase" }}>
+          Telemetry
+        </text>
+      </g>
+    </svg>
+  );
+}
 
 export default function Products() {
   return (
-    <>
-      <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto px-5 md:px-8 xl:px-12 2xl:px-24 py-10 md:py-14 xl:py-20">
+    <div className="bg-black relative overflow-hidden">
+      {/* Earth from space backdrop on header */}
+      <div
+        className="absolute top-0 left-0 right-0 h-[600px] opacity-20 pointer-events-none"
+        style={{
+          backgroundImage:
+            "url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      <div className="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-b from-black/40 via-black/70 to-black pointer-events-none" />
+
+      {/* Ambient teal orbs */}
+      <motion.div
+        className="absolute top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-15 blur-[130px] pointer-events-none"
+        style={{ background: "radial-gradient(circle, #14b8a6 0%, transparent 70%)" }}
+        animate={{ opacity: [0.1, 0.2, 0.1] }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute bottom-40 -right-40 w-[500px] h-[500px] rounded-full opacity-10 blur-[130px] pointer-events-none"
+        style={{ background: "radial-gradient(circle, #2dd4bf 0%, transparent 70%)" }}
+        animate={{ opacity: [0.05, 0.15, 0.05] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto px-5 md:px-8 xl:px-12 2xl:px-24 py-16 md:py-20 xl:py-24 relative z-10">
         {/* Header */}
-        <div className="mb-10">
-          <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-400 opacity-50 block mb-4 flex items-center gap-3">
-            <span className="w-5 h-px bg-white/20" />
+        <div className="mb-14">
+          <span className="text-xs uppercase tracking-[0.3em] text-teal-400/70 block mb-4 flex items-center gap-3">
+            <span className="w-5 h-px bg-teal-400/40" />
             Our Software
           </span>
-          <h1 className="text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight mb-6 font-display">
+          <h1 className="text-5xl md:text-6xl xl:text-7xl font-medium tracking-tight mb-6 text-gradient-teal">
             Products
           </h1>
-          <p className="text-xl xl:text-2xl text-neutral-400 leading-relaxed max-w-2xl xl:max-w-3xl">
-            The autonomous operations stack — ground software and onboard intelligence
-            that redefine how spacecraft are operated and scaled.
+          <p className="text-xl text-neutral-400 leading-relaxed max-w-3xl break-words">
+            The autonomous operations stack. Ground software and onboard
+            intelligence that redefine how spacecraft are operated and scaled.
           </p>
-          <div className="mt-8 w-16 h-px bg-white/20/20" />
+          <div className="mt-8 w-16 h-px bg-teal-400/40" />
         </div>
 
-        {/* Product Cards */}
-        <div className="space-y-12">
-          {PRODUCTS.map((product, idx) => (
-            <ScrollReveal key={product.id} delay={idx * 0.1} glow={idx === 1 ? "teal" : "indigo"}>
-              <div className={`${idx === 1 ? "neon-edge-purple" : "neon-edge"} p-10 md:p-12 xl:p-14 2xl:p-16 hover-lift`}>
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-8 2xl:gap-10">
-                  {/* Left: Info */}
-                  <div className="lg:col-span-3">
-                    <span
-                      className={`font-mono text-[11px] uppercase tracking-[0.3em] block mb-4 flex items-center gap-2 opacity-50 ${
-                        idx === 1 ? "text-neutral-400" : "text-neutral-400"
-                      }`}
-                    >
-                      <span className={`w-1.5 h-1.5 rounded-full pulse-dot ${
-                        idx === 1 ? "bg-white/20" : "bg-white/20"
-                      } opacity-60`} />
-                      {idx === 0 ? "Ground Segment" : "Onboard"}
-
-                    </span>
-
-                    <h2 className="text-4xl xl:text-5xl font-bold mb-1 font-display">{product.name}</h2>
-                    <p className="text-base text-neutral-600 font-mono mb-6">
-                      {product.name === "DISHA"
-                        ? "AI-Native Ground Operations Platform"
-                        : product.name === "Rigel OS"
-                          ? "Autonomous Onboard Operating Suite"
-                          : ""}
-                    </p>
-
-                    <p className="text-lg text-neutral-400 leading-relaxed mb-8">
-                      {product.description}
-                    </p>
-
-                    <div className="flex items-center gap-4">
-                      <span className="inline-flex items-center gap-2 px-3 py-1.5 border border-yellow-500/20 text-yellow-400/70 text-sm font-mono uppercase tracking-wider">
-                        <span className="w-1.5 h-1.5 bg-yellow-400/50 rounded-full pulse-dot" />
-                        {product.status}
+        {/* Product Cards — strict symmetry between DISHA and Rigel OS */}
+        <div className="space-y-8">
+          {PRODUCTS.map((product, idx) => {
+            const meta = PRODUCT_META[product.id];
+            return (
+              <ScrollReveal key={product.id} delay={idx * 0.1}>
+                <article className="border border-teal-400/15 bg-black/40 backdrop-blur-sm overflow-hidden hover:border-teal-400/45 transition-all duration-500 flex flex-col">
+                  {/* Body — matching two-column grid with items-stretch */}
+                  <div className="flex-1 p-8 md:p-10 xl:p-12 grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10 items-stretch">
+                    {/* Left: description column — flex so footer pins to bottom */}
+                    <div className="lg:col-span-3 flex flex-col">
+                      <span className="text-xs uppercase tracking-[0.3em] mb-4 flex items-center gap-2 text-teal-400/70">
+                        <span className="w-1.5 h-1.5 rounded-full pulse-dot bg-teal-400" />
+                        {meta.segment}
                       </span>
 
-                      <Link
-                        href={idx === 0 ? "/products/disha" : "/products/rigel-os"}
-                        className={`group inline-flex items-center gap-1.5 text-base opacity-60 hover:opacity-100 transition-opacity font-mono ${
-                          idx === 1 ? "text-neutral-400" : "text-neutral-400"
-                        }`}
-                      >
-                        View full details
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                      </Link>
-                    </div>
-                  </div>
+                      <h2 className="text-3xl md:text-4xl xl:text-5xl font-medium mb-2 text-white break-words">
+                        {product.name}
+                      </h2>
+                      <p className="text-sm md:text-base text-teal-400/60 mb-6 break-words">
+                        {meta.subtitle}
+                      </p>
 
-                  {/* Right: Capabilities */}
-                  <div className={`lg:col-span-2 border-t lg:border-t-0 lg:border-l pt-8 lg:pt-0 lg:pl-10 ${
-                    idx === 1 ? "border-white/10" : "border-white/10"
-                  }`}>
-                    <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-600 block mb-6">
-                      Capabilities
-                    </span>
-                    <div className="space-y-4">
-                      {product.features.map((feature, fidx) => (
-                        <div
-                          key={fidx}
-                          className="flex items-start gap-3 text-base"
+                      <p className="text-base md:text-lg text-neutral-400 leading-relaxed mb-8 break-words">
+                        {product.description}
+                      </p>
+
+                      {/* Footer row — pinned to bottom via mt-auto */}
+                      <div className="mt-auto flex items-center gap-4 flex-wrap">
+                        <span className="inline-flex items-center gap-2 px-3 py-1.5 border border-yellow-500/25 text-yellow-400/80 text-xs uppercase tracking-wider">
+                          <span className="w-1.5 h-1.5 bg-yellow-400/60 rounded-full pulse-dot" />
+                          {product.status}
+                        </span>
+
+                        <Link
+                          href={meta.href}
+                          className="group inline-flex items-center gap-1.5 text-sm md:text-base text-teal-400/80 hover:text-teal-300 transition-colors"
                         >
-                          <Check
-                            className={`w-4 h-4 mt-0.5 flex-shrink-0 opacity-40 ${
-                              idx === 1
-                                ? "text-neutral-400"
-                                : "text-neutral-400"
-                            }`}
-                          />
-                          <span className="text-neutral-400">{feature}</span>
-                        </div>
-                      ))}
+                          View full details
+                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Right: capabilities column */}
+                    <div className="lg:col-span-2 border-t lg:border-t-0 lg:border-l pt-8 lg:pt-0 lg:pl-10 border-teal-400/15">
+                      <span className="text-xs uppercase tracking-[0.3em] text-teal-400/60 block mb-5">
+                        Capabilities
+                      </span>
+                      <ul className="space-y-3.5">
+                        {product.features.map((feature, fidx) => (
+                          <li
+                            key={fidx}
+                            className="flex items-start gap-3 text-sm md:text-base"
+                          >
+                            <Check className="w-4 h-4 mt-0.5 flex-shrink-0 text-teal-400/70" />
+                            <span className="text-neutral-400 break-words">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
+                </article>
+              </ScrollReveal>
+            );
+          })}
         </div>
 
-        {/* Architecture */}
-        <ScrollColorLine />
-        <ScrollReveal glow="indigo">
-          <div className="mt-14 pt-14">
-            <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-neutral-400 opacity-50 block mb-4 text-center">
-              System Architecture
-            </span>
-            <h3 className="text-3xl font-bold text-center mb-14 font-display">
-              The Complete Autonomous Stack
-            </h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-[2fr_auto_2fr] gap-4 2xl:gap-6 items-center text-center max-w-3xl mx-auto">
-              <div className="neon-edge p-8 2xl:p-12 hover-lift">
-                <div className="text-2xl font-bold font-display mb-2 neon-text-cyan">DISHA</div>
-                <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-600 mb-3">
-                  Ground
-                </div>
-                <p className="text-sm text-neutral-500">
-                  AI-driven mission control
-                </p>
-              </div>
-
-              <div className="flex items-center justify-center py-2 md:py-0">
-                <div className="w-full h-px bg-white/10" />
-              </div>
-
-              <div className="neon-edge-purple p-8 2xl:p-12 hover-lift">
-                <div className="text-2xl font-bold font-display mb-2 neon-text-purple">Rigel OS</div>
-                <div className="text-[11px] font-mono uppercase tracking-widest text-neutral-600 mb-3">
-                  Onboard
-                </div>
-                <p className="text-sm text-neutral-500">
-                  Autonomous decision engine
-                </p>
-              </div>
+        {/* System Architecture — real SVG diagram */}
+        <div className="mt-20 pt-16 border-t border-teal-400/15">
+          <ScrollReveal>
+            <div className="text-center mb-12">
+              <span className="text-xs uppercase tracking-[0.3em] text-teal-400/70 block mb-4">
+                System Architecture
+              </span>
+              <h3 className="text-3xl md:text-4xl font-medium text-white mb-3 break-words">
+                One system, two halves
+              </h3>
+              <p className="text-sm md:text-base text-neutral-500 max-w-xl mx-auto break-words">
+                Ground and onboard software, designed to work as one system.
+              </p>
             </div>
-          </div>
-        </ScrollReveal>
+
+            <div className="px-4">
+              <ArchitectureDiagram />
+            </div>
+          </ScrollReveal>
+        </div>
       </div>
-    </>
+    </div>
   );
 }

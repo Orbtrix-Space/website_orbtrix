@@ -1,93 +1,157 @@
 import { Link } from "wouter";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { ScrollColorLine } from "@/components/ScrollColorLine";
 import { TypewriterText } from "@/components/TypewriterText";
+import { SpinningEarth } from "@/components/SpinningEarth";
+
+function useResponsiveEarthSize() {
+  const [size, setSize] = useState(380);
+
+  useEffect(() => {
+    const calc = () => {
+      const w = window.innerWidth;
+      if (w >= 1920) setSize(560);
+      else if (w >= 1440) setSize(480);
+      else if (w >= 1024) setSize(360);
+      else if (w >= 768) setSize(320);
+      else if (w >= 480) setSize(260);
+      else setSize(200);
+    };
+    calc();
+    window.addEventListener("resize", calc);
+    return () => window.removeEventListener("resize", calc);
+  }, []);
+
+  return size;
+}
 
 export default function Home() {
+  const earthSize = useResponsiveEarthSize();
+
   return (
-    <div className="w-full scan-lines">
-      {/* Hero */}
-      <section className="min-h-[calc(100dvh-5rem)] flex items-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
+    <div className="w-full bg-[#05090A]">
+      {/* ===== HERO ===== */}
+      <section className="relative w-full min-h-[calc(100dvh-4rem)] flex items-center overflow-hidden bg-[#05090A]">
+        {/* Ambient teal orbs */}
+        <motion.div
+          className="absolute top-1/4 -left-32 w-[400px] h-[400px] rounded-full opacity-20 blur-[120px] pointer-events-none"
+          style={{ background: "radial-gradient(circle, #14b8a6 0%, transparent 70%)" }}
+          animate={{ scale: [1, 1.1, 1], opacity: [0.15, 0.25, 0.15] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] rounded-full opacity-15 blur-[120px] pointer-events-none"
+          style={{ background: "radial-gradient(circle, #2dd4bf 0%, transparent 70%)" }}
+          animate={{ scale: [1.1, 1, 1.1], opacity: [0.2, 0.1, 0.2] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
 
-        {/* Ambient orbs */}
-        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-white/20 rounded-full opacity-[0.025] blur-[130px] animate-float pointer-events-none" />
-        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-white/10 rounded-full opacity-[0.02] blur-[130px] animate-float pointer-events-none" style={{ animationDelay: "3s" }} />
-
-        <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto px-5 md:px-8 xl:px-12 2xl:px-24 w-full py-16">
-          <motion.div
-            className="font-mono text-xs 2xl:text-sm uppercase tracking-[0.3em] text-neutral-500 block mb-8 flex items-center gap-3"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+        <div
+          className="
+            w-full max-w-[1800px] mx-auto
+            px-5 md:px-8 lg:px-12 min-[1440px]:px-24
+            py-10 md:py-[60px] lg:py-[90px] min-[1440px]:py-[120px]
+            relative z-10
+          "
+        >
+          <div
+            className="
+              grid grid-cols-1 lg:grid-cols-[1.15fr_1fr]
+              gap-10 md:gap-12 lg:gap-16
+              items-center
+            "
           >
-            <span className="w-8 h-px bg-white/20" />
-            <span className="opacity-70 text-neutral-400">Space Systems & Autonomy</span>
-          </motion.div>
+            {/* ===== Left: Copy ===== */}
+            <div className="order-1 text-center lg:text-left">
+              <motion.div
+                className="text-[10px] md:text-[11px] uppercase tracking-[0.3em] text-teal-400/80 mb-5 flex items-center gap-3 justify-center lg:justify-start"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <span className="w-8 h-px bg-teal-400/40" />
+                <span>Space Systems &amp; Autonomy</span>
+              </motion.div>
 
-          <motion.h1
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold tracking-tight leading-[1.08] max-w-6xl font-display"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-          >
-            <span className="gradient-text-cyan">Every orbit. Every planet.</span>
-          </motion.h1>
+              <motion.h1
+                className="
+                  text-[32px] sm:text-[40px] md:text-[44px]
+                  lg:text-[56px] xl:text-[64px]
+                  min-[1440px]:text-[80px] min-[1920px]:text-[96px]
+                  font-medium tracking-tight leading-[1.05] text-gradient-teal
+                  break-words
+                "
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+              >
+                Every orbit.<br />
+                Every planet.<br />
+                Absolute autonomy.
+              </motion.h1>
 
-          <motion.h2
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold tracking-tight leading-[1.08] max-w-6xl mt-2 font-display"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-          >
-            <span className="gradient-text-cyan">Absolute autonomy.</span>
-          </motion.h2>
+              <motion.div
+                className="mt-6 md:mt-8"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+              >
+                <p className="text-neutral-400 text-sm md:text-base lg:text-lg max-w-xl mx-auto lg:mx-0 leading-relaxed mb-3">
+                  We build the software that makes spacecraft think for themselves,
+                  from ground operations to onboard decision making.
+                </p>
+                <div className="h-6">
+                  <TypewriterText
+                    texts={[
+                      "Autonomous operations in orbit",
+                      "Software defined spacecraft",
+                      "DISHA. Ground operations platform",
+                      "Rigel OS. Onboard flight software",
+                    ]}
+                    className="text-teal-400/60 text-xs md:text-sm"
+                  />
+                </div>
+              </motion.div>
 
-          <motion.div
-            className="mt-10"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            <div className="text-neutral-400 text-lg md:text-xl xl:text-2xl 2xl:text-3xl max-w-2xl xl:max-w-3xl 2xl:max-w-4xl leading-relaxed mb-3">
-              We build the software that makes spacecraft think for themselves —
-              from ground operations to onboard decision-making.
+              <motion.div
+                className="flex flex-col sm:flex-row gap-3 mt-8 md:mt-10 justify-center lg:justify-start"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.7 }}
+              >
+                <Link
+                  href="/products"
+                  className="group inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-black text-sm font-semibold tracking-wide hover:bg-teal-300 transition-all duration-300 uppercase"
+                >
+                  Our Products
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-teal-400/30 text-white text-sm font-medium hover:bg-teal-400/5 hover:border-teal-400/50 transition-all duration-300 uppercase"
+                >
+                  Get in Touch
+                </Link>
+              </motion.div>
             </div>
-            <div className="h-7">
-              <TypewriterText
-                texts={[
-                  "// Autonomous operations in orbit",
-                  "// Software-defined spacecraft",
-                  "// DISHA — AI-native ground ops",
-                  "// Rigel OS — onboard autonomy",
-                ]}
-                className="text-neutral-400 text-base 2xl:text-lg opacity-50"
-              />
-            </div>
-          </motion.div>
 
-          <motion.div
-            className="flex flex-col sm:flex-row gap-4 mt-14"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-          >
-            <Link
-              href="/products"
-              className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-black text-base 2xl:text-lg font-semibold tracking-wide hover:bg-neutral-200 transition-all duration-300 font-display uppercase"
+            {/* ===== Right: Earth visualization ===== */}
+            <motion.div
+              className="order-2 flex justify-center items-center"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.4 }}
             >
-              Our Products
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-
-          </motion.div>
+              <SpinningEarth size={earthSize} />
+            </motion.div>
+          </div>
         </div>
 
         {/* Scroll indicator */}
         <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
@@ -96,63 +160,64 @@ export default function Home() {
             animate={{ y: [0, 8, 0] }}
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
-            <ChevronDown className="w-6 h-6 text-neutral-400 opacity-30" />
+            <ChevronDown className="w-5 h-5 text-teal-400/50" />
           </motion.div>
         </motion.div>
       </section>
 
-      {/* Color line divider */}
-      <ScrollColorLine color="indigo" />
+      {/* Divider */}
+      <div className="h-px bg-gradient-to-r from-transparent via-teal-400/20 to-transparent" />
 
-      {/* Vision Path */}
-      <section className="py-16 md:py-24 xl:py-28 2xl:py-32 px-5 md:px-8 xl:px-12 2xl:px-24">
-        <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto">
-          <ScrollReveal glow="indigo">
+      {/* ===== Vision Path ===== */}
+      <section className="py-16 md:py-20 lg:py-24 min-[1440px]:py-28 px-5 md:px-8 lg:px-12 min-[1440px]:px-24 bg-[#05090A] relative overflow-hidden">
+        <motion.div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full opacity-10 blur-[120px] pointer-events-none"
+          style={{ background: "radial-gradient(circle, #14b8a6 0%, transparent 70%)" }}
+          animate={{ opacity: [0.05, 0.15, 0.05] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        <div className="max-w-[1800px] mx-auto relative z-10">
+          <ScrollReveal>
             <div className="max-w-3xl mb-12">
-              <span className="font-mono text-xs 2xl:text-sm uppercase tracking-[0.3em] text-neutral-400 opacity-50 block mb-4 flex items-center gap-3">
-                <span className="w-5 h-px bg-white/20" />
+              <span className="text-[11px] uppercase tracking-[0.3em] text-teal-400/70 block mb-3 flex items-center gap-3">
+                <span className="w-5 h-px bg-teal-400/40" />
                 Our Approach
               </span>
-              <h2 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold tracking-tight font-display">
-                The path to the Moon starts in LEO
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-white">
+                A staged mission roadmap
               </h2>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 2xl:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
               {
                 step: "Now",
                 title: "Autonomous LEO Missions",
-                desc: "Commercial Earth observation missions with onboard decision-making, delivering raw intelligence at a fraction of traditional costs.",
-                variant: "neon-edge",
-                glow: "indigo" as const,
+                desc: "Commercial Earth observation missions with onboard decision making, delivering raw intelligence at a fraction of traditional costs.",
               },
               {
-                step: "Near-term",
+                step: "Near term",
                 title: "Scaled Operations",
                 desc: "Multiple concurrent missions powered by DISHA and Rigel OS, our ground and onboard software stack that eliminates manual operations overhead.",
-                variant: "neon-edge",
-                glow: "indigo" as const,
               },
               {
-                step: "Long-term",
-                title: "Building Lunar Infrastructure",
+                step: "Long term",
+                title: "Lunar Infrastructure",
                 desc: "Extending our autonomous operations framework to build sustained lunar infrastructure: communications relays, precision navigation, and surface operations systems.",
-                variant: "neon-edge-purple",
-                glow: "teal" as const,
               },
             ].map((item, idx) => (
-              <ScrollReveal key={idx} delay={idx * 0.15} glow={item.glow}>
-                <div className={`${item.variant} bg-black p-8 md:p-10 2xl:p-12 h-full hover-lift`}>
-                  <span className={`font-mono text-xs uppercase tracking-[0.3em] ${idx < 2 ? "text-neutral-400" : "text-neutral-400"} opacity-50 block mb-6 flex items-center gap-2`}>
-                    <span className={`w-1.5 h-1.5 rounded-full pulse-dot ${idx < 2 ? "bg-white/20" : "bg-white/10"} opacity-60`} />
+              <ScrollReveal key={idx} delay={idx * 0.15}>
+                <div className="border border-teal-400/15 bg-black/40 backdrop-blur-sm p-6 md:p-8 h-full hover:border-teal-400/40 transition-all duration-500">
+                  <span className="text-[11px] uppercase tracking-[0.3em] text-teal-400/70 block mb-5 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-teal-400 pulse-dot" />
                     {item.step}
                   </span>
-                  <h3 className="text-xl 2xl:text-2xl font-semibold mb-4 tracking-tight font-display">
+                  <h3 className="text-lg md:text-xl font-medium mb-3 tracking-tight text-white">
                     {item.title}
                   </h3>
-                  <p className="text-neutral-500 leading-relaxed text-base 2xl:text-lg">
+                  <p className="text-neutral-500 leading-relaxed text-sm md:text-base">
                     {item.desc}
                   </p>
                 </div>
@@ -162,26 +227,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Color line divider */}
-      <ScrollColorLine color="mixed" />
+      <div className="h-px bg-gradient-to-r from-transparent via-teal-400/20 to-transparent" />
 
-      {/* Products Preview */}
-      <section className="py-16 md:py-24 xl:py-28 2xl:py-32 px-5 md:px-8 xl:px-12 2xl:px-24">
-        <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto">
+      {/* ===== Products Preview ===== */}
+      <section className="py-16 md:py-20 lg:py-24 min-[1440px]:py-28 px-5 md:px-8 lg:px-12 min-[1440px]:px-24 bg-[#05090A] relative overflow-hidden">
+        <motion.div
+          className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full opacity-10 blur-[120px] pointer-events-none"
+          style={{ background: "radial-gradient(circle, #2dd4bf 0%, transparent 70%)" }}
+          animate={{ opacity: [0.05, 0.12, 0.05] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        <div className="max-w-[1800px] mx-auto relative z-10">
           <ScrollReveal>
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
               <div>
-                <span className="font-mono text-xs 2xl:text-sm uppercase tracking-[0.3em] text-neutral-400 opacity-50 block mb-4 flex items-center gap-3">
-                  <span className="w-5 h-px bg-white/20" />
+                <span className="text-[11px] uppercase tracking-[0.3em] text-teal-400/70 block mb-3 flex items-center gap-3">
+                  <span className="w-5 h-px bg-teal-400/40" />
                   Core Systems
                 </span>
-                <h2 className="text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold tracking-tight font-display">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight text-white">
                   The software stack
                 </h2>
               </div>
               <Link
                 href="/products"
-                className="group text-base 2xl:text-lg text-neutral-500 hover:text-neutral-400 transition-colors flex items-center gap-1.5 font-mono"
+                className="group text-sm md:text-base text-teal-400/80 hover:text-teal-300 transition-colors flex items-center gap-1.5 self-start md:self-auto"
               >
                 View all products
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -189,22 +260,23 @@ export default function Home() {
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 2xl:gap-8">
-            <ScrollReveal delay={0.05} glow="indigo">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <ScrollReveal delay={0.05}>
               <Link href="/products/disha" className="block group h-full">
-                <div className="neon-edge p-8 md:p-10 xl:p-12 2xl:p-14 h-full flex flex-col hover-lift">
-                  <span className="font-mono text-xs uppercase tracking-[0.3em] text-neutral-400 opacity-40 block mb-6 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-white/20 opacity-50 pulse-dot" />
+                <div className="border border-teal-400/15 bg-black/40 backdrop-blur-sm p-8 md:p-10 h-full flex flex-col hover:border-teal-400/50 transition-all duration-500">
+                  <span className="text-[11px] uppercase tracking-[0.3em] text-teal-400/70 block mb-5 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-teal-400 pulse-dot" />
                     Ground
                   </span>
-                  <h3 className="text-2xl 2xl:text-3xl font-bold mb-2 font-display">DISHA</h3>
-                  <p className="text-sm 2xl:text-base text-neutral-600 font-mono mb-4">
-                    AI-Native Ground Ops
+                  <h3 className="text-2xl md:text-3xl font-medium mb-2 text-white">DISHA</h3>
+                  <p className="text-xs md:text-sm text-teal-400/60 mb-4">
+                    AI Native Ground Ops
                   </p>
-                  <p className="text-neutral-500 leading-relaxed text-sm 2xl:text-base flex-grow">
-                    Automated monitoring, AI-based FDIR, collision avoidance, and fleet management.
+                  <p className="text-neutral-400 leading-relaxed text-sm md:text-base flex-grow">
+                    Automated monitoring, AI based anomaly detection, mission
+                    planning, and fleet management.
                   </p>
-                  <span className="mt-6 inline-flex items-center gap-1.5 text-sm text-neutral-600 group-hover:text-neutral-400 transition-colors font-mono">
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm text-teal-400/70 group-hover:text-teal-300 transition-colors">
                     Explore
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -212,21 +284,22 @@ export default function Home() {
               </Link>
             </ScrollReveal>
 
-            <ScrollReveal delay={0.1} glow="teal">
+            <ScrollReveal delay={0.1}>
               <Link href="/products/rigel-os" className="block group h-full">
-                <div className="neon-edge-purple p-8 md:p-10 xl:p-12 2xl:p-14 h-full flex flex-col hover-lift">
-                  <span className="font-mono text-xs uppercase tracking-[0.3em] text-neutral-400 opacity-40 block mb-6 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-white/10 opacity-50 pulse-dot" />
+                <div className="border border-teal-400/15 bg-black/40 backdrop-blur-sm p-8 md:p-10 h-full flex flex-col hover:border-teal-400/50 transition-all duration-500">
+                  <span className="text-[11px] uppercase tracking-[0.3em] text-teal-400/70 block mb-5 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-teal-400 pulse-dot" />
                     Onboard
                   </span>
-                  <h3 className="text-2xl 2xl:text-3xl font-bold mb-2 font-display">Rigel OS</h3>
-                  <p className="text-sm 2xl:text-base text-neutral-600 font-mono mb-4">
+                  <h3 className="text-2xl md:text-3xl font-medium mb-2 text-white">Rigel OS</h3>
+                  <p className="text-xs md:text-sm text-teal-400/60 mb-4">
                     Autonomous OS
                   </p>
-                  <p className="text-neutral-500 leading-relaxed text-sm 2xl:text-base flex-grow">
-                    Onboard GNC, FDIR, data processing, and autonomous mission execution.
+                  <p className="text-neutral-400 leading-relaxed text-sm md:text-base flex-grow">
+                    Onboard GNC, FDIR, data processing, and autonomous mission
+                    execution.
                   </p>
-                  <span className="mt-6 inline-flex items-center gap-1.5 text-sm text-neutral-600 group-hover:text-neutral-400 transition-colors font-mono">
+                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm text-teal-400/70 group-hover:text-teal-300 transition-colors">
                     Explore
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -237,32 +310,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Color line divider */}
-      <ScrollColorLine color="indigo" />
+      <div className="h-px bg-gradient-to-r from-transparent via-teal-400/20 to-transparent" />
 
-      {/* Stats */}
-      <section className="py-16 md:py-20 px-5 md:px-8 xl:px-12 2xl:px-24">
-        <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto">
+      {/* ===== Stats ===== */}
+      <section className="py-16 md:py-20 px-5 md:px-8 lg:px-12 min-[1440px]:px-24 bg-[#05090A]">
+        <div className="max-w-[1800px] mx-auto">
           <ScrollReveal>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 2xl:gap-8 text-center">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5 text-center">
               {[
                 { value: "2025", label: "Founded" },
-                { value: "DISHA", label: "Ground Ops" },
-                { value: "Rigel", label: "Onboard OS" },
-                { value: "LEO+", label: "Target Orbits" },
+                { value: "4", label: "Core Engineers" },
+                { value: "2027", label: "First Deployment" },
+                { value: "LEO → Cislunar", label: "Target Orbits" },
               ].map((stat, idx) => (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.1, duration: 0.6 }}
                   viewport={{ once: true }}
-                  className="neon-edge p-8 2xl:p-10 hover-lift stat-card-glow"
+                  className="border border-teal-400/15 p-5 md:p-8 hover:border-teal-400/40 transition-all duration-500"
                 >
-                  <div className="text-3xl md:text-4xl 2xl:text-5xl font-bold font-display neon-text-cyan mb-2">
+                  <div className="text-xl md:text-2xl lg:text-3xl font-medium text-gradient-teal mb-2 break-words leading-tight">
                     {stat.value}
                   </div>
-                  <div className="text-sm 2xl:text-base text-neutral-600 font-mono uppercase tracking-widest">
+                  <div className="text-xs md:text-sm text-neutral-500 uppercase tracking-widest break-words">
                     {stat.label}
                   </div>
                 </motion.div>
@@ -272,29 +344,38 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Color line divider */}
-      <ScrollColorLine color="teal" />
+      <div className="h-px bg-gradient-to-r from-transparent via-teal-400/20 to-transparent" />
 
-      {/* CTA */}
-      <section className="py-16 md:py-24 xl:py-28 2xl:py-32 px-5 md:px-8 xl:px-12 2xl:px-24">
-        <ScrollReveal glow="indigo">
-          <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+      {/* ===== CTA ===== */}
+      <section className="py-16 md:py-20 lg:py-24 min-[1440px]:py-28 px-5 md:px-8 lg:px-12 min-[1440px]:px-24 bg-[#05090A] relative overflow-hidden">
+        <motion.div
+          className="absolute inset-0 opacity-15 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, rgba(20, 184, 166, 0.15) 0%, transparent 70%)",
+          }}
+          animate={{ opacity: [0.08, 0.2, 0.08] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        <ScrollReveal>
+          <div className="max-w-[1800px] mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8 relative z-10">
             <div>
-              <h2 className="text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold tracking-tight mb-3 font-display">
-                Interested in what we're building?
+              <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight mb-3 text-white">
+                Interested in what we are building?
               </h2>
-              <p className="text-neutral-500 max-w-xl 2xl:max-w-2xl text-lg 2xl:text-xl">
-                Whether it's payload hosting, technology collaboration, or
-                joining the team, we'd like to hear from you.
+              <p className="text-neutral-400 max-w-xl text-sm md:text-base lg:text-lg">
+                Whether it is payload hosting, technology collaboration, or
+                joining the team, we would like to hear from you.
               </p>
             </div>
 
             <Link
               href="/contact"
-              className="group px-8 py-4 neon-edge text-white text-base 2xl:text-lg font-medium hover:bg-white/5 transition-all duration-300 flex items-center gap-2 flex-shrink-0 font-display uppercase"
+              className="group px-6 py-3 border border-teal-400/40 text-white text-sm font-medium hover:bg-teal-400/10 hover:border-teal-400/60 transition-all duration-300 flex items-center gap-2 flex-shrink-0 uppercase whitespace-nowrap"
             >
               Get in Touch
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
         </ScrollReveal>

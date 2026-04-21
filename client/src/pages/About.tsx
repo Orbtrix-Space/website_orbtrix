@@ -33,78 +33,34 @@ export default function About() {
       />
 
       <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto px-5 md:px-8 xl:px-12 2xl:px-24 py-16 md:py-20 xl:py-24 relative z-10">
-        {/* Header */}
+        {/* ===== HEADER ===== */}
         <div className="mb-14">
           <span className="text-xs uppercase tracking-[0.3em] text-teal-400/70 block mb-4 flex items-center gap-3">
             <span className="w-5 h-px bg-teal-400/40" />
             About Us
           </span>
-          <h1 className="text-5xl md:text-6xl xl:text-7xl font-medium tracking-tight mb-6 text-gradient-teal">
-            The Team
+          <h1
+            className="text-5xl md:text-6xl xl:text-7xl font-medium tracking-tight mb-6 text-gradient-teal break-words"
+            style={{ lineHeight: 1.15, paddingBottom: "0.15em" }}
+          >
+            Building autonomy for space
           </h1>
           <p className="text-xl text-neutral-400 leading-relaxed max-w-3xl">
-            A small, focused team with hands on experience in mission design,
-            spacecraft operations, and autonomous systems engineering.
+            We are a small, focused team building the ground and onboard
+            software that makes autonomous space operations practical.
           </p>
           <div className="mt-8 w-16 h-px bg-teal-400/40" />
         </div>
 
-        {/* Team Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-          {TEAM.map((member, idx) => (
-            <ScrollReveal key={idx} delay={idx * 0.06}>
-              <div className="group border border-teal-400/15 bg-black/40 backdrop-blur-sm hover:border-teal-400/40 transition-all duration-500">
-                {member.photo ? (
-                  <div className="overflow-hidden">
-                    <img
-                      src={member.photo}
-                      alt={member.name}
-                      className="w-full aspect-square object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-[1.05]"
-                    />
-                  </div>
-                ) : (
-                  <div className="w-full aspect-square bg-neutral-900 flex items-center justify-center text-3xl font-medium text-neutral-700">
-                    {member.name.charAt(0)}
-                  </div>
-                )}
-                <div className="p-3 flex items-start justify-between gap-2">
-                  <div className="min-w-0 flex-1">
-                    <h3 className="font-medium text-xs text-white leading-tight break-words">
-                      {member.name}
-                    </h3>
-                    <p
-                      className="text-teal-400/60 text-[10px] mt-1 uppercase leading-snug break-words"
-                      style={{ hyphens: "auto", letterSpacing: "0.02em" }}
-                    >
-                      {member.role}
-                    </p>
-                  </div>
-                  {member.linkedin && (
-                    <a
-                      href={member.linkedin}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-neutral-600 hover:text-teal-400 transition-colors flex-shrink-0"
-                      aria-label={`${member.name} LinkedIn`}
-                    >
-                      <Linkedin className="w-3.5 h-3.5" />
-                    </a>
-                  )}
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
-        </div>
-
-        {/* Vision + Company */}
-        <div className="mt-16 pt-16 border-t border-teal-400/15 grid grid-cols-1 lg:grid-cols-2 gap-12">
+        {/* ===== VISION + COMPANY ===== */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <ScrollReveal>
             <div>
               <span className="text-xs uppercase tracking-[0.3em] text-teal-400/70 block mb-4 flex items-center gap-3">
                 <span className="w-5 h-px bg-teal-400/40" />
                 Our Vision
               </span>
-              <h2 className="text-4xl xl:text-5xl font-medium tracking-tight mb-6 text-white">
+              <h2 className="text-3xl md:text-4xl xl:text-5xl font-medium tracking-tight mb-6 text-white">
                 Building toward lunar infrastructure
               </h2>
               <div className="space-y-5 text-neutral-400 leading-relaxed">
@@ -155,7 +111,72 @@ export default function About() {
           </ScrollReveal>
         </div>
 
-        {/* Join Us */}
+        {/* ===== TEAM ===== */}
+        <div className="mt-20 pt-16 border-t border-teal-400/15">
+          <ScrollReveal>
+            <div className="mb-10">
+              <span className="text-xs uppercase tracking-[0.3em] text-teal-400/70 block mb-4 flex items-center gap-3">
+                <span className="w-5 h-px bg-teal-400/40" />
+                The Team
+              </span>
+              <h2 className="text-3xl md:text-4xl xl:text-5xl font-medium tracking-tight mb-4 text-white">
+                The people building it
+              </h2>
+              <p className="text-base md:text-lg text-neutral-400 leading-relaxed max-w-2xl">
+                Hands-on experience in mission design, spacecraft operations,
+                and autonomous systems engineering.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+            {TEAM.map((member, idx) => (
+              <ScrollReveal key={idx} delay={idx * 0.06}>
+                <div className="group border border-teal-400/15 bg-black/40 backdrop-blur-sm hover:border-teal-400/40 transition-all duration-500">
+                  {member.photo ? (
+                    <div className="overflow-hidden">
+                      <img
+                        src={member.photo}
+                        alt={member.name}
+                        className="w-full aspect-square object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-[1.05]"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-full aspect-square bg-neutral-900 flex items-center justify-center text-3xl font-medium text-neutral-700">
+                      {member.name.charAt(0)}
+                    </div>
+                  )}
+                  <div className="p-3 flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-medium text-xs text-white leading-tight break-words">
+                        {member.name}
+                      </h3>
+                      <p
+                        className="text-teal-400/60 text-[10px] mt-1 uppercase leading-snug break-words"
+                        style={{ hyphens: "auto", letterSpacing: "0.02em" }}
+                      >
+                        {member.role}
+                      </p>
+                    </div>
+                    {member.linkedin && (
+                      <a
+                        href={member.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-neutral-600 hover:text-teal-400 transition-colors flex-shrink-0"
+                        aria-label={`${member.name} LinkedIn`}
+                      >
+                        <Linkedin className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+        </div>
+
+        {/* ===== JOIN US ===== */}
         <div className="mt-16 pt-12 border-t border-teal-400/15">
           <ScrollReveal>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">

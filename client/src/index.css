@@ -56,6 +56,10 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  /* Prevent -webkit-background-clip: text from clipping descenders
+     (g, y, p, q, j) when combined with tracking-tight. */
+  line-height: 1.15;
+  padding-bottom: 0.12em;
 }
 
 @keyframes slow-spin {

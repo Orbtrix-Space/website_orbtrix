@@ -29,6 +29,8 @@ function Router() {
             <Route path="/products" component={Products} />
             <Route path="/products/disha" component={Disha} />
             <Route path="/products/rigel-os" component={RigelOS} />
+            <Route path="/disha" component={Disha} />
+            <Route path="/rigel-os" component={RigelOS} />
             <Route path="/about" component={About} />
             <Route path="/contact" component={Contact} />
             <Route component={NotFound} />

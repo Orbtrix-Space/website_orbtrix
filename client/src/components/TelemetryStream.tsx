@@ -50,10 +50,10 @@ const SCENARIOS: ScenarioStep[][] = [
 ];
 
 const COLOR_MAP: Record<EventKind, { dot: string; text: string; label: string }> = {
-  telemetry: { dot: "bg-neutral-500", text: "text-neutral-400", label: "TLM" },
-  alert: { dot: "bg-amber-400", text: "text-amber-300", label: "ALERT" },
-  action: { dot: "bg-teal-400", text: "text-teal-300", label: "DISHA" },
-  resolved: { dot: "bg-emerald-400", text: "text-emerald-300", label: "OK" },
+  telemetry: { dot: "bg-neutral-400", text: "text-neutral-500", label: "TLM" },
+  alert: { dot: "bg-amber-500", text: "text-amber-700", label: "ALERT" },
+  action: { dot: "bg-teal-600", text: "text-teal-700", label: "DISHA" },
+  resolved: { dot: "bg-emerald-600", text: "text-emerald-700", label: "OK" },
 };
 
 function formatTime(d: Date) {
@@ -111,29 +111,29 @@ export function TelemetryStream() {
   }, [events]);
 
   return (
-    <div className="border border-teal-400/20 bg-black/60 backdrop-blur-sm overflow-hidden">
+    <div className="border border-teal-500/50 bg-white shadow-[0_4px_24px_rgba(20,184,166,0.08)] overflow-hidden">
       {/* Header bar */}
-      <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-teal-400/15 bg-black/40">
+      <div className="flex items-center justify-between px-4 md:px-6 py-3 border-b border-teal-500/30 bg-teal-50/60">
         <div className="flex items-center gap-3">
           <div className="flex gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-teal-400/30 pulse-dot" />
-            <span className="w-2.5 h-2.5 rounded-full bg-teal-400/50" />
-            <span className="w-2.5 h-2.5 rounded-full bg-teal-400/70" />
+            <span className="w-2.5 h-2.5 rounded-full bg-teal-500/40 pulse-dot" />
+            <span className="w-2.5 h-2.5 rounded-full bg-teal-500/60" />
+            <span className="w-2.5 h-2.5 rounded-full bg-teal-500/80" />
           </div>
-          <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-widest text-teal-300/80">
-            DISHA · Live Mission Console
+          <span className="font-mono text-[10px] md:text-[11px] uppercase tracking-widest text-teal-700">
+            Example event flow
           </span>
         </div>
         <div className="hidden sm:flex items-center gap-2 font-mono text-[10px] text-neutral-500">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-dot" />
-          <span>Link Nominal</span>
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 pulse-dot" />
+          <span>Illustrative</span>
         </div>
       </div>
 
       {/* Stream body */}
       <div
         ref={scrollRef}
-        className="h-[340px] md:h-[400px] overflow-hidden px-4 md:px-6 py-4 font-mono text-[11px] md:text-[12px] leading-relaxed space-y-1.5"
+        className="h-[340px] md:h-[400px] overflow-hidden px-4 md:px-6 py-4 font-mono text-[11px] md:text-[12px] leading-relaxed space-y-1.5 bg-white"
       >
         <AnimatePresence initial={false}>
           {events.map((e) => {
@@ -147,13 +147,13 @@ export function TelemetryStream() {
                 transition={{ duration: 0.25 }}
                 className="flex items-start gap-3"
               >
-                <span className="text-neutral-600 shrink-0">{e.time}</span>
+                <span className="text-neutral-400 shrink-0">{e.time}</span>
                 <span className="flex items-center gap-1.5 shrink-0">
                   <span className={`w-1.5 h-1.5 rounded-full ${c.dot} ${e.kind === "alert" ? "pulse-dot" : ""}`} />
-                  <span className={`${c.text} w-[52px] shrink-0`}>{c.label}</span>
+                  <span className={`${c.text} w-[52px] shrink-0 font-medium`}>{c.label}</span>
                 </span>
                 <span className="text-neutral-500 shrink-0 w-[70px] truncate">{e.tag}</span>
-                <span className={`${e.kind === "alert" ? "text-amber-200" : e.kind === "resolved" ? "text-emerald-200" : "text-neutral-300"} break-words`}>
+                <span className={`${e.kind === "alert" ? "text-amber-800" : e.kind === "resolved" ? "text-emerald-800" : "text-neutral-700"} break-words`}>
                   {e.message}
                 </span>
               </motion.div>
@@ -163,10 +163,10 @@ export function TelemetryStream() {
       </div>
 
       {/* Footer bar */}
-      <div className="flex items-center justify-between px-4 md:px-6 py-2.5 border-t border-teal-400/15 bg-black/40 font-mono text-[10px] text-neutral-500">
+      <div className="flex items-center justify-between px-4 md:px-6 py-2.5 border-t border-teal-500/30 bg-teal-50/60 font-mono text-[10px] text-neutral-500">
         <span>{events.length} events</span>
         <span className="flex items-center gap-1.5">
-          <span className="w-1 h-1 rounded-full bg-teal-400 pulse-dot" />
+          <span className="w-1 h-1 rounded-full bg-teal-600 pulse-dot" />
           Streaming
         </span>
       </div>

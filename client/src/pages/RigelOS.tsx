@@ -30,7 +30,7 @@ export default function RigelOS() {
   }, []);
 
   return (
-    <div className="bg-black min-h-[calc(100dvh-5rem)] relative overflow-hidden flex items-center">
+    <div className="bg-white min-h-[calc(100dvh-5rem)] relative overflow-hidden flex items-center">
       {/* Subtle teal ambient */}
       <motion.div
         className="absolute top-1/3 -left-32 w-[500px] h-[500px] rounded-full opacity-15 blur-[130px] pointer-events-none"
@@ -56,8 +56,8 @@ export default function RigelOS() {
                 transition={{ duration: 0.5 }}
                 className="flex items-center gap-3 mb-6"
               >
-                <span className="w-8 h-px bg-teal-400/40" />
-                <span className="text-xs uppercase tracking-[0.3em] text-teal-400/80">
+                <span className="w-8 h-px bg-teal-600/40" />
+                <span className="text-xs uppercase tracking-[0.3em] text-teal-700">
                   Onboard Flight Software
                 </span>
               </motion.div>
@@ -73,7 +73,7 @@ export default function RigelOS() {
               </motion.h1>
 
               <motion.p
-                className="text-base md:text-lg text-teal-400/60 mb-8 break-words"
+                className="text-base md:text-lg text-teal-600 mb-8 break-words"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.25 }}
@@ -87,14 +87,14 @@ export default function RigelOS() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.35 }}
               >
-                <span className="inline-flex items-center gap-2 px-3 py-1.5 border border-teal-400/30 text-xs uppercase tracking-wider text-teal-300/80">
-                  <span className="w-1.5 h-1.5 rounded-full bg-teal-400 pulse-dot" />
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 border border-red-500/40 text-xs uppercase tracking-wider text-red-600">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 pulse-dot" />
                   In Research &amp; Development
                 </span>
               </motion.div>
 
               <motion.p
-                className="text-neutral-400 text-base md:text-lg leading-relaxed mb-10 break-words"
+                className="text-neutral-700 text-base md:text-lg leading-relaxed mb-10 break-words"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.45 }}
@@ -109,7 +109,7 @@ export default function RigelOS() {
               </motion.p>
 
               <motion.div
-                className="pt-6 border-t border-teal-400/15"
+                className="pt-6 border-t border-black/10"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
@@ -119,7 +119,7 @@ export default function RigelOS() {
                   future of autonomous flight software are welcome to reach out:{" "}
                   <a
                     href="mailto:info@orbtrix.space"
-                    className="text-teal-400/90 hover:text-teal-300 transition-colors"
+                    className="text-teal-700 hover:text-teal-800 transition-colors"
                   >
                     info@orbtrix.space
                   </a>

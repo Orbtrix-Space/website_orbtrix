@@ -49,7 +49,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="relative min-h-screen flex flex-col text-foreground bg-black">
+    <div className="relative min-h-screen flex flex-col text-foreground bg-white">
       <ScrollProgress />
 
       {/* Floating pill header */}
@@ -60,11 +60,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
         className="fixed top-3 md:top-5 left-0 right-0 z-50 flex justify-center px-3 md:px-6 pointer-events-none"
       >
         <div
-          className={`pointer-events-auto w-full max-w-5xl xl:max-w-6xl flex items-center justify-between gap-3 md:gap-4 pl-4 md:pl-6 pr-1.5 md:pr-2 h-14 md:h-16 rounded-full transition-all duration-500 ${
+          className={`pointer-events-auto w-full max-w-5xl xl:max-w-6xl flex items-center justify-between gap-3 md:gap-4 pl-4 md:pl-6 pr-1.5 md:pr-2 h-14 md:h-16 rounded-full transition-all duration-500 border ${
             scrolled
-              ? "bg-white/10 backdrop-blur-2xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.35)]"
-              : "bg-white/5 backdrop-blur-2xl border border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.25)]"
+              ? "border-teal-500/60 shadow-[0_8px_32px_rgba(20,184,166,0.15)]"
+              : "border-teal-500/45 shadow-[0_4px_20px_rgba(20,184,166,0.1)]"
           }`}
+          style={{
+            backgroundImage: scrolled
+              ? "linear-gradient(135deg, rgba(255,255,255,0.92) 0%, rgba(204,251,241,0.85) 50%, rgba(255,255,255,0.92) 100%)"
+              : "linear-gradient(135deg, rgba(255,255,255,0.78) 0%, rgba(204,251,241,0.72) 50%, rgba(255,255,255,0.78) 100%)",
+            backdropFilter: "blur(24px)",
+            WebkitBackdropFilter: "blur(24px)",
+          }}
         >
           <Link href="/" className="hover:opacity-80 transition-opacity group flex items-center shrink-0">
             <div
@@ -79,7 +86,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 WebkitMaskSize: "contain",
                 maskSize: "contain",
                 background:
-                  "linear-gradient(135deg, #ffffff 0%, #2dd4bf 60%, #14b8a6 100%)",
+                  "linear-gradient(135deg, #0a0a0a 0%, #0f766e 60%, #14b8a6 100%)",
               }}
               aria-label="Orbtrix Space"
             />
@@ -92,15 +99,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 href={item.href}
                 className={`relative text-sm tracking-wide transition-colors font-display ${
                   location === item.href
-                    ? "text-teal-300"
-                    : "text-neutral-300 hover:text-white"
+                    ? "text-teal-600"
+                    : "text-neutral-700 hover:text-black"
                 }`}
               >
                 {item.label}
                 {location === item.href && (
                   <motion.span
                     layoutId="nav-indicator"
-                    className="absolute -bottom-1.5 left-0 right-0 h-px bg-teal-400"
+                    className="absolute -bottom-1.5 left-0 right-0 h-px bg-teal-600"
                   />
                 )}
               </Link>
@@ -110,13 +117,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-2 shrink-0">
             <Link
               href="/contact"
-              className="hidden md:inline-flex items-center justify-center h-10 px-5 rounded-full bg-white text-black text-sm font-semibold tracking-wide hover:bg-teal-300 transition-all duration-300"
+              className="hidden md:inline-flex items-center justify-center h-10 px-5 rounded-full bg-black text-white text-sm font-semibold tracking-wide hover:bg-teal-600 transition-all duration-300"
             >
               Talk to us
             </Link>
 
             <button
-              className="md:hidden p-2 text-white"
+              className="md:hidden p-2 text-black"
               onClick={() => setIsMobileMenuOpen((v) => !v)}
               aria-label="Toggle menu"
             >
@@ -134,7 +141,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 top-20 z-40 bg-black/95 backdrop-blur-xl md:hidden"
+            className="fixed inset-0 top-20 z-40 bg-white/95 backdrop-blur-xl md:hidden"
           >
             <nav className="flex flex-col px-5 py-8 gap-6">
               {NAV_ITEMS.map((item, idx) => (
@@ -149,8 +156,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={`text-2xl tracking-tight font-display uppercase ${
                       location === item.href
-                        ? "text-teal-300"
-                        : "text-neutral-500"
+                        ? "text-teal-600"
+                        : "text-neutral-700"
                     }`}
                   >
                     {item.label}
@@ -167,7 +174,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                 <Link
                   href="/contact"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="inline-flex items-center justify-center h-12 px-6 rounded-full bg-white text-black text-base font-semibold"
+                  className="inline-flex items-center justify-center h-12 px-6 rounded-full bg-black text-white text-base font-semibold"
                 >
                   Talk to us
                 </Link>
@@ -180,12 +187,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <main className="flex-grow pt-20 md:pt-24">{children}</main>
 
       {/* Footer */}
-      <footer className="border-t border-teal-400/15 mt-10 bg-black">
+      <footer className="border-t border-black/10 mt-10 bg-white">
         <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto px-5 md:px-8 xl:px-12 2xl:px-24 py-10 2xl:py-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 2xl:gap-16">
             <div>
               <div
-                className="h-10 md:h-11 2xl:h-12 w-10 md:w-11 2xl:w-12 mb-4 opacity-80"
+                className="h-10 md:h-11 2xl:h-12 w-10 md:w-11 2xl:w-12 mb-4"
                 style={{
                   WebkitMaskImage: "url(/logo-mark.png)",
                   maskImage: "url(/logo-mark.png)",
@@ -196,22 +203,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   WebkitMaskSize: "contain",
                   maskSize: "contain",
                   background:
-                    "linear-gradient(135deg, #ffffff 0%, #2dd4bf 60%, #14b8a6 100%)",
+                    "linear-gradient(135deg, #0a0a0a 0%, #0f766e 60%, #14b8a6 100%)",
                 }}
                 aria-label="Orbtrix"
               />
-              <p className="text-neutral-500 text-sm 2xl:text-base leading-relaxed max-w-sm">
+              <p className="text-neutral-600 text-sm 2xl:text-base leading-relaxed max-w-sm">
                 Autonomous spacecraft systems. From LEO to the Moon.
               </p>
             </div>
 
             <div>
-              <span className="text-xs 2xl:text-sm font-display uppercase tracking-widest text-teal-400/70 mb-4 block">
+              <span className="text-xs 2xl:text-sm font-display uppercase tracking-widest text-teal-700 mb-4 block">
                 Pages
               </span>
               <div className="flex flex-col gap-3">
                 {NAV_ITEMS.map((item) => (
-                  <Link key={item.href} href={item.href} className="text-neutral-400 hover:text-teal-300 transition-colors text-sm 2xl:text-base w-fit">
+                  <Link key={item.href} href={item.href} className="text-neutral-600 hover:text-teal-600 transition-colors text-sm 2xl:text-base w-fit">
                     {item.label}
                   </Link>
                 ))}
@@ -219,32 +226,32 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </div>
 
             <div>
-              <span className="text-xs 2xl:text-sm font-display uppercase tracking-widest text-teal-400/70 mb-4 block">
+              <span className="text-xs 2xl:text-sm font-display uppercase tracking-widest text-teal-700 mb-4 block">
                 Connect
               </span>
               <div className="flex flex-col gap-3">
-                <a href="mailto:info@orbtrix.space" className="text-neutral-400 hover:text-teal-300 transition-colors text-sm 2xl:text-base w-fit">
+                <a href="mailto:info@orbtrix.space" className="text-neutral-600 hover:text-teal-600 transition-colors text-sm 2xl:text-base w-fit">
                   info@orbtrix.space
                 </a>
-                <a href="https://www.linkedin.com/company/orbtrix/" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-teal-300 transition-colors text-sm 2xl:text-base w-fit">
+                <a href="https://www.linkedin.com/company/orbtrix/" target="_blank" rel="noopener noreferrer" className="text-neutral-600 hover:text-teal-600 transition-colors text-sm 2xl:text-base w-fit">
                   LinkedIn
                 </a>
-                <a href="https://www.instagram.com/orbtrix_space/" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-teal-300 transition-colors text-sm 2xl:text-base w-fit">
+                <a href="https://www.instagram.com/orbtrix_space/" target="_blank" rel="noopener noreferrer" className="text-neutral-600 hover:text-teal-600 transition-colors text-sm 2xl:text-base w-fit">
                   Instagram
                 </a>
-                <a href="https://x.com/" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-teal-300 transition-colors text-sm 2xl:text-base w-fit">
+                <a href="https://x.com/" target="_blank" rel="noopener noreferrer" className="text-neutral-600 hover:text-teal-600 transition-colors text-sm 2xl:text-base w-fit">
                   X (Twitter)
                 </a>
-                <a href="https://www.notion.so/Careers-at-Orbtrix-Space-3135b581cdb7809ea3ccc510b9325b9b" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-teal-300 transition-colors text-sm 2xl:text-base w-fit">
+                <a href="https://www.notion.so/Careers-at-Orbtrix-Space-3135b581cdb7809ea3ccc510b9325b9b" target="_blank" rel="noopener noreferrer" className="text-neutral-600 hover:text-teal-600 transition-colors text-sm 2xl:text-base w-fit">
                   Careers
                 </a>
               </div>
             </div>
           </div>
 
-          <div className="border-t border-teal-400/10 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <span className="text-neutral-700 text-sm 2xl:text-base font-mono">&copy; {new Date().getFullYear()} Orbtrix Space Pvt Ltd</span>
-            <span className="text-neutral-800 text-sm 2xl:text-base font-mono">Bengaluru, India</span>
+          <div className="border-t border-black/10 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <span className="text-neutral-500 text-sm 2xl:text-base font-mono">&copy; {new Date().getFullYear()} Orbtrix Space Pvt Ltd</span>
+            <span className="text-neutral-500 text-sm 2xl:text-base font-mono">Bengaluru, India</span>
           </div>
         </div>
       </footer>

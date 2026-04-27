@@ -9,27 +9,27 @@
   --font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Mono', 'Segoe UI Mono', monospace;
   --font-display: 'Poppins', system-ui, -apple-system, sans-serif;
 
-  --background: 0 0% 0%;
-  --foreground: 0 0% 100%;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 6%;
 
-  --primary: 0 0% 100%;
-  --primary-foreground: 0 0% 0%;
+  --primary: 0 0% 6%;
+  --primary-foreground: 0 0% 100%;
 
-  --secondary: 0 0% 13%;
-  --secondary-foreground: 0 0% 100%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 6%;
 
-  --muted: 0 0% 13%;
-  --muted-foreground: 0 0% 60%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 40%;
 
-  --accent: 0 0% 20%;
-  --accent-foreground: 0 0% 100%;
+  --accent: 0 0% 92%;
+  --accent-foreground: 0 0% 6%;
 
   --destructive: 0 60% 50%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 0 0% 20%;
-  --input: 0 0% 20%;
-  --ring: 0 0% 100%;
+  --border: 0 0% 88%;
+  --input: 0 0% 88%;
+  --ring: 173 80% 40%;
 
   --radius: 0px;
 
@@ -42,17 +42,17 @@
 
 .bg-teal-gradient {
   background:
-    radial-gradient(ellipse at top left, rgba(20, 184, 166, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom right, rgba(45, 212, 191, 0.05) 0%, transparent 50%),
-    #000000;
+    radial-gradient(ellipse at top left, rgba(20, 184, 166, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom right, rgba(45, 212, 191, 0.05) 0%, transparent 55%),
+    #ffffff;
 }
 
 .bg-teal-radial {
-  background: radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.12) 0%, rgba(0, 0, 0, 0) 60%);
+  background: radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.08) 0%, rgba(255, 255, 255, 0) 60%);
 }
 
 .text-gradient-teal {
-  background: linear-gradient(135deg, #ffffff 0%, #2dd4bf 60%, #14b8a6 100%);
+  background: linear-gradient(135deg, #0a0a0a 0%, #0f766e 55%, #14b8a6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -158,8 +158,8 @@
   .bg-grid {
     background-size: 60px 60px;
     background-image:
-      linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
   }
 }
 
@@ -185,11 +185,11 @@
 }
 
 /* ==========================================
-   NEON EDGE BORDERS — simplified
+   NEON EDGE BORDERS — simplified for light theme
    ========================================== */
 .neon-edge {
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   transition: border-color 0.3s ease;
 }
 
@@ -199,13 +199,13 @@
 }
 
 .neon-edge:hover {
-  border-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(20, 184, 166, 0.5);
 }
 
 /* Teal variant — same minimal style */
 .neon-edge-purple {
   position: relative;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   transition: border-color 0.3s ease;
 }
 
@@ -215,29 +215,29 @@
 }
 
 .neon-edge-purple:hover {
-  border-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(20, 184, 166, 0.5);
 }
 
 /* ==========================================
-   NEON GLOW TEXT — removed glow, plain color
+   NEON GLOW TEXT — plain teal on light bg
    ========================================== */
 .neon-text-cyan {
-  color: var(--neon-cyan);
+  color: #0f766e;
 }
 
 .neon-text-purple {
-  color: var(--neon-purple);
+  color: #0f766e;
 }
 
 /* ==========================================
-   GRADIENT TEXT — simplified to white
+   GRADIENT TEXT — solid black on light theme
    ========================================== */
 .gradient-text {
-  color: #ffffff;
+  color: #0a0a0a;
 }
 
 .gradient-text-cyan {
-  color: #ffffff;
+  color: #0a0a0a;
 }
 
 /* ==========================================
@@ -284,31 +284,31 @@
 }
 
 /* ==========================================
-   SCROLLBAR
+   SCROLLBAR — light theme
    ========================================== */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000;
+  background: #ffffff;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
+  background: rgba(20, 184, 166, 0.3);
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(20, 184, 166, 0.5);
 }
 
 /* ==========================================
-   SELECTION
+   SELECTION — teal on light
    ========================================== */
 ::selection {
-  background: rgba(99, 102, 241, 0.15);
-  color: #fff;
+  background: rgba(20, 184, 166, 0.25);
+  color: #0a0a0a;
 }
 
 /* ==========================================

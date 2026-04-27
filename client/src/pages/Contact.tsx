@@ -49,18 +49,15 @@ export default function Contact() {
   };
 
   return (
-    <div className="bg-black relative overflow-hidden">
-      {/* Earth backdrop on top */}
+    <div className="bg-white relative overflow-hidden">
+      {/* Subtle teal radial wash on top */}
       <div
-        className="absolute top-0 left-0 right-0 h-[400px] opacity-15 pointer-events-none"
+        className="absolute top-0 left-0 right-0 h-[400px] pointer-events-none"
         style={{
-          backgroundImage:
-            "url(https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          background:
+            "radial-gradient(ellipse at top, rgba(20, 184, 166, 0.06) 0%, transparent 60%)",
         }}
       />
-      <div className="absolute top-0 left-0 right-0 h-[400px] bg-gradient-to-b from-black/40 via-black/70 to-black pointer-events-none" />
 
       {/* Ambient teal orbs */}
       <motion.div
@@ -81,35 +78,35 @@ export default function Contact() {
           {/* Left: Info */}
           <ScrollReveal direction="left">
             <div>
-              <span className="text-xs uppercase tracking-[0.3em] text-teal-400/70 block mb-4 flex items-center gap-3">
-                <span className="w-5 h-px bg-teal-400/40" />
+              <span className="text-xs uppercase tracking-[0.3em] text-teal-700 block mb-4 flex items-center gap-3">
+                <span className="w-5 h-px bg-teal-600/50" />
                 Contact
               </span>
               <h1 className="text-5xl md:text-6xl xl:text-7xl font-medium tracking-tight mb-6 text-gradient-teal">
                 Get in touch
               </h1>
-              <p className="text-neutral-400 leading-relaxed mb-12 text-lg">
+              <p className="text-neutral-500 leading-relaxed mb-12 text-lg">
                 Reach out to discuss our products, technology, upcoming
                 missions, or collaboration opportunities.
               </p>
-              <div className="w-16 h-px bg-teal-400/40 mb-12" />
+              <div className="w-16 h-px bg-teal-600/50 mb-12" />
 
               <div className="space-y-8">
                 <div className="flex items-start gap-4">
-                  <Mail className="w-5 h-5 text-teal-400/70 mt-0.5 flex-shrink-0" />
+                  <Mail className="w-5 h-5 text-teal-700 mt-0.5 flex-shrink-0" />
                   <div>
-                    <h4 className="text-base font-medium mb-1 text-white">Email</h4>
-                    <a href="mailto:info@orbtrix.space" className="text-neutral-400 hover:text-teal-300 transition-colors text-base">
+                    <h4 className="text-base font-medium mb-1 text-neutral-900">Email</h4>
+                    <a href="mailto:info@orbtrix.space" className="text-neutral-500 hover:text-teal-700 transition-colors text-base">
                       info@orbtrix.space
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <MapPin className="w-5 h-5 text-teal-400/70 mt-0.5 flex-shrink-0" />
+                  <MapPin className="w-5 h-5 text-teal-700 mt-0.5 flex-shrink-0" />
                   <div>
-                    <h4 className="text-base font-medium mb-1 text-white">Office</h4>
-                    <p className="text-neutral-400 text-base leading-relaxed">
+                    <h4 className="text-base font-medium mb-1 text-neutral-900">Office</h4>
+                    <p className="text-neutral-500 text-base leading-relaxed">
                       Cabin 4B, Evolve Coworking Space<br />
                       Doddanakundi, Bengaluru 560048
                     </p>
@@ -117,7 +114,7 @@ export default function Contact() {
                 </div>
               </div>
 
-              <div className="mt-12 border border-teal-400/15 overflow-hidden">
+              <div className="mt-12 border border-black/10 overflow-hidden">
                 <iframe
                   title="Location"
                   src="https://www.google.com/maps?q=Orbtrix%20Space%20Private%20Limited%2C%20Doddanakundi%20Industrial%20Area%2C%20Brookefield%2C%20Bengaluru&output=embed"
@@ -131,9 +128,9 @@ export default function Contact() {
 
           {/* Right: Form */}
           <ScrollReveal direction="right" delay={0.1}>
-            <div className="border border-teal-400/15 bg-black/40 backdrop-blur-sm p-10 md:p-12">
-              <h3 className="text-xl font-semibold mb-1 text-white">Send a message</h3>
-              <p className="text-base text-neutral-500 mb-8">
+            <div className="border border-black/10 bg-white p-10 md:p-12">
+              <h3 className="text-xl font-semibold mb-1 text-neutral-900">Send a message</h3>
+              <p className="text-base text-neutral-600 mb-8">
                 We will get back to you as soon as we can.
               </p>
 
@@ -144,12 +141,12 @@ export default function Contact() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base text-neutral-400">Name</FormLabel>
+                        <FormLabel className="text-base text-neutral-500">Name</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="Your name"
                             {...field}
-                            className="bg-transparent border-teal-400/20 focus-visible:ring-teal-400/20 focus-visible:border-teal-400/50 text-white placeholder:text-neutral-700 rounded-none h-12"
+                            className="bg-transparent border-black/15 focus-visible:ring-teal-500/40 focus-visible:border-teal-600 text-neutral-900 placeholder:text-neutral-500 rounded-none h-12"
                           />
                         </FormControl>
                         <FormMessage />
@@ -162,12 +159,12 @@ export default function Contact() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base text-neutral-400">Email</FormLabel>
+                        <FormLabel className="text-base text-neutral-500">Email</FormLabel>
                         <FormControl>
                           <Input
                             placeholder="your@email.com"
                             {...field}
-                            className="bg-transparent border-teal-400/20 focus-visible:ring-teal-400/20 focus-visible:border-teal-400/50 text-white placeholder:text-neutral-700 rounded-none h-12"
+                            className="bg-transparent border-black/15 focus-visible:ring-teal-500/40 focus-visible:border-teal-600 text-neutral-900 placeholder:text-neutral-500 rounded-none h-12"
                           />
                         </FormControl>
                         <FormMessage />
@@ -180,12 +177,12 @@ export default function Contact() {
                     name="message"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-base text-neutral-400">Message</FormLabel>
+                        <FormLabel className="text-base text-neutral-500">Message</FormLabel>
                         <FormControl>
                           <Textarea
                             placeholder="What would you like to discuss?"
                             {...field}
-                            className="bg-transparent border-teal-400/20 focus-visible:ring-teal-400/20 focus-visible:border-teal-400/50 text-white placeholder:text-neutral-700 min-h-[120px] rounded-none resize-none"
+                            className="bg-transparent border-black/15 focus-visible:ring-teal-500/40 focus-visible:border-teal-600 text-neutral-900 placeholder:text-neutral-500 min-h-[120px] rounded-none resize-none"
                           />
                         </FormControl>
                         <FormMessage />
@@ -195,7 +192,7 @@ export default function Contact() {
 
                   <Button
                     type="submit"
-                    className="group w-full h-12 bg-white text-black hover:bg-teal-300 rounded-none font-semibold text-base tracking-wide uppercase"
+                    className="group w-full h-12 bg-black text-white hover:bg-teal-600 rounded-none font-semibold text-base tracking-wide uppercase"
                   >
                     Send Message
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />

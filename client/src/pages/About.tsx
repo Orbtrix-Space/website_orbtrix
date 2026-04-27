@@ -5,18 +5,15 @@ import { Linkedin } from "lucide-react";
 
 export default function About() {
   return (
-    <div className="bg-black relative overflow-hidden">
-      {/* Galaxy backdrop on top portion */}
+    <div className="bg-white relative overflow-hidden">
+      {/* Subtle teal radial wash on top */}
       <div
-        className="absolute top-0 left-0 right-0 h-[500px] opacity-20 pointer-events-none"
+        className="absolute top-0 left-0 right-0 h-[500px] pointer-events-none"
         style={{
-          backgroundImage:
-            "url(https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920&q=80)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          background:
+            "radial-gradient(ellipse at top, rgba(20, 184, 166, 0.06) 0%, transparent 60%)",
         }}
       />
-      <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-black/40 via-black/70 to-black pointer-events-none" />
 
       {/* Ambient teal orbs */}
       <motion.div
@@ -35,8 +32,8 @@ export default function About() {
       <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto px-5 md:px-8 xl:px-12 2xl:px-24 py-16 md:py-20 xl:py-24 relative z-10">
         {/* ===== HEADER ===== */}
         <div className="mb-14">
-          <span className="text-xs uppercase tracking-[0.3em] text-teal-400/70 block mb-4 flex items-center gap-3">
-            <span className="w-5 h-px bg-teal-400/40" />
+          <span className="text-xs uppercase tracking-[0.3em] text-teal-700 block mb-4 flex items-center gap-3">
+            <span className="w-5 h-px bg-teal-600/50" />
             About Us
           </span>
           <h1
@@ -45,25 +42,25 @@ export default function About() {
           >
             Building autonomy for space
           </h1>
-          <p className="text-xl text-neutral-400 leading-relaxed max-w-3xl">
+          <p className="text-xl text-neutral-700 leading-relaxed max-w-3xl">
             We are a small, focused team building the ground and onboard
             software that makes autonomous space operations practical.
           </p>
-          <div className="mt-8 w-16 h-px bg-teal-400/40" />
+          <div className="mt-8 w-16 h-px bg-teal-600/50" />
         </div>
 
         {/* ===== VISION + COMPANY ===== */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <ScrollReveal>
             <div>
-              <span className="text-xs uppercase tracking-[0.3em] text-teal-400/70 block mb-4 flex items-center gap-3">
-                <span className="w-5 h-px bg-teal-400/40" />
+              <span className="text-xs uppercase tracking-[0.3em] text-teal-700 block mb-4 flex items-center gap-3">
+                <span className="w-5 h-px bg-teal-600/50" />
                 Our Vision
               </span>
-              <h2 className="text-3xl md:text-4xl xl:text-5xl font-medium tracking-tight mb-6 text-white">
+              <h2 className="text-3xl md:text-4xl xl:text-5xl font-medium tracking-tight mb-6 text-neutral-900">
                 Building toward lunar infrastructure
               </h2>
-              <div className="space-y-5 text-neutral-400 leading-relaxed">
+              <div className="space-y-5 text-neutral-700 leading-relaxed">
                 <p>
                   We believe the next leap in space will not come from bigger
                   rockets. It will come from spacecraft that can think, decide,
@@ -82,11 +79,11 @@ export default function About() {
 
           <ScrollReveal delay={0.1}>
             <div>
-              <span className="text-xs uppercase tracking-[0.3em] text-teal-400/70 block mb-6 flex items-center gap-3">
-                <span className="w-5 h-px bg-teal-400/40" />
+              <span className="text-xs uppercase tracking-[0.3em] text-teal-700 block mb-6 flex items-center gap-3">
+                <span className="w-5 h-px bg-teal-600/50" />
                 Company
               </span>
-              <div className="border border-teal-400/15 bg-black/40 backdrop-blur-sm">
+              <div className="border border-black/10 bg-white/40 backdrop-blur-sm">
                 {[
                   ["Founded", "2025"],
                   ["Location", "Bengaluru, India"],
@@ -96,12 +93,12 @@ export default function About() {
                 ].map(([label, value], idx) => (
                   <div
                     key={idx}
-                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 border-b border-teal-400/10 last:border-0 py-4 px-6 sm:px-8"
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-4 border-b border-black/8 last:border-0 py-4 px-6 sm:px-8"
                   >
                     <span className="text-xs sm:text-base text-neutral-500 uppercase sm:normal-case tracking-wider sm:tracking-normal shrink-0">
                       {label}
                     </span>
-                    <span className="text-base text-white sm:text-right break-words">
+                    <span className="text-base text-neutral-900 sm:text-right break-words">
                       {value}
                     </span>
                   </div>
@@ -112,17 +109,17 @@ export default function About() {
         </div>
 
         {/* ===== TEAM ===== */}
-        <div className="mt-20 pt-16 border-t border-teal-400/15">
+        <div className="mt-20 pt-16 border-t border-black/10">
           <ScrollReveal>
             <div className="mb-10">
-              <span className="text-xs uppercase tracking-[0.3em] text-teal-400/70 block mb-4 flex items-center gap-3">
-                <span className="w-5 h-px bg-teal-400/40" />
+              <span className="text-xs uppercase tracking-[0.3em] text-teal-700 block mb-4 flex items-center gap-3">
+                <span className="w-5 h-px bg-teal-600/50" />
                 The Team
               </span>
-              <h2 className="text-3xl md:text-4xl xl:text-5xl font-medium tracking-tight mb-4 text-white">
+              <h2 className="text-3xl md:text-4xl xl:text-5xl font-medium tracking-tight mb-4 text-neutral-900">
                 The people building it
               </h2>
-              <p className="text-base md:text-lg text-neutral-400 leading-relaxed max-w-2xl">
+              <p className="text-base md:text-lg text-neutral-700 leading-relaxed max-w-2xl">
                 Hands-on experience in mission design, spacecraft operations,
                 and autonomous systems engineering.
               </p>
@@ -132,7 +129,7 @@ export default function About() {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
             {TEAM.map((member, idx) => (
               <ScrollReveal key={idx} delay={idx * 0.06}>
-                <div className="group border border-teal-400/15 bg-black/40 backdrop-blur-sm hover:border-teal-400/40 transition-all duration-500">
+                <div className="group border border-black/10 bg-white/40 backdrop-blur-sm hover:border-teal-600 transition-all duration-500">
                   {member.photo ? (
                     <div className="overflow-hidden">
                       <img
@@ -148,11 +145,11 @@ export default function About() {
                   )}
                   <div className="p-3 flex items-start justify-between gap-2">
                     <div className="min-w-0 flex-1">
-                      <h3 className="font-medium text-xs text-white leading-tight break-words">
+                      <h3 className="font-medium text-xs text-neutral-900 leading-tight break-words">
                         {member.name}
                       </h3>
                       <p
-                        className="text-teal-400/60 text-[10px] mt-1 uppercase leading-snug break-words"
+                        className="text-teal-700 text-[10px] mt-1 uppercase leading-snug break-words"
                         style={{ hyphens: "auto", letterSpacing: "0.02em" }}
                       >
                         {member.role}
@@ -163,7 +160,7 @@ export default function About() {
                         href={member.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-neutral-600 hover:text-teal-400 transition-colors flex-shrink-0"
+                        className="text-neutral-500 hover:text-teal-600 transition-colors flex-shrink-0"
                         aria-label={`${member.name} LinkedIn`}
                       >
                         <Linkedin className="w-3.5 h-3.5" />
@@ -177,12 +174,12 @@ export default function About() {
         </div>
 
         {/* ===== JOIN US ===== */}
-        <div className="mt-16 pt-12 border-t border-teal-400/15">
+        <div className="mt-16 pt-12 border-t border-black/10">
           <ScrollReveal>
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
               <div>
-                <h3 className="text-2xl font-semibold mb-3 text-white">Join Us</h3>
-                <p className="text-neutral-400 max-w-lg text-base leading-relaxed">
+                <h3 className="text-2xl font-semibold mb-3 text-neutral-900">Join Us</h3>
+                <p className="text-neutral-700 max-w-lg text-base leading-relaxed">
                   We are looking for engineers, researchers, and operators who
                   want to build the future of autonomous spacecraft operations.
                 </p>
@@ -191,7 +188,7 @@ export default function About() {
                 href="https://www.notion.so/Careers-at-Orbtrix-Space-3135b581cdb7809ea3ccc510b9325b9b"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-8 py-4 border border-teal-400/40 text-white text-base font-medium hover:bg-teal-400/10 hover:border-teal-400/60 transition-all duration-300 flex-shrink-0 uppercase"
+                className="px-8 py-4 border border-teal-600 text-neutral-900 text-base font-medium hover:bg-teal-50 hover:border-teal-700 transition-all duration-300 flex-shrink-0 uppercase"
               >
                 View Open Roles
               </a>

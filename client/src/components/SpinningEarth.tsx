@@ -55,13 +55,13 @@ export function SpinningEarth({ size = 380, className = "" }: SpinningEarthProps
         }}
       />
 
-      {/* Orbit ring */}
+      {/* Orbit ring — traces the satellite's actual path (same plane as the screen) */}
       <div
-        className="absolute left-1/2 top-1/2 rounded-full border border-teal-400/15"
+        className="absolute left-1/2 top-1/2 rounded-full border border-dashed border-teal-500/35"
         style={{
           width: size * 1.3,
           height: size * 1.3,
-          transform: "translate(-50%, -50%) rotateX(72deg)",
+          transform: "translate(-50%, -50%)",
         }}
       />
 

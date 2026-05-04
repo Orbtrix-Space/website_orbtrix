@@ -123,20 +123,20 @@ const MODULES = [
     titleHint: "NETRA, Sanskrit for eye. The perception layer of DISHA.",
   },
   {
-    name: "KALPANA",
+    name: "NEXUS",
     tagline: "Mission planning and command for constellations.",
     icon: CalendarClock,
     description:
-      "KALPANA builds conflict-free schedules, sends commands across your fleet, and re-plans automatically when conditions change. One operator can manage tasking for the entire constellation.",
+      "NEXUS builds conflict-free schedules, sends commands across your fleet, and re-plans automatically when conditions change. One operator can manage tasking for the entire constellation.",
     bullets: [
       "Constraint-aware scheduling across the fleet",
       "Automatic conflict resolution and re-planning",
       "Command execution with full audit trail",
       "Single console for fleet-wide tasking",
     ],
-    href: "/products#kalpana",
+    href: "/products#nexus",
     titleHint:
-      "KALPANA, meaning instruction or directive in Malayalam. The action layer of DISHA.",
+      "NEXUS, Latin for connection. The action layer of DISHA.",
   },
 ];
 
@@ -314,7 +314,7 @@ export default function Disha() {
                 Modules
               </span>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight mb-4 text-neutral-900">
-                NETRA and KALPANA. Available now.
+                NETRA and NEXUS. Available now.
               </h2>
               <p className="text-neutral-700 text-base md:text-lg leading-relaxed">
                 Two modules of DISHA, available standalone or together. Adopt

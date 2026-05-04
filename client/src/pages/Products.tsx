@@ -60,12 +60,12 @@ const PRODUCT_LIST: ProductCard[] = [
     icon: Eye,
   },
   {
-    id: "kalpana",
-    name: "KALPANA",
+    id: "nexus",
+    name: "NEXUS",
     segment: "Module of DISHA",
     tagline: "Mission planning and command for constellations.",
     description:
-      "KALPANA builds conflict-free schedules, sends commands across your fleet, and re-plans automatically when conditions change. One operator can manage tasking for the entire constellation. Available standalone or as part of DISHA.",
+      "NEXUS builds conflict-free schedules, sends commands across your fleet, and re-plans automatically when conditions change. One operator can manage tasking for the entire constellation. Available standalone or as part of DISHA.",
     features: [
       "Constraint-aware scheduling across the fleet",
       "Automatic conflict resolution and re-planning",
@@ -74,7 +74,7 @@ const PRODUCT_LIST: ProductCard[] = [
     ],
     status: "Available",
     titleHint:
-      "KALPANA, meaning instruction or directive in Malayalam. The action layer of DISHA.",
+      "NEXUS, Latin for connection. The action layer of DISHA.",
     icon: CalendarClock,
   },
   {
@@ -145,7 +145,7 @@ export default function Products() {
             Products
           </h1>
           <p className="text-xl text-neutral-700 leading-relaxed max-w-3xl break-words">
-            DISHA is our ground operations platform. NETRA and KALPANA are
+            DISHA is our ground operations platform. NETRA and NEXUS are
             standalone modules that also work together inside DISHA. Rigel OS
             is our onboard flight software, in early research and development.
           </p>
@@ -232,13 +232,12 @@ export default function Products() {
           ))}
         </div>
 
-        {/* Footnote about NETRA and KALPANA names */}
+        {/* Footnote about NETRA and NEXUS names */}
         <ScrollReveal delay={0.1}>
           <div className="mt-12 text-center">
             <p className="text-xs text-neutral-500 italic max-w-2xl mx-auto leading-relaxed">
-              NETRA, Sanskrit for eye. The perception layer of DISHA. KALPANA,
-              meaning instruction or directive in Malayalam. The action layer
-              of DISHA.
+              NETRA, Sanskrit for eye. The perception layer of DISHA. NEXUS,
+              Latin for connection. The action layer of DISHA.
             </p>
           </div>
         </ScrollReveal>

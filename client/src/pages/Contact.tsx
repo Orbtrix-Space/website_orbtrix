@@ -2,21 +2,10 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { motion } from "framer-motion";
-import { ScrollReveal } from "@/components/ScrollReveal";
 import { Mail, MapPin, ArrowRight } from "lucide-react";
-
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/Reveal";
+import { usePageMeta } from "@/lib/usePageMeta";
+import { CONTACT } from "@/data/site";
 
 const ContactFormSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -26,183 +15,178 @@ const ContactFormSchema = z.object({
 
 type ContactFormValues = z.infer<typeof ContactFormSchema>;
 
+const fieldClass =
+  "w-full rounded-sm border bg-transparent px-4 py-3 text-[13px] text-ink placeholder:text-ink-muted/60 transition-colors duration-300 focus:outline-none";
+
 export default function Contact() {
-  const form = useForm<ContactFormValues>({
+  usePageMeta("Contact", "Talk to the Orbtrix team about the platform, missions, or collaboration.");
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<ContactFormValues>({
     resolver: zodResolver(ContactFormSchema),
     defaultValues: { name: "", email: "", message: "" },
   });
 
+  // Deep links like /contact?message=... prefill the box. Preserved behaviour.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const msg = params.get("message");
-    if (msg) {
-      form.setValue("message", msg);
-    }
-  }, [form]);
+    const msg = new URLSearchParams(window.location.search).get("message");
+    if (msg) setValue("message", msg);
+  }, [setValue]);
 
   const onSubmit = (data: ContactFormValues) => {
-    const subject = encodeURIComponent(`Website Contact. ${data.name}`);
+    const subject = encodeURIComponent(`Website contact. ${data.name}`);
     const body = encodeURIComponent(
-      `Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`
+      `Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`,
     );
-    window.location.href = `mailto:info@orbtrix.space?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`;
   };
 
   return (
-    <div className="bg-white relative overflow-hidden">
-      {/* Subtle teal radial wash on top */}
-      <div
-        className="absolute top-0 left-0 right-0 h-[400px] pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse at top, rgba(20, 184, 166, 0.06) 0%, transparent 60%)",
-        }}
-      />
+    <>
+      <section className="relative overflow-hidden">
 
-      {/* Ambient teal orbs */}
-      <motion.div
-        className="absolute top-40 -left-40 w-[500px] h-[500px] rounded-full opacity-15 blur-[130px] pointer-events-none"
-        style={{ background: "radial-gradient(circle, #14b8a6 0%, transparent 70%)" }}
-        animate={{ opacity: [0.08, 0.18, 0.08] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-40 -right-40 w-[500px] h-[500px] rounded-full opacity-10 blur-[130px] pointer-events-none"
-        style={{ background: "radial-gradient(circle, #2dd4bf 0%, transparent 70%)" }}
-        animate={{ opacity: [0.05, 0.15, 0.05] }}
-        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      />
+        <div className="container-page relative z-10 pb-16 pt-40 md:pt-48">
+          <Reveal>
+            <h1 className="max-w-3xl text-balance text-[clamp(1.95rem,4.8vw,3.5rem)] leading-[1.08]">
+              Get in touch
+            </h1>
+          </Reveal>
+          <Reveal delay={100}>
+            <p className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed md:text-xl">
+              For the platform, missions, or collaboration opportunities — we would like to
+              hear from you.
+            </p>
+          </Reveal>
+        </div>
+      </section>
 
-      <div className="max-w-7xl 2xl:max-w-[1800px] mx-auto px-5 md:px-8 xl:px-12 2xl:px-24 py-16 md:py-20 xl:py-24 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20">
-          {/* Left: Info */}
-          <ScrollReveal direction="left">
-            <div>
-              <span className="text-xs uppercase tracking-[0.3em] text-teal-700 block mb-4 flex items-center gap-3">
-                <span className="w-5 h-px bg-teal-600/50" />
-                Contact
-              </span>
-              <h1 className="text-5xl md:text-6xl xl:text-7xl font-medium tracking-tight mb-6 text-gradient-teal">
-                Get in touch
-              </h1>
-              <p className="text-neutral-500 leading-relaxed mb-12 text-lg">
-                Reach out to discuss our products, technology, upcoming
-                missions, or collaboration opportunities.
-              </p>
-              <div className="w-16 h-px bg-teal-600/50 mb-12" />
-
-              <div className="space-y-8">
-                <div className="flex items-start gap-4">
-                  <Mail className="w-5 h-5 text-teal-700 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h4 className="text-base font-medium mb-1 text-neutral-900">Email</h4>
-                    <a href="mailto:info@orbtrix.space" className="text-neutral-500 hover:text-teal-700 transition-colors text-base">
-                      info@orbtrix.space
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <MapPin className="w-5 h-5 text-teal-700 mt-0.5 flex-shrink-0" />
-                  <div>
-                    <h4 className="text-base font-medium mb-1 text-neutral-900">Office</h4>
-                    <p className="text-neutral-500 text-base leading-relaxed">
-                      Cabin 4B, Evolve Coworking Space<br />
-                      Doddanakundi, Bengaluru 560048
-                    </p>
-                  </div>
+      <section className="container-page pb-32">
+        <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
+          {/* ---- Details ---- */}
+          <Reveal>
+            <div className="flex flex-col gap-10">
+              <div className="flex items-start gap-4">
+                <Mail className="mt-1 h-5 w-5 shrink-0" style={{ color: "var(--accent)" }} aria-hidden="true" />
+                <div>
+                  <h2 className="text-lg">Email</h2>
+                  <a
+                    href={`mailto:${CONTACT.email}`}
+                    className="mt-1 inline-block text-ink-muted transition-colors hover:text-ink"
+                  >
+                    {CONTACT.email}
+                  </a>
                 </div>
               </div>
 
-              <div className="mt-12 border border-black/10 overflow-hidden">
+              <div className="flex items-start gap-4">
+                <MapPin className="mt-1 h-5 w-5 shrink-0" style={{ color: "var(--accent)" }} aria-hidden="true" />
+                <div>
+                  <h2 className="text-lg">Office</h2>
+                  <address className="mt-1 not-italic leading-relaxed text-ink-muted">
+                    {CONTACT.addressLines.map((line) => (
+                      <span key={line} className="block">
+                        {line}
+                      </span>
+                    ))}
+                  </address>
+                </div>
+              </div>
+
+              <div className="overflow-hidden rounded-lg border" style={{ borderColor: "var(--border)" }}>
                 <iframe
-                  title="Location"
-                  src="https://www.google.com/maps?q=Orbtrix%20Space%20Private%20Limited%2C%20Doddanakundi%20Industrial%20Area%2C%20Brookefield%2C%20Bengaluru&output=embed"
-                  className="w-full h-56 grayscale contrast-125 hover:grayscale-0 transition-all duration-700"
+                  title="Orbtrix Space office location"
+                  src={CONTACT.mapsEmbedUrl}
+                  className="h-64 w-full grayscale transition-all duration-700 ease-brand hover:grayscale-0"
+                  style={{ border: 0 }}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
               </div>
             </div>
-          </ScrollReveal>
+          </Reveal>
 
-          {/* Right: Form */}
-          <ScrollReveal direction="right" delay={0.1}>
-            <div className="border border-black/10 bg-white p-10 md:p-12">
-              <h3 className="text-xl font-semibold mb-1 text-neutral-900">Send a message</h3>
-              <p className="text-base text-neutral-600 mb-8">
-                We will get back to you as soon as we can.
-              </p>
+          {/* ---- Form ---- */}
+          <Reveal delay={120}>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate className="card p-8 md:p-10">
+              <h2 className="text-2xl">Send a message</h2>
+              <p className="mt-2 text-[13px]">This opens your email client with the message ready.</p>
 
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base text-neutral-500">Name</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Your name"
-                            {...field}
-                            className="bg-transparent border-black/15 focus-visible:ring-teal-500/40 focus-visible:border-teal-600 text-neutral-900 placeholder:text-neutral-500 rounded-none h-12"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+              <div className="mt-8 flex flex-col gap-6">
+                <div>
+                  <label htmlFor="name" className="mb-2 block text-sm text-ink">
+                    Name
+                  </label>
+                  <input
+                    id="name"
+                    className={fieldClass}
+                    style={{ borderColor: errors.name ? "#f87171" : "var(--border-strong)" }}
+                    placeholder="Your name"
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "name-error" : undefined}
+                    {...register("name")}
                   />
+                  {errors.name && (
+                    <p id="name-error" className="mt-2 text-sm" style={{ color: "#f87171" }}>
+                      {errors.name.message}
+                    </p>
+                  )}
+                </div>
 
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base text-neutral-500">Email</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="your@email.com"
-                            {...field}
-                            className="bg-transparent border-black/15 focus-visible:ring-teal-500/40 focus-visible:border-teal-600 text-neutral-900 placeholder:text-neutral-500 rounded-none h-12"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                <div>
+                  <label htmlFor="email" className="mb-2 block text-sm text-ink">
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    className={fieldClass}
+                    style={{ borderColor: errors.email ? "#f87171" : "var(--border-strong)" }}
+                    placeholder="your@email.com"
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "email-error" : undefined}
+                    {...register("email")}
                   />
+                  {errors.email && (
+                    <p id="email-error" className="mt-2 text-sm" style={{ color: "#f87171" }}>
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
 
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-base text-neutral-500">Message</FormLabel>
-                        <FormControl>
-                          <Textarea
-                            placeholder="What would you like to discuss?"
-                            {...field}
-                            className="bg-transparent border-black/15 focus-visible:ring-teal-500/40 focus-visible:border-teal-600 text-neutral-900 placeholder:text-neutral-500 min-h-[120px] rounded-none resize-none"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                <div>
+                  <label htmlFor="message" className="mb-2 block text-sm text-ink">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    rows={5}
+                    className={`${fieldClass} resize-y`}
+                    style={{ borderColor: errors.message ? "#f87171" : "var(--border-strong)" }}
+                    placeholder="What would you like to discuss?"
+                    aria-invalid={!!errors.message}
+                    aria-describedby={errors.message ? "message-error" : undefined}
+                    {...register("message")}
                   />
+                  {errors.message && (
+                    <p id="message-error" className="mt-2 text-sm" style={{ color: "#f87171" }}>
+                      {errors.message.message}
+                    </p>
+                  )}
+                </div>
 
-                  <Button
-                    type="submit"
-                    className="group w-full h-12 bg-black text-white hover:bg-teal-600 rounded-none font-semibold text-base tracking-wide uppercase"
-                  >
-                    Send Message
-                    <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </form>
-              </Form>
-            </div>
-          </ScrollReveal>
+                <button type="submit" className="btn btn-primary group h-14 w-full text-base">
+                  Send message
+                  <ArrowRight className="h-4 w-4 transition-transform duration-300 ease-brand group-hover:translate-x-1" />
+                </button>
+              </div>
+            </form>
+          </Reveal>
         </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 }

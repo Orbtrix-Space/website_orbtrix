@@ -1,383 +1,637 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+/* Google Sans. Weights: 400 body, 500 navigation/buttons/card titles,
+   600 headings. To swap the face later, change --font-sans in
+   styles/theme.css — that is the only place the family is named at runtime.
+
+   Not to be confused with Product Sans, which this file used to chase via
+   lookalikes: Product Sans is absent from the public Google Fonts catalog and
+   its stylesheet carries a license/googlerestricted header. Google Sans is in
+   the catalog and serves without one. */
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&display=swap');
+@import './styles/theme.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --font-sans: 'Poppins', system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Mono', 'Segoe UI Mono', monospace;
-  --font-display: 'Poppins', system-ui, -apple-system, sans-serif;
-
-  --background: 0 0% 100%;
-  --foreground: 0 0% 6%;
-
-  --primary: 0 0% 6%;
-  --primary-foreground: 0 0% 100%;
-
-  --secondary: 0 0% 96%;
-  --secondary-foreground: 0 0% 6%;
-
-  --muted: 0 0% 96%;
-  --muted-foreground: 0 0% 40%;
-
-  --accent: 0 0% 92%;
-  --accent-foreground: 0 0% 6%;
-
-  --destructive: 0 60% 50%;
-  --destructive-foreground: 0 0% 100%;
-
-  --border: 0 0% 88%;
-  --input: 0 0% 88%;
-  --ring: 173 80% 40%;
-
-  --radius: 0px;
-
-  --neon-cyan: #14b8a6;
-  --neon-purple: #14b8a6;
-  --neon-blue: #2dd4bf;
-  --teal-primary: #14b8a6;
-  --teal-soft: #2dd4bf;
-}
-
-.bg-teal-gradient {
-  background:
-    radial-gradient(ellipse at top left, rgba(20, 184, 166, 0.06) 0%, transparent 55%),
-    radial-gradient(ellipse at bottom right, rgba(45, 212, 191, 0.05) 0%, transparent 55%),
-    #ffffff;
-}
-
-.bg-teal-radial {
-  background: radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.08) 0%, rgba(255, 255, 255, 0) 60%);
-}
-
-.text-gradient-teal {
-  background: linear-gradient(135deg, #0a0a0a 0%, #0f766e 55%, #14b8a6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  /* Prevent -webkit-background-clip: text from clipping descenders
-     (g, y, p, q, j) when combined with tracking-tight. */
-  line-height: 1.15;
-  padding-bottom: 0.12em;
-}
-
-@keyframes slow-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.animate-slow-spin {
-  animation: slow-spin 60s linear infinite;
-}
-
-@keyframes orbit {
-  from { transform: rotate(0deg) translateX(var(--orbit-radius, 140px)) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(var(--orbit-radius, 140px)) rotate(-360deg); }
-}
-
-.animate-orbit {
-  animation: orbit 20s linear infinite;
-}
-
-@keyframes drift {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(20px, -15px); }
-}
-
-.animate-drift {
-  animation: drift 12s ease-in-out infinite;
+/* Animatable angle for the travelling edge light on cards.
+   A plain custom property cannot be tweened — the browser treats it as an
+   opaque string — so the angle has to be registered with a type before
+   @keyframes can interpolate it. Browsers without @property support hold the
+   ring at its initial angle: still a purple edge, just not moving. */
+@property --edge-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
 
 @layer base {
   * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-family: var(--font-sans);
+    border-color: var(--border);
   }
 
   html {
     scroll-behavior: smooth;
+    /* Tells the UA the page is dark, so native scrollbars, form controls and
+       the overscroll gutter come up dark instead of flashing white. */
+    color-scheme: dark;
+    /* Sticky nav shouldn't cover anchored sections (/product#nexus etc.) */
+    scroll-padding-top: 6rem;
+    background-color: var(--bg);
+
+    /* ---- Fluid root ------------------------------------------------------
+       The whole design system is rem-based — type, spacing, gaps, padding,
+       container widths, even the type scale in tailwind.config. Scaling the
+       root font-size therefore scales the ENTIRE layout proportionally, with
+       no separate large-screen layout and no breakpoint jumps.
+
+         ≤1280px  → 16px  (laptops: identical to before, nothing shifts)
+          1440px  → ~16.7px
+          1920px  → ~18.7px
+         ≥2200px  → 20px  (2K / 4K / ultrawide: everything is 25% larger)
+
+       Hierarchy and proportion are preserved exactly because every value in
+       the system grows by the same factor. */
+    font-size: clamp(16px, 0.42vw + 10.6px, 20px);
   }
 
-  /* Scroll performance: GPU-promote heavy visuals so scrolling stays smooth */
-  .motion-gpu {
-    will-change: transform, opacity;
-    transform: translateZ(0);
-    backface-visibility: hidden;
+  body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
-  /* Ambient glow orbs are continuously animated. Promote them to
-     their own compositing layer so scroll doesn't repaint them.
-     Matches Tailwind's arbitrary blur utilities: blur-[120px], blur-[130px], blur-[140px] */
-  [class*="blur-["],
-  [data-gpu="orb"] {
-    will-change: transform, opacity;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    contain: layout paint style;
-  }
+  /* The canvas is flat black. No background grid, no grain, no wash. */
 
-  /* The TelemetryStream console and product cards often sit above
-     heavy orbs. Give them their own paint layer so scroll compositing
-     doesn't re-rasterize through the blur on every frame. */
-  .scroll-isolate {
-    contain: layout paint style;
-    transform: translateZ(0);
-  }
-
-  /* Respect reduced-motion preferences */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
-  }
-
+  /* Headings carry the hierarchy: 600 for hero and section headings, 500 for
+     card titles and below. Tightened tracking keeps them precise, not airy. */
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-sans);
-    @apply tracking-tight;
+    color: var(--text-primary);
+    font-weight: 600;
+    line-height: 1.14;
+    letter-spacing: -0.03em;
+  }
+
+  h1 { letter-spacing: -0.04em; }
+  h3, h4, h5, h6 { font-weight: 500; }
+
+  p {
+    color: var(--text-muted);
+  }
+
+  ::selection {
+    background: rgba(168, 85, 247, 0.38);
+    color: var(--text-primary);
+  }
+
+  /* Visible, on-brand focus for keyboard users. */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-strong);
+    border: 2px solid var(--bg);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+}
+
+@layer components {
+  /* ---- Buttons ---------------------------------------------------------
+     Sharp rectangular. No shadows, no glow, no pills. */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap;
+    border-radius: var(--radius-btn);
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    border: 1px solid transparent;
+    transition: background-color var(--dur) var(--ease),
+                border-color var(--dur) var(--ease),
+                color var(--dur) var(--ease);
+  }
+
+  /* Flat purple fill for the single strongest action per view.
+     Hover darkens — it never brightens or glows. The fill keeps the original
+     brand purple (--accent-mark): white on it reads at 4.7:1, and the lighter
+     reading tone would need black type and stop looking like the brand. */
+  .btn-primary {
+    background-color: var(--accent-mark);
+    color: #ffffff;
     font-weight: 500;
   }
-
-  p, a, li, label, input, textarea, button {
-    font-family: var(--font-sans);
+  .btn-primary:hover {
+    background-color: var(--accent-deep);
   }
 
-  span, div {
-    font-family: inherit;
+  /* Flat purple outline. This is the Contact-button treatment. */
+  .btn-outline {
+    background-color: transparent;
+    color: var(--accent);
+    border-color: var(--border-accent);
+  }
+  .btn-outline:hover {
+    background-color: var(--accent-wash);
   }
 
-  .bg-grid {
-    background-size: 60px 60px;
-    background-image:
-      linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  /* Neutral outline for secondary actions. */
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+  }
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .btn-ghost {
+    color: var(--text-muted);
+  }
+  .btn-ghost:hover { color: var(--text-primary); }
+
+  /* ---- Surfaces --------------------------------------------------------
+     Subtle separation, not heavy borders. */
+  /* Flat panel. Hover sharpens the border to purple — no lift, no shadow. */
+  .card {
+    position: relative;
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color var(--dur) var(--ease);
+  }
+
+  /* ---- Travelling edge light -------------------------------------------
+     Shared by every card on the site. Purple runs around the rim — an outer
+     ring on the border itself and a second ring tucked inside it — instead of
+     washing the card interior, which buried the copy behind a tint.
+
+     The conic gradient covers the whole box; `mask-composite` then subtracts
+     the content box from it, leaving only the 1px padding band painted. That
+     is what turns a full-surface gradient into a border. */
+  .card::before,
+  .card::after,
+  .arch-card::before,
+  .arch-card::after {
+    content: "";
+    position: absolute;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(from var(--edge-angle),
+                transparent 0deg,
+                var(--accent-mark) 45deg,
+                var(--accent-soft) 90deg,
+                transparent 150deg,
+                transparent 360deg);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0;
+    /* Never intercept the pointer — several .card instances wrap forms. */
+    pointer-events: none;
+    transition: opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+  }
+
+  .card::before,
+  .arch-card::before { inset: 0; }
+  .card::after,
+  .arch-card::after  { inset: 5px; }
+
+  .card:hover::before,
+  .card:hover::after,
+  .arch-card[data-hover="true"]::before,
+  .arch-card[data-hover="true"]::after {
+    animation: edge-orbit 3.2s linear infinite;
+  }
+
+  .card:hover::before,
+  .arch-card[data-hover="true"]::before { opacity: 1; }
+
+  /* The inner ring runs at half strength and half a lap behind, so the two
+     read as one light travelling through a layered edge. */
+  .card:hover::after,
+  .arch-card[data-hover="true"]::after {
+    opacity: 0.45;
+    animation-delay: -1.6s;
+  }
+
+  @keyframes edge-orbit {
+    to { --edge-angle: 360deg; }
+  }
+
+  /* ---- Eyebrow label ---------------------------------------------------- */
+  .eyebrow {
+    color: var(--accent);
+    font-weight: 500;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  /* ---- Section rhythm --------------------------------------------------
+     Heavy whitespace is the whole point of the layout. rem-based, so it grows
+     with the fluid root on large displays. */
+  .section {
+    padding-top: clamp(5rem, 10vw, 11rem);
+    padding-bottom: clamp(5rem, 10vw, 11rem);
+  }
+
+  /* ---- Fluid container --------------------------------------------------
+     Grows with the viewport instead of sitting in a narrow fixed column.
+     `92vw` keeps a consistent breathing margin at every size; the `124rem`
+     cap (which itself scales with the fluid root) stops an ultrawide from
+     stretching the layout to the horizon.
+
+       1280px → ~1178px     1920px → ~1766px
+       1440px → ~1325px     2560px → ~2355px
+                            3840px → ~2480px (cap)  */
+  .container-page {
+    width: 100%;
+    max-width: min(92vw, 124rem);
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 3vw, 4rem);
+  }
+
+  /* ---- Reading measure --------------------------------------------------
+     Visual elements may fill the extra width; prose must not. Caps a
+     paragraph at a comfortable line length no matter how wide its column
+     gets. Left-aligned only — never apply to centred text, or the box will
+     sit off-centre. */
+  .measure {
+    max-width: 64ch;
+  }
+
+
+  /* ---- Autonomy stack: pinned chapter panels ----------------------------
+     Sibling sticky panels. Each pins at the top while its own box scrolls;
+     because later siblings paint above earlier ones, panel N slides up over
+     panel N-1. No scroll listener, no animation library.
+
+     Nothing in the ancestor chain may set `overflow: hidden`, or sticky dies. */
+  .panel-stack {
+    position: relative;
+  }
+
+  .panel {
+    position: sticky;
+    top: 0;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid var(--panel-border);
+    background-color: var(--panel-bg);
+    color: var(--panel-text);
+  }
+
+  /* Content settles into place once the panel has slid past halfway. */
+  .panel-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+    transition-delay: var(--panel-delay, 0ms);
+  }
+  .panel[data-active="true"] .panel-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* The numeral drifts a touch further, so it lands last. */
+  .panel-numeral {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 900ms var(--ease), transform 900ms var(--ease);
+  }
+  .panel[data-active="true"] .panel-numeral {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Card titles and the accent phrase in the section statement. Reading tone,
+     not the mark tone — these are words. */
+  .arch-accent { color: var(--accent); }
+
+  /* ---- Architecture cards -----------------------------------------------
+     DISHA / MiSync / Rigel OS. Hover only emphasises what is already on
+     screen — nothing here hides content behind a pointer.
+
+     NOTE: this block deliberately breaks the "no gradients, no shadows, no
+     glows" rule stated at the top of theme.css. It is scoped to these cards
+     and nowhere else; the rest of the site still earns its depth from
+     hairlines and whitespace. */
+  .arch-card {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    /* Trimmed from the original 48–56px: the section now has to clear one
+       viewport, and card padding is the cheapest place to buy that back. */
+    padding: clamp(1.5rem, 2.4vw, 2.25rem);
+    transform: perspective(1200px) translateY(0) scale(1) rotateX(0deg) rotateY(0deg);
+    transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 400ms cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 400ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Both pseudo-layers paint over the card's own background, so the content
+     has to be lifted above them explicitly. */
+  .arch-card > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* The border itself stays neutral on hover. If it went solid purple the
+     travelling light would have nothing to travel against. */
+  .arch-card[data-hover="true"] {
+    transform: perspective(1200px) translateY(-6px) scale(1.015)
+               rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    box-shadow: 0 20px 45px -15px rgba(124, 58, 237, 0.22);
+  }
+
+  /* The other two recede rather than the hovered one shouting. */
+  .arch-card[data-dimmed="true"] {
+    opacity: 0.87;
+  }
+
+
+  /* Staged emphasis. Each element carries its own --stage-delay, so the card
+     resolves top-down instead of everything moving at once. */
+  .arch-figure,
+  .arch-stage {
+    transition: transform 420ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: var(--stage-delay, 0ms);
+  }
+  .arch-card[data-hover="true"] .arch-figure { transform: translateY(-4px); }
+  .arch-card[data-hover="true"] .arch-stage  { transform: translateY(-3px); }
+
+  .arch-cap {
+    transition: transform 380ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 380ms cubic-bezier(0.4, 0, 0.2, 1),
+                color 380ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: var(--cap-delay, 0ms);
+  }
+  .arch-card[data-hover="true"] .arch-cap {
+    transform: translateY(-2px);
+    border-color: var(--border-accent);
+    color: var(--text-primary);
+  }
+
+  /* Diagram motion is declared paused and only set running while the card is
+     active — three idle SVG animations would otherwise tick forever. */
+  .arch-flow {
+    stroke-dasharray: 4 7;
+    animation: arch-dash 2.4s linear infinite;
+    animation-play-state: paused;
+  }
+  .arch-card[data-hover="true"] .arch-flow { animation-play-state: running; }
+
+  @keyframes arch-dash {
+    to { stroke-dashoffset: -22; }
+  }
+
+  .arch-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: var(--radius-pill);
+    background-color: var(--accent-mark);
+    opacity: 0;
+    transition: opacity 500ms var(--ease);
+    animation: arch-drift 7s ease-in-out infinite;
+    animation-play-state: paused;
+  }
+  .arch-particle:nth-of-type(2) { animation-duration: 9s; }
+  .arch-particle:nth-of-type(3) { animation-duration: 11s; }
+
+  /* Same purple, more of it: at the old 0.22 the drifting dots disappeared
+     into the black canvas. The colour is untouched — only how much lands. */
+  .arch-card[data-hover="true"] .arch-particle {
+    opacity: 0.55;
+    animation-play-state: running;
+  }
+
+  @keyframes arch-drift {
+    0%, 100% { transform: translate(0, 0); }
+    50%      { transform: translate(6px, -8px); }
+  }
+
+  /* ---- Credibility marquee ----------------------------------------------
+     Two identical tracks scroll left; when the first has moved exactly its own
+     width, the second sits where it started — so the loop is seamless. */
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 40s linear infinite;
+  }
+  .marquee-viewport:hover .marquee {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Fade the strip into the page at both edges instead of hard-cutting. */
+  .marquee-viewport {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .logo-plate {
+    filter: grayscale(1);
+    opacity: 0.5;
+    transition: filter var(--dur) var(--ease), opacity var(--dur) var(--ease);
+  }
+  .logo-plate:hover {
+    filter: grayscale(0);
+    opacity: 1;
+  }
+
+  /* ---- News post body ---------------------------------------------------
+     Output of renderMarkdown(). Reading column, generous rhythm. */
+  .post-body > * + * { margin-top: 1.5rem; }
+
+  .post-body p,
+  .post-body li {
+    color: var(--text-muted);
+    font-size: 0.94rem;
+    line-height: 1.8;
+  }
+
+  .post-body h2 { font-size: 1.3rem; margin-top: 3rem; }
+  .post-body h3 { font-size: 1.09rem; margin-top: 2.5rem; }
+
+  .post-body ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+  .post-body li + li { margin-top: 0.5rem; }
+
+  .post-body strong { color: var(--text-primary); font-weight: 600; }
+
+  .post-body code {
+    background-color: var(--surface-raised);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.1em 0.4em;
+    font-size: 0.85em;
+  }
+
+  .post-body a {
+    color: var(--accent);
+    text-underline-offset: 3px;
+    text-decoration: underline;
+  }
+  /* Brightens, not darkens: on black the pressed tone would sink into the
+     page instead of reading as a hover. */
+  .post-body a:hover { color: var(--accent-bright); }
+
+  /* ---- Nav underline ---------------------------------------------------- */
+  .nav-link {
+    position: relative;
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: color var(--dur) var(--ease);
+  }
+  .nav-link:hover,
+  .nav-link[data-active="true"] { color: var(--text-primary); }
+  .nav-link[data-active="true"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  /* ---- Nav over dark media ----------------------------------------------
+     The bar is already white-on-black everywhere; over the cinematic video it
+     lifts a further step, because footage is busier than a flat canvas and
+     the muted gray loses its edge against moving frames. */
+  header[data-dark="true"] .nav-link {
+    color: rgba(255, 255, 255, 0.72);
+  }
+  header[data-dark="true"] .nav-link:hover,
+  header[data-dark="true"] .nav-link[data-active="true"] {
+    color: #ffffff;
+  }
+  header[data-dark="true"] .nav-link[data-active="true"]::after {
+    background: var(--accent-on-dark);
+  }
+
+  header[data-dark="true"] .btn-outline {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.45);
+  }
+  header[data-dark="true"] .btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: #ffffff;
   }
 }
 
-.font-mono {
-  font-family: var(--font-mono);
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  /* The accent word. Flat purple — no gradient fill, no text-shadow.
+     Reserved for one phrase per page. */
+  .text-accent,
+  .text-gradient,
+  .text-accent-display {
+    color: var(--accent);
+  }
 }
 
-.font-display {
-  font-family: var(--font-sans);
+/* ==========================================================================
+   Motion — scroll reveal + page transition.
+   Driven by IntersectionObserver adding [data-revealed]; no animation library.
+   ========================================================================== */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--dur-slow) var(--ease),
+              transform var(--dur-slow) var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
 }
 
-/* ==========================================
-   GLITCH TEXT EFFECT (disabled — plain text)
-   ========================================== */
-.glitch {
-  position: relative;
-  font-family: var(--font-sans);
+[data-reveal][data-revealed="true"] {
+  opacity: 1;
+  transform: none;
 }
 
-.glitch::before,
-.glitch::after {
-  display: none;
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
 }
 
-/* ==========================================
-   NEON EDGE BORDERS — simplified for light theme
-   ========================================== */
-.neon-edge {
-  position: relative;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  transition: border-color 0.3s ease;
+.page-enter {
+  animation: page-enter 380ms var(--ease) both;
 }
 
-.neon-edge::before,
-.neon-edge::after {
-  display: none;
-}
+/* Respect reduced-motion: no reveal, no glow breathing, no page slide. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 
-.neon-edge:hover {
-  border-color: rgba(20, 184, 166, 0.5);
-}
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
 
-/* Teal variant — same minimal style */
-.neon-edge-purple {
-  position: relative;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  transition: border-color 0.3s ease;
-}
+  /* Stop the marquee outright rather than letting the global duration
+     override snap it to its end position. */
+  .marquee {
+    animation: none !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
 
-.neon-edge-purple::before,
-.neon-edge-purple::after {
-  display: none;
-}
+  /* Panels show their content immediately; the sticky stacking still works,
+     it just doesn't animate. */
+  .panel-in,
+  .panel-numeral {
+    opacity: 1;
+    transform: none;
+  }
 
-.neon-edge-purple:hover {
-  border-color: rgba(20, 184, 166, 0.5);
-}
+  /* Architecture cards keep their colour response to hover — border, lit
+     surface, dimming — but give up every bit of movement. Zeroing the
+     durations globally is not enough on its own: the transforms would still
+     apply, they would just snap. */
+  .arch-card,
+  .arch-card[data-hover="true"],
+  .arch-card[data-hover="true"] .arch-figure,
+  .arch-card[data-hover="true"] .arch-stage,
+  .arch-card[data-hover="true"] .arch-cap {
+    transform: none !important;
+  }
 
-/* ==========================================
-   NEON GLOW TEXT — plain teal on light bg
-   ========================================== */
-.neon-text-cyan {
-  color: #0f766e;
-}
-
-.neon-text-purple {
-  color: #0f766e;
-}
-
-/* ==========================================
-   GRADIENT TEXT — solid black on light theme
-   ========================================== */
-.gradient-text {
-  color: #0a0a0a;
-}
-
-.gradient-text-cyan {
-  color: #0a0a0a;
-}
-
-/* ==========================================
-   PULSE DOT — subtle
-   ========================================== */
-@keyframes pulse-glow {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-.pulse-dot {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-
-/* ==========================================
-   FLOATING ANIMATION
-   ========================================== */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-/* ==========================================
-   CARD HOVER LIFT
-   ========================================== */
-.hover-lift {
-  transition: transform 0.3s ease;
-}
-
-.hover-lift:hover {
-  transform: translateY(-2px);
-}
-
-
-/* ==========================================
-   SCAN LINES — disabled
-   ========================================== */
-.scan-lines::after {
-  display: none;
-}
-
-/* ==========================================
-   SCROLLBAR — light theme
-   ========================================== */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #ffffff;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(20, 184, 166, 0.3);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(20, 184, 166, 0.5);
-}
-
-/* ==========================================
-   SELECTION — teal on light
-   ========================================== */
-::selection {
-  background: rgba(20, 184, 166, 0.25);
-  color: #0a0a0a;
-}
-
-/* ==========================================
-   SCROLL-TRIGGERED COLOR ANIMATIONS — toned down
-   ========================================== */
-@keyframes glow-sweep-indigo {
-  0% { border-color: rgba(255, 255, 255, 0.08); }
-  40% { border-color: rgba(255, 255, 255, 0.15); }
-  100% { border-color: rgba(255, 255, 255, 0.08); }
-}
-
-@keyframes glow-sweep-teal {
-  0% { border-color: rgba(255, 255, 255, 0.08); }
-  40% { border-color: rgba(255, 255, 255, 0.15); }
-  100% { border-color: rgba(255, 255, 255, 0.08); }
-}
-
-.scroll-glow-indigo > .neon-edge,
-.scroll-glow-indigo.neon-edge {
-  animation: glow-sweep-indigo 1.5s ease-out forwards;
-}
-
-.scroll-glow-teal > .neon-edge-purple,
-.scroll-glow-teal.neon-edge-purple {
-  animation: glow-sweep-teal 1.5s ease-out forwards;
-}
-
-/* Color line that sweeps on scroll */
-@keyframes color-line-sweep {
-  0% { width: 0; opacity: 0; }
-  20% { opacity: 1; }
-  100% { width: 100%; opacity: 0.3; }
-}
-
-.scroll-color-line {
-  position: relative;
-}
-
-.scroll-color-line::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 1px;
-  width: 0;
-  background: rgba(255, 255, 255, 0.1);
-  animation: color-line-sweep 1.2s ease-out forwards;
-}
-
-/* Heading color shift on scroll — disabled */
-.scroll-glow-indigo .gradient-text-cyan,
-.scroll-glow-indigo .neon-text-cyan,
-.scroll-glow-teal .gradient-text,
-.scroll-glow-teal .neon-text-purple {
-  /* no animation */
-}
-
-/* Stat card entrance — subtle */
-@keyframes stat-entrance-glow {
-  0% { border-color: rgba(255, 255, 255, 0.05); }
-  30% { border-color: rgba(255, 255, 255, 0.15); }
-  100% { border-color: rgba(255, 255, 255, 0.08); }
-}
-
-.stat-card-glow {
-  animation: stat-entrance-glow 1.8s ease-out forwards;
-  animation-play-state: paused;
-}
-
-.stat-card-glow[style*="opacity: 1"] {
-  animation-play-state: running;
+  /* The edge ring still appears on hover, it just stops orbiting. */
+  .card:hover::before,
+  .card:hover::after,
+  .arch-card[data-hover="true"]::before,
+  .arch-card[data-hover="true"]::after,
+  .arch-flow,
+  .arch-particle {
+    animation: none !important;
+  }
 }

@@ -1,31 +1,30 @@
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 
 export function BackToTop() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 400);
+    const onScroll = () => setVisible(window.scrollY > 600);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <AnimatePresence>
-      {visible && (
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.8, y: 20 }}
-          transition={{ duration: 0.3 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full border border-black/10 bg-white shadow-md text-neutral-700 flex items-center justify-center hover:bg-teal-600 hover:text-white hover:border-teal-600 transition-all duration-300 group"
-          aria-label="Back to top"
-        >
-          <ArrowUp className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform" />
-        </motion.button>
-      )}
-    </AnimatePresence>
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      aria-label="Back to top"
+      // Kept mounted and hidden from AT when off-screen, so there's no
+      // mount/unmount animation to coordinate.
+      aria-hidden={!visible}
+      tabIndex={visible ? 0 : -1}
+      className={`fixed bottom-8 right-6 z-30 flex h-12 w-12 items-center justify-center rounded-pill border text-ink-muted transition-all duration-300 ease-brand hover:text-ink md:right-8 ${
+        visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
+      }`}
+      style={{ backgroundColor: "var(--surface-raised)", borderColor: "var(--border)" }}
+    >
+      <ArrowUp className="h-5 w-5" />
+    </button>
   );
 }

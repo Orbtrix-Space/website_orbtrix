@@ -1,25 +1,22 @@
-import { AlertCircle } from "lucide-react";
 import { Link } from "wouter";
-import { GlitchText } from "@/components/GlitchText";
+import { usePageMeta } from "@/lib/usePageMeta";
 
 export default function NotFound() {
+  usePageMeta("Page not found");
+
   return (
-    <div className="min-h-[calc(100dvh-5rem)] w-full flex items-center justify-center p-4">
-      <div className="w-full max-w-md text-center">
-        <AlertCircle className="h-10 w-10 text-neutral-600 mx-auto mb-6" />
-        <GlitchText text="404" as="h1" className="text-6xl font-bold mb-4" />
-        <p className="text-sm text-neutral-400 font-mono mb-8">
-          The trajectory you are following has led to a void.
-          <br />
+    <section className="relative flex min-h-[80svh] items-center overflow-hidden">
+
+      <div className="container-page relative z-10 text-center">
+        <p className="text-gradient text-[clamp(3.5rem,12vw,7.85rem)] font-semibold leading-none">404</p>
+        <h1 className="mt-6 text-2xl md:text-3xl">This page is off course</h1>
+        <p className="mx-auto mt-4 max-w-md text-pretty leading-relaxed">
           The page you requested does not exist in this sector.
         </p>
-        <Link
-          href="/"
-          className="inline-flex items-center justify-center px-7 py-3.5 border border-white/20 text-white text-sm font-medium hover:bg-white hover:text-black transition-all duration-300 font-display uppercase"
-        >
-          Return to Base
+        <Link href="/" className="btn btn-primary mt-10 h-12 px-7 text-base">
+          Return home
         </Link>
       </div>
-    </div>
+    </section>
   );
 }

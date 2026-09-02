@@ -2,67 +2,73 @@ import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { usePageMeta } from "@/lib/usePageMeta";
-import { CAREERS_URL } from "@/data/site";
+import { CLOSING, THESIS, WHO } from "@/data/company";
+import { Notation, useLive } from "@/components/tech/TechParts";
+import { ClosedLoopPlate } from "@/components/company/CompanyVisuals";
 
-/** Preserved from the previous About page. */
-const COMPANY_FACTS: [string, string][] = [
-  ["Founded", "2025"],
-  ["Location", "Bengaluru, India"],
-  ["Focus", "Autonomous space systems"],
-  ["Stage", "Product development"],
-];
-
+/**
+ * The company page. Two sections and a CTA, and it is short on purpose.
+ *
+ *   who we are  →  IISc-incubated, full-stack autonomy
+ *   the thesis  →  strategic on the ground, tactical onboard, in a closed loop
+ *   the ask     →  build one with us
+ *
+ * Anything that expands on the architecture belongs on /disha or /solutions.
+ * A visitor should have the whole company inside a minute; that constraint is
+ * the design, so resist adding sections here.
+ *
+ * Copy lives in data/company.ts, including the reason the one number on this
+ * page is framed the way it is.
+ */
 export default function About() {
-  usePageMeta("About", "Orbtrix is building the infrastructure layer for autonomous spacecraft operations.");
+  usePageMeta(
+    "Company",
+    "Orbtrix is an IISc-incubated space technology startup building enabling systems for full-scale autonomy in space missions — ground and onboard in a closed loop.",
+  );
+
+  const thesis = useLive<HTMLElement>();
 
   return (
     <>
-      <section className="relative overflow-hidden">
+      {/* ===================== 01 — WHO WE ARE ===================== */}
+      <section className="container-page page-head">
+        <Reveal>
+          <Notation ident={WHO.mark.ident} cmd={WHO.mark.cmd} />
+        </Reveal>
 
-        <div className="container-page relative z-10 pb-16 pt-40 md:pt-48">
-          <Reveal>
-            <p className="eyebrow">About</p>
-          </Reveal>
-          <Reveal delay={80}>
-            <h1 className="mt-6 max-w-3xl text-balance text-[clamp(1.95rem,4.8vw,3.5rem)] leading-[1.08]">
-              Building toward lunar infrastructure
-            </h1>
-          </Reveal>
-        </div>
-      </section>
+        <Reveal delay={60}>
+          <h1 className="mt-7 max-w-4xl text-balance text-[clamp(1.95rem,4.6vw,3.4rem)] leading-[1.06]">
+            {WHO.heading}
+          </h1>
+        </Reveal>
 
-      {/* ===================== VISION ===================== */}
-      <section className="container-page pb-24 md:pb-32">
-        <div className="grid gap-16 lg:grid-cols-[1.3fr_1fr] lg:gap-24">
-          <Reveal>
-            {/* Preserved verbatim from the previous site. */}
-            <div className="flex max-w-2xl flex-col gap-6 text-lg leading-relaxed">
-              <p>
-                We believe the next leap in space will not come from bigger rockets. It will
-                come from spacecraft that can think, decide, and operate on their own.
-              </p>
-              <p>
-                Our long term vision is to build the infrastructure layer for sustained lunar
-                operations. We start by proving this technology in LEO — autonomous Earth
-                observation missions that deliver raw intelligence at dramatically lower costs.
-              </p>
-              <p className="text-ink">Every mission we fly brings us closer to the Moon.</p>
-            </div>
-          </Reveal>
+        <div className="mt-14 grid gap-14 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-20">
+          <div>
+            {WHO.body.map((paragraph, i) => (
+              <Reveal key={paragraph} delay={120 + i * 80}>
+                <p
+                  className={`measure text-pretty font-light leading-relaxed ${
+                    i === 0 ? "text-[1.05rem] text-ink" : "mt-6 text-[0.95rem]"
+                  }`}
+                >
+                  {paragraph}
+                </p>
+              </Reveal>
+            ))}
+          </div>
 
-          <Reveal delay={120}>
+          {/* The information panel, in the shape the page has always used. */}
+          <Reveal delay={180}>
             <h2 className="sr-only">Company facts</h2>
             <dl className="card overflow-hidden p-0">
-              {COMPANY_FACTS.map(([label, value], i) => (
+              {WHO.facts.map(([label, value], i) => (
                 <div
                   key={label}
-                  className="flex items-center justify-between gap-6 px-7 py-5"
-                  style={{
-                    borderTop: i === 0 ? "none" : "1px solid var(--border)",
-                  }}
+                  className="flex items-baseline justify-between gap-6 px-7 py-5"
+                  style={{ borderTop: i === 0 ? "none" : "1px solid var(--border)" }}
                 >
                   <dt className="text-sm text-ink-muted">{label}</dt>
-                  <dd className="text-right text-[13px] text-ink">{value}</dd>
+                  <dd className="dsh-mono text-right text-[0.68rem] text-ink">{value}</dd>
                 </div>
               ))}
             </dl>
@@ -70,40 +76,111 @@ export default function About() {
         </div>
       </section>
 
-      {/* ===================== JOIN US ===================== */}
-      <section className="container-page pb-32">
-        <Reveal>
-          <div className="card flex flex-col items-start justify-between gap-8 p-10 md:flex-row md:items-center md:p-14">
-            <div className="max-w-xl">
-              <h2 className="text-[clamp(1.3rem,2.6vw,1.95rem)]">Join us</h2>
-              <p className="mt-4 leading-relaxed">
-                We are looking for engineers, researchers, and operators who want to build the
-                future of autonomous spacecraft operations.
-              </p>
-            </div>
+      {/* ===================== 02 — THE THESIS ===================== */}
+      <section
+        id="autonomy"
+        ref={thesis.ref}
+        data-live={thesis.live ? "true" : "false"}
+        className="sol-section container-page pt-0"
+      >
+        <div className="max-w-3xl">
+          <Reveal>
+            <Notation ident={THESIS.mark.ident} cmd={THESIS.mark.cmd} />
+          </Reveal>
 
-            <a
-              href={CAREERS_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary group h-14 shrink-0 px-8 text-base"
-            >
-              View open roles
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 ease-brand group-hover:translate-x-1" />
-            </a>
+          <Reveal delay={60}>
+            <h2 className="mt-6 text-[clamp(1.7rem,3.4vw,2.8rem)] leading-[1.08]">
+              {THESIS.heading.map((line) => (
+                <span key={line} className="block text-balance">
+                  {line}
+                </span>
+              ))}
+            </h2>
+          </Reveal>
+
+          <Reveal delay={120}>
+            <p className="measure mt-7 text-pretty text-[0.98rem] font-light leading-relaxed">
+              {THESIS.lead}
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="mt-14 grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-center lg:gap-16">
+          {/* The two layers. Peers — same treatment, opposite ends of the link. */}
+          <div className="flex flex-col gap-5">
+            {THESIS.levels.map((level, i) => (
+              <Reveal key={level.title} delay={140 + i * 70}>
+                <div className="abt-level" data-side={level.side}>
+                  <p className="abt-level-where">{level.where}</p>
+                  <h3 className="mt-3 text-[clamp(1.15rem,2vw,1.5rem)] leading-tight">
+                    {level.title}
+                  </h3>
+                  <p className="mt-4 text-pretty text-[0.9rem] font-light leading-relaxed">
+                    {level.body}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal delay={200}>
+            <ClosedLoopPlate
+              ground={THESIS.loop.ground}
+              space={THESIS.loop.space}
+              uplink={THESIS.loop.uplink}
+              downlink={THESIS.loop.downlink}
+            />
+          </Reveal>
+        </div>
+
+        {/* The section lands on one statement, and the qualifier travels with
+            it — the sentence under the headline is what keeps the number a
+            target rather than a promise. */}
+        <Reveal delay={260}>
+          <div
+            className="mt-16 border-t pt-12 md:mt-20 md:pt-14"
+            style={{ borderColor: "var(--border)" }}
+          >
+            <h3 className="max-w-3xl text-balance text-[clamp(1.5rem,3vw,2.4rem)] leading-[1.1]">
+              {THESIS.statement}
+            </h3>
+            <p className="measure mt-6 text-pretty text-[0.92rem] font-light leading-relaxed">
+              {THESIS.opex}
+            </p>
           </div>
         </Reveal>
+      </section>
 
-        <Reveal delay={100}>
-          <Link
-            href="/team"
-            className="btn btn-ghost group mt-10 h-11 text-base"
-            style={{ color: "var(--accent)" }}
-          >
-            Meet the team
-            <ArrowRight className="h-4 w-4 transition-transform duration-300 ease-brand group-hover:translate-x-1" />
-          </Link>
-        </Reveal>
+      {/* ===================== CLOSING ===================== */}
+      <section className="sol-section container-page pt-0">
+        <div
+          className="border-t pt-16 text-center md:pt-20"
+          style={{ borderColor: "var(--border)" }}
+        >
+          <Reveal>
+            <div className="flex justify-center">
+              <Notation ident={CLOSING.mark.ident} cmd={CLOSING.mark.cmd} className="text-left" />
+            </div>
+          </Reveal>
+
+          <Reveal delay={60}>
+            <h2 className="mx-auto mt-8 max-w-3xl text-balance text-[clamp(1.7rem,3.4vw,2.8rem)] leading-[1.08]">
+              {CLOSING.heading}
+            </h2>
+          </Reveal>
+
+          <Reveal delay={120}>
+            <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+              <Link href={CLOSING.primary.href} className="cta cta-primary">
+                {CLOSING.primary.label}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <Link href={CLOSING.secondary.href} className="cta cta-secondary">
+                {CLOSING.secondary.label}
+              </Link>
+            </div>
+          </Reveal>
+        </div>
       </section>
     </>
   );

@@ -63,10 +63,40 @@
   --numeral: rgba(255, 255, 255, 0.05);
   --numeral-invert: #f5f5f7;
 
+  /* --- Product photography ------------------------------------------------
+     The one documented exception to the no-shadow / no-glow rule at the top of
+     this file, and it exists for a physical reason rather than a decorative
+     one: DISHA_in_Monitor is a photograph of a lit object. A lit object with
+     no cast shadow and no ambient bounce does not read as sitting on the page
+     — it reads as a rectangle pasted onto it.
+
+     Consumed by `.dsh-monitor` in index.css and nowhere else. The pair works
+     as one effect: `bounce` is the brand purple at 14% behind a heavy blur,
+     laid down BEHIND the monitor as ambient light; `shade` is a black form of
+     the same size laid over it, which occludes that light exactly where the
+     object is. The visible result is a rim of atmosphere and a dark contact
+     shadow — depth, from two flat fills. Neither is ever a gradient, and
+     neither ever touches type. */
+  --monitor-bounce: rgba(124, 58, 237, 0.14);
+  --monitor-shade: rgba(0, 0, 0, 0.94);
+
   /* --- Type -------------------------------------------------------------- */
   /* The single place the typeface is named at runtime. Swap this one line to
      change the whole site. */
-  --font-sans: "Google Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Google Sans Flex — a variable face, loaded from Google Fonts in
+     client/index.html. The fallbacks behind it are the neutral grotesques it
+     most resembles, so the swap on a slow connection shifts weight rather than
+     character: Helvetica Neue on macOS, Arial on Windows, Roboto on Android,
+     Liberation Sans on Linux. */
+  --font-sans: "Google Sans Flex", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  /* Engineering notation ONLY — the `# IDENTIFIER` / `$ command` marks on the
+     DISHA page, its capability codes and its readout labels. Deliberately a
+     SYSTEM stack: nothing is downloaded, and the face is the one the
+     operator's own terminal already uses, which is rather the point. It never
+     sets body copy or a heading; it sets notation. */
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+               "Liberation Mono", monospace;
 
   /* --- Motion ------------------------------------------------------------ */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);

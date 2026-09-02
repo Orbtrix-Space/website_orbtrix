@@ -13,7 +13,7 @@ export default function NotFound() {
         <p className="mx-auto mt-4 max-w-md text-pretty leading-relaxed">
           The page you requested does not exist in this sector.
         </p>
-        <Link href="/" className="btn btn-primary mt-10 h-12 px-7 text-base">
+        <Link href="/" className="cta cta-primary mt-10">
           Return home
         </Link>
       </div>

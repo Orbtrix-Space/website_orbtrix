@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Mail, MapPin, ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
+import { Notation } from "@/components/tech/TechParts";
 import { usePageMeta } from "@/lib/usePageMeta";
 import { CONTACT } from "@/data/site";
 
@@ -49,13 +50,16 @@ export default function Contact() {
     <>
       <section className="relative overflow-hidden">
 
-        <div className="container-page relative z-10 pb-16 pt-40 md:pt-48">
+        <div className="container-page page-head relative z-10">
           <Reveal>
-            <h1 className="max-w-3xl text-balance text-[clamp(1.95rem,4.8vw,3.5rem)] leading-[1.08]">
+            <Notation ident="CONTACT" cmd="orbtrix.reach()" />
+          </Reveal>
+          <Reveal delay={60}>
+            <h1 className="mt-7 max-w-3xl text-balance text-[clamp(1.95rem,4.8vw,3.5rem)] leading-[1.08]">
               Get in touch
             </h1>
           </Reveal>
-          <Reveal delay={100}>
+          <Reveal delay={120}>
             <p className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed md:text-xl">
               For the platform, missions, or collaboration opportunities — we would like to
               hear from you.
@@ -64,7 +68,7 @@ export default function Contact() {
         </div>
       </section>
 
-      <section className="container-page pb-32">
+      <section className="container-page pb-24">
         <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
           {/* ---- Details ---- */}
           <Reveal>
@@ -178,9 +182,9 @@ export default function Contact() {
                   )}
                 </div>
 
-                <button type="submit" className="btn btn-primary group h-14 w-full text-base">
+                <button type="submit" className="cta cta-primary w-full">
                   Send message
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 ease-brand group-hover:translate-x-1" />
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </button>
               </div>
             </form>

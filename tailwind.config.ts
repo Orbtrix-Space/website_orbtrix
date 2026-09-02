@@ -66,7 +66,7 @@ export default {
         pill: "var(--radius-pill)",
       },
       fontFamily: {
-        sans: ["Google Sans", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+        sans: ["Google Sans Flex", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
       },
       /* Global ~13% type reduction for a more refined, enterprise scale.
          Each step is shrunk but keeps its default line-height, so line boxes

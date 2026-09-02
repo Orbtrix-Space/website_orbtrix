@@ -14,8 +14,8 @@ export default function NewsPost() {
   if (!post) return <NotFound />;
 
   return (
-    <article className="container-page pb-32 pt-40 md:pt-48">
-      <div className="mx-auto max-w-2xl">
+    <article className="container-page page-head pb-24">
+      <div className="max-w-2xl">
         <Reveal>
           <Link
             href="/news"

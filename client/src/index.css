@@ -1,12 +1,13 @@
-/* Google Sans. Weights: 400 body, 500 navigation/buttons/card titles,
-   600 headings. To swap the face later, change --font-sans in
-   styles/theme.css — that is the only place the family is named at runtime.
+/* Google Sans Flex. Weights: 300 light copy, 400 body, 500 navigation/buttons/
+   card titles, 600 headings — all served by one variable file per subset.
 
-   Not to be confused with Product Sans, which this file used to chase via
-   lookalikes: Product Sans is absent from the public Google Fonts catalog and
-   its stylesheet carries a license/googlerestricted header. Google Sans is in
-   the catalog and serves without one. */
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;600&display=swap');
+   The font is loaded by a <link> in client/index.html, NOT by an @import here.
+   An @import is only discovered once this stylesheet has been fetched and
+   parsed, which puts the font two round trips behind the HTML; the link tag is
+   found in the initial parse.
+
+   To swap the face later, change --font-sans in styles/theme.css — that is the
+   only place the family is named at runtime — and update the <link>. */
 @import './styles/theme.css';
 
 @tailwind base;
@@ -178,9 +179,7 @@
      the content box from it, leaving only the 1px padding band painted. That
      is what turns a full-surface gradient into a border. */
   .card::before,
-  .card::after,
-  .arch-card::before,
-  .arch-card::after {
+  .card::after {
     content: "";
     position: absolute;
     border-radius: inherit;
@@ -202,25 +201,19 @@
     z-index: 1;
   }
 
-  .card::before,
-  .arch-card::before { inset: 0; }
-  .card::after,
-  .arch-card::after  { inset: 5px; }
+  .card::before { inset: 0; }
+  .card::after  { inset: 5px; }
 
   .card:hover::before,
-  .card:hover::after,
-  .arch-card[data-hover="true"]::before,
-  .arch-card[data-hover="true"]::after {
+  .card:hover::after {
     animation: edge-orbit 3.2s linear infinite;
   }
 
-  .card:hover::before,
-  .arch-card[data-hover="true"]::before { opacity: 1; }
+  .card:hover::before { opacity: 1; }
 
   /* The inner ring runs at half strength and half a lap behind, so the two
      read as one light travelling through a layered edge. */
-  .card:hover::after,
-  .arch-card[data-hover="true"]::after {
+  .card:hover::after {
     opacity: 0.45;
     animation-delay: -1.6s;
   }
@@ -241,8 +234,24 @@
      Heavy whitespace is the whole point of the layout. rem-based, so it grows
      with the fluid root on large displays. */
   .section {
-    padding-top: clamp(5rem, 10vw, 11rem);
-    padding-bottom: clamp(5rem, 10vw, 11rem);
+    /* Was clamp(5rem, 10vw, 11rem). The 10vw middle term is what made the
+       gaps run away: at 1600px it resolved to 10rem top AND bottom, so two
+       adjacent sections put 20rem — most of a viewport — of empty black
+       between two paragraphs. 6.5vw keeps the layout generous at every width
+       without the space becoming the subject. */
+    padding-top: clamp(4.5rem, 6.5vw, 8rem);
+    padding-bottom: clamp(4.5rem, 6.5vw, 8rem);
+  }
+
+  /* ---- Page head --------------------------------------------------------
+     The first section of every page. The nav is 4.5rem and absolutely
+     positioned, so each page owns its own clearance — which is exactly how
+     six pages ended up with four different values (pt-36, pt-40, pt-44,
+     pt-48). One rule, so a visitor moving between pages sees the headline
+     land in the same place every time. */
+  .page-head {
+    padding-top: clamp(8rem, 9vw, 10.5rem);
+    padding-bottom: clamp(3rem, 4.5vw, 4.5rem);
   }
 
   /* ---- Fluid container --------------------------------------------------
@@ -315,147 +324,2682 @@
     transform: none;
   }
 
-  /* Card titles and the accent phrase in the section statement. Reading tone,
-     not the mark tone — these are words. */
-  .arch-accent { color: var(--accent); }
-
-  /* ---- Architecture cards -----------------------------------------------
-     DISHA / MiSync / Rigel OS. Hover only emphasises what is already on
-     screen — nothing here hides content behind a pointer.
-
-     NOTE: this block deliberately breaks the "no gradients, no shadows, no
-     glows" rule stated at the top of theme.css. It is scoped to these cards
-     and nowhere else; the rest of the site still earns its depth from
-     hairlines and whitespace. */
-  .arch-card {
-    position: relative;
-    overflow: hidden;
-    background-color: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    /* Trimmed from the original 48–56px: the section now has to clear one
-       viewport, and card padding is the cheapest place to buy that back. */
-    padding: clamp(1.5rem, 2.4vw, 2.25rem);
-    transform: perspective(1200px) translateY(0) scale(1) rotateX(0deg) rotateY(0deg);
-    transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1),
-                border-color 400ms cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 400ms cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* ---- The Challenge -----------------------------------------------------
+     Two rules, both colour-only. The section is a statement read at a glance;
+     anything that moves under the cursor would pull attention off the copy. */
+  .challenge-cell {
+    transition: border-color 240ms var(--ease);
+  }
+  .challenge-cell:hover {
+    border-color: rgba(167, 139, 250, 0.34);
   }
 
-  /* Both pseudo-layers paint over the card's own background, so the content
-     has to be lifted above them explicitly. */
-  .arch-card > * {
-    position: relative;
-    z-index: 2;
+  .challenge-icon {
+    color: var(--text-muted);
+    transition: color 240ms var(--ease);
+  }
+  .challenge-cell:hover .challenge-icon {
+    color: var(--accent);
   }
 
-  /* The border itself stays neutral on hover. If it went solid purple the
-     travelling light would have nothing to travel against. */
-  .arch-card[data-hover="true"] {
-    transform: perspective(1200px) translateY(-6px) scale(1.015)
-               rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-    box-shadow: 0 20px 45px -15px rgba(124, 58, 237, 0.22);
+  /* ---- Why Orbtrix specification rows -------------------------------------
+     Collapsed, a row is a numeral, a headline and a mark on a hairline. Open,
+     it adds a short panel. Nothing scales, nothing glows: the whole response is
+     colour plus the panel's own height, which is what keeps it reading as
+     instrumentation rather than as an accordion. */
+  .why-row {
+    border-top: 1px solid var(--border);
+    transition: border-color 300ms var(--ease);
+  }
+  .why-row:last-child { border-bottom: 1px solid var(--border); }
+
+  /* The divider lights, but only at a third strength — a solid accent rule
+     across the full measure is far too loud for a hover state. */
+  .why-row[data-open="true"],
+  .why-row[data-open="true"] + .why-row {
+    border-color: rgba(167, 139, 250, 0.34);
   }
 
-  /* The other two recede rather than the hovered one shouting. */
-  .arch-card[data-dimmed="true"] {
-    opacity: 0.87;
+  .why-head {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.25rem;
+    width: 100%;
+    padding: 1.5rem 0;
+    text-align: left;
+    /* Tap-to-expand devices only. Where hover drives the row, a pointer cursor
+       would promise a click that intentionally does nothing. */
+    cursor: pointer;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .why-head { cursor: default; }
   }
 
-
-  /* Staged emphasis. Each element carries its own --stage-delay, so the card
-     resolves top-down instead of everything moving at once. */
-  .arch-figure,
-  .arch-stage {
-    transition: transform 420ms cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: var(--stage-delay, 0ms);
+  .why-num {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-muted);
+    transition: color 300ms var(--ease);
   }
-  .arch-card[data-hover="true"] .arch-figure { transform: translateY(-4px); }
-  .arch-card[data-hover="true"] .arch-stage  { transform: translateY(-3px); }
+  .why-row[data-open="true"] .why-num { color: var(--accent); }
 
-  .arch-cap {
-    transition: transform 380ms cubic-bezier(0.4, 0, 0.2, 1),
-                border-color 380ms cubic-bezier(0.4, 0, 0.2, 1),
-                color 380ms cubic-bezier(0.4, 0, 0.2, 1);
-    transition-delay: var(--cap-delay, 0ms);
-  }
-  .arch-card[data-hover="true"] .arch-cap {
-    transform: translateY(-2px);
-    border-color: var(--border-accent);
+  .why-title {
+    font-size: clamp(1.02rem, 1.5vw, 1.28rem);
+    font-weight: 500;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
     color: var(--text-primary);
   }
 
-  /* Diagram motion is declared paused and only set running while the card is
-     active — three idle SVG animations would otherwise tick forever. */
-  .arch-flow {
-    stroke-dasharray: 4 7;
-    animation: arch-dash 2.4s linear infinite;
-    animation-play-state: paused;
+  /* → becomes ↑ on open. A quarter turn, nothing more. */
+  .why-arrow {
+    color: var(--text-muted);
+    transition: transform 300ms var(--ease), color 300ms var(--ease);
   }
-  .arch-card[data-hover="true"] .arch-flow { animation-play-state: running; }
-
-  @keyframes arch-dash {
-    to { stroke-dashoffset: -22; }
+  .why-row[data-open="true"] .why-arrow {
+    transform: rotate(-90deg);
+    color: var(--accent);
   }
 
-  .arch-particle {
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    border-radius: var(--radius-pill);
-    background-color: var(--accent-mark);
+  /* 0fr → 1fr, so the panel animates to its own height with none hard-coded.
+     Same technique as the mobile nav. */
+  .why-panel {
+    display: grid;
+    transition: grid-template-rows 320ms var(--ease);
+  }
+
+  .why-panel-in {
+    /* Indented to clear the numeral column, so the copy hangs off the headline
+       rather than the row edge. */
+    padding: 0 0 1.75rem 2.6rem;
     opacity: 0;
-    transition: opacity 500ms var(--ease);
-    animation: arch-drift 7s ease-in-out infinite;
-    animation-play-state: paused;
+    transform: translateY(-4px);
+    transition: opacity 300ms var(--ease), transform 300ms var(--ease);
   }
-  .arch-particle:nth-of-type(2) { animation-duration: 9s; }
-  .arch-particle:nth-of-type(3) { animation-duration: 11s; }
-
-  /* Same purple, more of it: at the old 0.22 the drifting dots disappeared
-     into the black canvas. The colour is untouched — only how much lands. */
-  .arch-card[data-hover="true"] .arch-particle {
-    opacity: 0.55;
-    animation-play-state: running;
+  .why-row[data-open="true"] .why-panel-in {
+    opacity: 1;
+    transform: none;
   }
 
-  @keyframes arch-drift {
-    0%, 100% { transform: translate(0, 0); }
-    50%      { transform: translate(6px, -8px); }
+  .why-body {
+    max-width: 46ch;
+    font-size: 0.88rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-muted);
   }
 
-  /* ---- Credibility marquee ----------------------------------------------
-     Two identical tracks scroll left; when the first has moved exactly its own
-     width, the second sits where it started — so the loop is seamless. */
-  .marquee {
+  .why-meta {
+    margin-top: 1rem;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* Only rendered when a figure is actually substantiated — see Reason.metric. */
+  .why-metric {
+    margin-bottom: 0.85rem;
+    font-size: clamp(1.6rem, 3vw, 2.3rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+  }
+
+  /* ---- CTA system ---------------------------------------------------------
+     ONE pill, three tones. Every page-level call to action on the site uses
+     `.cta` plus exactly one tone class — if you find yourself adding a size or
+     padding utility alongside them, the system is being worked around.
+
+     Geometry is fixed here rather than per-instance, which is the whole point:
+     the old buttons carried their own h-14 / px-8 / py-3.5 utilities and had
+     drifted to four different heights across the site.
+
+     Sizing: 50px tall, 26px of horizontal padding, 15px type, 26px radius —
+     a fully-round end on a 50px pill. Reads as a navigation control rather
+     than a marketing button.
+
+     NOTE: .btn and its variants still exist for the header's compact controls
+     and the skip link. Those are chrome, not page CTAs, and deliberately keep
+     their smaller sizing. */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    height: 50px;
+    padding: 0 26px;
+    border: 1px solid transparent;
+    border-radius: 26px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    transition: border-color 260ms var(--ease),
+                background-color 260ms var(--ease),
+                color 260ms var(--ease);
+  }
+
+  /* The arrow is part of the system, so instances never style it themselves. */
+  .cta svg {
+    flex-shrink: 0;
+    transition: transform 260ms var(--ease);
+  }
+  .cta:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* Primary — purple hairline, purple type, black ground. */
+  .cta-primary {
+    background-color: var(--bg);
+    border-color: rgba(167, 139, 250, 0.34);
+    color: var(--accent);
+  }
+  .cta-primary:hover {
+    border-color: rgba(167, 139, 250, 0.62);
+    background-color: rgba(124, 58, 237, 0.1);
+  }
+
+  /* Secondary — neutral hairline, white type. Resolves to the accent on hover
+     so the two tiers still feel like one family. */
+  .cta-secondary {
+    background-color: transparent;
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+  }
+  .cta-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Over footage. The purple hairline disappears against moving frames, so
+     this tier goes white and carries a little ground of its own. */
+  .cta-on-media {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.38);
+    color: #ffffff;
+  }
+  .cta-on-media:hover {
+    border-color: rgba(255, 255, 255, 0.72);
+    background-color: rgba(0, 0, 0, 0.48);
+  }
+
+  /* Narrow phones: the longest label ("Join the early adopter programme") would
+     otherwise run past the container. */
+  @media (max-width: 420px) {
+    .cta {
+      height: 46px;
+      padding: 0 18px;
+      font-size: 14px;
+      border-radius: 23px;
+    }
+  }
+
+  /* ---- Ecosystem: the logo wall -------------------------------------------
+     No cards, no boxes — marks on the canvas with room around them. Two
+     groups: the incubator on its own plate at the left, and everything else
+     in an auto-fit wall beside it. The grid is auto-fit so the column count
+     follows the number of logos and the viewport; adding a logo never needs a
+     CSS change.
+
+     Sizes and opacity were both raised here. At 2.75rem and 62% opacity the
+     marks read as a decorative footer strip you scroll past — which is the
+     opposite of what a credibility row is for. A logo either belongs on the
+     page at a size you can read, or it does not belong on the page. */
+  .pw-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--text-muted);
+  }
+
+  /* The incubator sits in a hairline plate. It is the only mark on the page
+     with a stated relationship behind it, so it gets the one box. */
+  .pw-plate {
+    display: inline-flex;
+    min-height: 9.5rem;
+    min-width: min(20rem, 100%);
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 2.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: var(--surface);
+  }
+
+  .partner-wall {
     display: flex;
-    width: max-content;
-    animation: marquee-scroll 40s linear infinite;
-  }
-  .marquee-viewport:hover .marquee {
-    animation-play-state: paused;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: clamp(2.25rem, 4vw, 3.5rem) clamp(2.75rem, 5vw, 5rem);
   }
 
-  @keyframes marquee-scroll {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
+  /* One bounding box for every mark, constrained on BOTH axes. Height alone
+     would let a wide wordmark outweigh a square seal; the max-width evens the
+     perceived weight out. object-fit keeps every logo's own proportions. */
+  .partner-logo {
+    height: 3.25rem;
+    /* min(…, 100%) matters: the rem cap alone lets a wide wordmark exceed its
+       grid track at tablet widths, where the track is narrower than the cap —
+       which pushes the mark out of its cell and scrolls the page sideways. */
+    max-width: min(11rem, 100%);
+    width: auto;
+    object-fit: contain;
+    opacity: 0.85;
+    transition: opacity 260ms var(--ease), transform 260ms var(--ease);
   }
 
-  /* Fade the strip into the page at both edges instead of hard-cutting. */
-  .marquee-viewport {
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  .partner-logo[data-lead="true"] {
+    height: 6.5rem;
+    max-width: min(17rem, 100%);
+    opacity: 1;
   }
 
-  .logo-plate {
-    filter: grayscale(1);
+  @media (min-width: 768px) {
+    .partner-logo {
+      height: 5rem;
+      max-width: min(15rem, 100%);
+    }
+    .partner-logo[data-lead="true"] {
+      height: 7.5rem;
+      max-width: min(19rem, 100%);
+    }
+  }
+
+  /* Every mark, flattened to white. brightness(0) collapses the artwork to a
+     black silhouette first, so invert lands on a clean white regardless of
+     what colour it started at, and the alpha channel is untouched so the
+     shape stays exact. See the note in PartnersBackers.tsx for why this is
+     unconditional rather than measured per logo. */
+  .partner-logo {
+    filter: brightness(0) invert(1);
+  }
+
+  .partner-logo:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+
+  /* ---- Who we serve -------------------------------------------------------
+     Four domains on a hairline grid. Engaging one lights its rule, mark and
+     numeral, and reveals a claim plus a mission-state chain.
+
+     The reveal is opacity-only at lg, with its space permanently reserved —
+     that is what stops the CTA underneath from jumping every time the pointer
+     crosses a column. Below lg the same panel collapses for real (0fr → 1fr),
+     because reserving four panels' worth of height on a phone would be a
+     screen of empty space. */
+  .wws-item {
+    border-top: 1px solid var(--border);
+    transition: border-color 300ms var(--ease);
+  }
+  .wws-item[data-open="true"] {
+    border-color: rgba(167, 139, 250, 0.45);
+  }
+
+  .wws-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    padding: 1.5rem 0 0;
+    text-align: left;
+    cursor: pointer;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    /* Hover drives it here, so a pointer cursor would promise a click that
+       intentionally does nothing. */
+    .wws-head { cursor: default; }
+  }
+
+  .wws-mark {
+    color: var(--text-muted);
+    opacity: 0.75;
+    transition: color 300ms var(--ease), opacity 300ms var(--ease);
+  }
+  .wws-item[data-open="true"] .wws-mark {
+    color: var(--accent);
+    opacity: 1;
+  }
+
+  .wws-n {
+    margin-top: 1.35rem;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-muted);
+    transition: color 300ms var(--ease);
+  }
+  .wws-item[data-open="true"] .wws-n { color: var(--accent); }
+
+  .wws-name {
+    margin-top: 0.7rem;
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+  }
+
+  .wws-note {
+    margin-top: 0.55rem;
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.55;
+    color: var(--text-muted);
+    transition: color 300ms var(--ease);
+  }
+  .wws-item[data-open="true"] .wws-note { color: var(--text-primary); }
+
+  /* Collapsed by default — the mobile/tap behaviour. */
+  .wws-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    width: 100%;
+    transition: grid-template-rows 320ms var(--ease);
+  }
+  .wws-item[data-open="true"] .wws-panel { grid-template-rows: 1fr; }
+
+  .wws-panel-in {
+    display: block;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 300ms var(--ease);
+  }
+  .wws-item[data-open="true"] .wws-panel-in { opacity: 1; }
+
+  @media (min-width: 1024px) {
+    /* The row is at full height at all times so revealing never moves the CTA
+       underneath. What changed: the reserved space now HOLDS something.
+
+       Before, the whole panel was reserved and blank until you hovered it —
+       roughly 130px of empty black under every column, on a page whose problem
+       was empty black. The claim is the most substantial writing in the
+       section and there is no reason to hide it; it sits muted at rest and
+       lifts on engagement, and only the mission-state chain is actually
+       revealed. Nothing is reserved for nothing. */
+    .wws-panel { grid-template-rows: 1fr; }
+    .wws-panel-in { opacity: 1; }
+
+    .wws-chain {
+      opacity: 0;
+      transition: opacity 300ms var(--ease);
+    }
+    .wws-item[data-open="true"] .wws-chain { opacity: 1; }
+  }
+
+  .wws-detail {
+    display: block;
+    margin-top: 1.25rem;
+    font-size: 0.78rem;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--text-muted);
+    opacity: 0.75;
+    transition: opacity var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .wws-item[data-open="true"] .wws-detail {
+    opacity: 1;
+    color: var(--text-primary);
+  }
+
+  .wws-chain {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 1rem;
+    padding-bottom: 0.25rem;
+    font-size: 9.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .wws-arrow {
+    margin-right: 0.35rem;
     opacity: 0.5;
-    transition: filter var(--dur) var(--ease), opacity var(--dur) var(--ease);
   }
-  .logo-plate:hover {
+
+  /* ---- Approach console --------------------------------------------------
+     A mission console, built from hairlines. The only fill anywhere in here is
+     the chrome bar; everything else is the page canvas with 1px rules on it,
+     which is what keeps it reading as instrumentation rather than as a stack
+     of cards. Purple appears in four places only: the chrome badge, the
+     prompt, the axis centre label, and a lit link. */
+  .cns {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background-color: var(--bg);
+    overflow: hidden;
+  }
+
+  .cns-chrome {
+    padding: 0.85rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background-color: var(--surface);
+  }
+
+  /* A mark, not a traffic light. */
+  .cns-badge {
+    width: 7px;
+    height: 7px;
+    background-color: var(--accent-mark);
+    transform: rotate(45deg);
+  }
+
+  /* Blank cells: window indicators without pretending to be window controls. */
+  .cns-indicator {
+    width: 9px;
+    height: 5px;
+    border: 1px solid var(--border-strong);
+    opacity: 0.55;
+  }
+
+  /* The terminal voice, set in the site face. Tracking and tabular figures do
+     the work a monospace would, so no second family is loaded. */
+  .cns-meta {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .cns-cmd {
+    font-size: 0.86rem;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-primary);
+  }
+
+  .cns-caret {
+    display: inline-block;
+    width: 7px;
+    height: 1em;
+    margin-left: 0.4em;
+    vertical-align: -0.16em;
+    background-color: var(--accent);
+    animation: cns-blink 1.15s step-end infinite;
+  }
+
+  @keyframes cns-blink {
+    0%, 45%  { opacity: 1; }
+    50%, 95% { opacity: 0; }
+    100%     { opacity: 1; }
+  }
+
+  /* ---- Modules ---- */
+  .cns-mod {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: border-color 240ms var(--ease), background-color 240ms var(--ease);
+  }
+  .cns-mod[data-active="true"] {
+    border-color: rgba(167, 139, 250, 0.34);
+    background-color: rgba(124, 58, 237, 0.04);
+  }
+
+  .cns-chip {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    padding: 0.45rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    color: var(--text-muted);
+    transition: border-color 240ms var(--ease), color 240ms var(--ease);
+  }
+  .cns-mod[data-active="true"] .cns-chip {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+  }
+
+  /* ---- Links ----
+     Rails sit at low contrast until the module they belong to is hovered. The
+     signal is the ONLY thing here that moves, and only while lit — at rest the
+     whole console is still. */
+  .cns-rail {
+    stroke: var(--border-strong);
+    fill: none;
+    transition: stroke 240ms var(--ease);
+  }
+  .cns-link[data-active="true"] .cns-rail { stroke: var(--accent); }
+
+  .cns-node {
+    fill: none;
+    stroke: var(--border-strong);
+    stroke-width: 1;
+    transition: stroke 240ms var(--ease);
+  }
+  .cns-link[data-active="true"] .cns-node { stroke: var(--accent); }
+
+  .cns-signal {
+    fill: var(--accent);
+    opacity: 0;
+    transition: opacity 200ms var(--ease);
+  }
+  .cns-link[data-active="true"] .cns-signal {
+    opacity: 0.9;
+    animation: cns-travel 1.8s linear infinite;
+  }
+  .cns-link[data-active="true"] .cns-signal-v {
+    animation-name: cns-travel-v;
+  }
+
+  @keyframes cns-travel {
+    from { transform: translateX(0); }
+    to   { transform: translateX(72px); }
+  }
+  @keyframes cns-travel-v {
+    from { transform: translateY(0); }
+    to   { transform: translateY(36px); }
+  }
+
+  /* ---- Spacecraft row ---- */
+  .cns-craft {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-primary);
+  }
+
+  .cns-foot {
+    border-top: 1px solid var(--border);
+    background-color: var(--surface);
+    color: var(--text-muted);
+  }
+
+
+
+  /* ======================================================================
+     DISHA — mission operations platform page
+     ----------------------------------------------------------------------
+     One rule governs everything below: the page is an instrument, not a
+     brochure. Structure comes from hairlines, monospace notation and
+     whitespace; the only fills anywhere are a panel chrome bar and a lit
+     state. Purple appears in five roles and no others — the `$` command line,
+     a lit chain node, the rail's progress fill, a live marker, and the
+     atmosphere behind the product photograph.
+
+     Motion rule: nothing moves at rest. A screen animates ONCE, when it
+     becomes the screen you are on (`[data-live="true"]`, set by an
+     IntersectionObserver), and then holds. The effect wanted is a console
+     coming up, not elements flying in — so every animation here is an
+     opacity/short-offset settle or a line drawing itself, never a slide from
+     off-screen.
+
+     The `[data-live="false"]` selectors carry the hidden state rather than the
+     bare class, so an element that never receives the attribute — no JS, no
+     IntersectionObserver — renders complete instead of blank.
+     ====================================================================== */
+
+  /* ---- Engineering notation --------------------------------------------
+     `# IDENTIFIER` over `$ command`. Small, monospace, and never larger than
+     the body copy it introduces: it is the label etched on an instrument, not
+     a heading. The sigils sit a step below their own text so the identifier
+     reads first and the punctuation reads second. */
+  .dsh-note {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    line-height: 1.9;
+    letter-spacing: 0.045em;
+    color: var(--text-primary);
+  }
+
+  .dsh-note-cmd {
+    display: block;
+    color: var(--accent);
+  }
+
+  .dsh-sigil {
+    color: var(--text-muted);
+  }
+  .dsh-note-cmd .dsh-sigil {
+    color: rgba(167, 139, 250, 0.5);
+  }
+
+  /* Notation set over the hero photograph, where --text-muted loses to the
+     lit screen behind it. */
+  .dsh-note[data-tone="bright"] .dsh-sigil {
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .dsh-mono {
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+  }
+
+  /* ---- Module screen ----------------------------------------------------
+     svh, not vh: the mobile toolbar would otherwise clip the bottom of every
+     screen as it collapses. min-height, not height, because the Task screen's
+     seven capabilities are taller than a short laptop viewport and must be
+     allowed to push. */
+  .dsh-screen {
+    /* html carries scroll-padding-top: 6rem so a sticky header cannot cover an
+       anchored section. This page's header is not sticky — it scrolls away with
+       the hero — and these sections are sized to fill the viewport exactly, so
+       that 6rem offset just pushes the last 6rem of each screen off the bottom
+       when you arrive from the nav or the rail. A matching negative
+       scroll-margin cancels it for these sections only; every other anchor on
+       the site keeps the clearance. */
+    scroll-margin-top: -6rem;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: clamp(4.5rem, 7vw, 7rem);
+    border-top: 1px solid var(--border);
+  }
+
+  /* ---- Capability -------------------------------------------------------
+     A hairline, a code, a sentence. Deliberately not a card and deliberately
+     without an icon: six or seven of these in a grid have to read as a
+     specification sheet, and the moment they get boxes they read as a SaaS
+     feature wall. */
+  .dsh-cap {
+    border-top: 1px solid var(--border);
+    padding-top: 0.9rem;
+    transition: border-color var(--dur) var(--ease);
+  }
+  .dsh-cap:hover {
+    border-color: var(--border-strong);
+  }
+
+  .dsh-cap-code {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.11em;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  .dsh-cap-desc {
+    margin-top: 0.45rem;
+    font-size: 0.8rem;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--text-muted);
+  }
+
+  /* ---- Operational chain ------------------------------------------------
+     INTENT → PROCEDURE → COMMAND → … Every module owns one, and the chain is
+     the actual argument of the page: these are stages of a single flow, not a
+     list of features. It powers up left to right once, then holds lit. */
+  .dsh-chain {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.6rem;
+  }
+
+  .dsh-chain-node {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid rgba(167, 139, 250, 0.32);
+    border-radius: var(--radius-pill);
+    color: var(--text-primary);
+    white-space: nowrap;
+  }
+
+  .dsh-chain-arrow {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  [data-live="false"] .dsh-chain-node {
+    border-color: var(--border);
+    color: var(--text-muted);
+  }
+  [data-live="true"] .dsh-chain-node {
+    animation: dsh-lit 520ms var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 130ms);
+  }
+
+  @keyframes dsh-lit {
+    from {
+      border-color: var(--border);
+      color: var(--text-muted);
+    }
+  }
+
+  [data-live="false"] .dsh-chain-arrow {
+    opacity: 0;
+  }
+  [data-live="true"] .dsh-chain-arrow {
+    animation: dsh-fade 520ms var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 130ms + 65ms);
+  }
+
+  @keyframes dsh-fade {
+    from { opacity: 0; }
+  }
+
+  /* ---- Instrument panel -------------------------------------------------
+     The container every module visual sits in. Hairline box, chrome bar with
+     an identifier and three blank indicator cells — window indicators that
+     are careful not to pretend to be window controls. */
+  .dsh-panel {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background-color: var(--bg);
+    overflow: hidden;
+  }
+
+  .dsh-panel-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.7rem 1.1rem;
+    border-bottom: 1px solid var(--border);
+    background-color: var(--surface);
+  }
+
+  .dsh-panel-tag {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  .dsh-tick {
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+    background-color: var(--accent-mark);
+    transform: rotate(45deg);
+  }
+
+  /* ---- Terminal lines ---------------------------------------------------
+     `$ mission.execute()` and the `>` acknowledgements under it. This is
+     notation, not a shell: there is no fake output, no fake values, and the
+     lines say only what the module actually does. */
+  .dsh-line {
+    font-family: var(--font-mono);
+    font-size: 0.73rem;
+    line-height: 2.05;
+    letter-spacing: 0.03em;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .dsh-line[data-kind="cmd"] {
+    color: var(--text-primary);
+  }
+  .dsh-line[data-kind="cmd"] .dsh-sigil {
+    color: var(--accent);
+  }
+
+  [data-live="false"] .dsh-line {
+    opacity: 0;
+  }
+  [data-live="true"] .dsh-line {
+    animation: dsh-line-in 420ms var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 240ms + 180ms);
+  }
+
+  @keyframes dsh-line-in {
+    from {
+      opacity: 0;
+      transform: translateY(3px);
+    }
+  }
+
+  /* Reuses the console's blink keyframes — one caret behaviour on the site. */
+  .dsh-caret {
+    display: inline-block;
+    width: 6px;
+    height: 0.95em;
+    margin-left: 0.45em;
+    vertical-align: -0.1em;
+    background-color: var(--accent);
+    animation: cns-blink 1.15s step-end infinite;
+  }
+
+  /* ---- Readout ----------------------------------------------------------
+     STATE / MODE / LINK rows. Word states only — never a number, because a
+     number here would be a claim about a spacecraft. */
+  .dsh-read {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.11em;
+  }
+  .dsh-read:last-child {
+    border-bottom: 0;
+  }
+  .dsh-read dt {
+    color: var(--text-muted);
+  }
+  .dsh-read dd {
+    color: var(--text-primary);
+    text-align: right;
+  }
+  .dsh-read dd[data-tone="accent"] {
+    color: var(--accent);
+  }
+  .dsh-read dd[data-tone="idle"] {
+    color: var(--text-muted);
+  }
+
+  /* ---- SVG figure vocabulary -------------------------------------------
+     Shared by the flight plot, the integration diagram and the operational
+     loop, so the three read as plates from one document. */
+  .dsh-fig-grid {
+    fill: none;
+    stroke: var(--grid-line);
+    stroke-width: 1;
+  }
+  .dsh-fig-hair {
+    fill: none;
+    stroke: var(--border-strong);
+    stroke-width: 1;
+  }
+  .dsh-fig-arc {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1;
+  }
+  .dsh-fig-plan {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1;
+    stroke-dasharray: 3 4;
+  }
+  .dsh-fig-dot {
+    fill: var(--accent);
+  }
+  .dsh-fig-node {
+    fill: var(--bg);
+    stroke: var(--border-strong);
+    stroke-width: 1;
+    transition: stroke var(--dur) var(--ease);
+  }
+  .dsh-fig-node[data-on="true"] {
+    stroke: var(--accent);
+  }
+  .dsh-fig-rail {
+    fill: none;
+    stroke: var(--border-strong);
+    stroke-width: 1;
+    transition: stroke var(--dur) var(--ease);
+  }
+  .dsh-fig-rail[data-on="true"] {
+    stroke: var(--accent);
+  }
+
+  .dsh-fig-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    fill: var(--text-muted);
+    transition: fill var(--dur) var(--ease);
+  }
+  .dsh-fig-label[data-on="true"] {
+    fill: var(--text-primary);
+  }
+
+  /* A stroke that draws itself in once, rather than appearing. `--len` is the
+     path length, passed per element; the default is generous enough that a
+     mis-set value still completes. */
+  .dsh-draw {
+    stroke-dasharray: var(--len, 2000);
+    stroke-dashoffset: 0;
+  }
+  [data-live="false"] .dsh-draw {
+    stroke-dashoffset: var(--len, 2000);
+  }
+  [data-live="true"] .dsh-draw {
+    animation: dsh-draw 1500ms var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 200ms + 120ms);
+  }
+
+  @keyframes dsh-draw {
+    from { stroke-dashoffset: var(--len, 2000); }
+  }
+
+  /* ---- Drill-down (Monitor) --------------------------------------------
+     CONSTELLATION → SPACECRAFT → SUBSYSTEM → PARAMETER as four selectable
+     levels. Clicking one changes the readout beside it, which is the section's
+     whole argument made operable rather than described. */
+  .dsh-drill {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    text-align: left;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-muted);
+    transition: border-color var(--dur) var(--ease),
+                background-color var(--dur) var(--ease),
+                color var(--dur) var(--ease);
+  }
+  .dsh-drill:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+  }
+  .dsh-drill[data-on="true"] {
+    border-color: rgba(167, 139, 250, 0.34);
+    background-color: rgba(124, 58, 237, 0.05);
+    color: var(--text-primary);
+  }
+
+  .dsh-drill-mark {
+    width: 6px;
+    height: 6px;
+    flex-shrink: 0;
+    border: 1px solid var(--border-strong);
+    transform: rotate(45deg);
+    transition: border-color var(--dur) var(--ease),
+                background-color var(--dur) var(--ease);
+  }
+  .dsh-drill[data-on="true"] .dsh-drill-mark {
+    border-color: var(--accent);
+    background-color: var(--accent);
+  }
+
+  /* The rail joining one level to the next. Sits under the diamond. */
+  .dsh-drop {
+    height: 0.9rem;
+    margin-left: calc(1rem + 2px);
+    border-left: 1px solid var(--border);
+  }
+
+  /* ---- Task timeline ----------------------------------------------------
+     Rows of resources, blocks of activity, one playhead. There are no times on
+     the axis and no durations in the blocks: the shape of a schedule is the
+     point, and inventing a pass time would be inventing a spacecraft. */
+  .dsh-tl-row {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.4rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .dsh-tl-track {
+    position: relative;
+    height: 1.6rem;
+  }
+
+  .dsh-tl-block {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.09em;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    transform-origin: left center;
+  }
+  .dsh-tl-block[data-on="true"] {
+    border-color: rgba(167, 139, 250, 0.5);
+    background-color: rgba(124, 58, 237, 0.12);
+    color: var(--text-primary);
+  }
+
+  [data-live="false"] .dsh-tl-block {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  [data-live="true"] .dsh-tl-block {
+    animation: dsh-block-in 480ms var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 130ms + 200ms);
+  }
+
+  @keyframes dsh-block-in {
+    from {
+      transform: scaleX(0);
+      opacity: 0;
+    }
+  }
+
+  .dsh-tl-now {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: var(--accent);
+    pointer-events: none;
+  }
+
+  /* ---- Operational loop ring -------------------------------------------
+     `transform-box: view-box` is required or the origin resolves against the
+     element's own tight bounding box and the ring wobbles instead of turning.
+     This is the one thing on the page that moves continuously, because a loop
+     that has stopped is not a loop. */
+  .dsh-orbit {
+    transform-box: view-box;
+    transform-origin: var(--orbit-x, 210px) var(--orbit-y, 210px);
+    animation: dsh-orbit 22s linear infinite;
+  }
+
+  @keyframes dsh-orbit {
+    to { transform: rotate(360deg); }
+  }
+
+  /* ---- Module strip -----------------------------------------------------
+     The four identifiers under the platform statement, strung on one hairline.
+     The line IS the border-top; each item hangs a node on it.
+
+     Engaging one lights its node, its index and its name, and fades a `$`
+     identifier plus one sentence up into place beneath the role. Everything
+     else on the strip is left exactly as it was — the whole value of this
+     interaction is that it answers one question about one module without
+     disturbing the other three.
+
+     The reveal is opacity + transform ONLY on a pointer device. See the note
+     in ModuleStrip (pages/Disha.tsx) for why the panel keeps its space there
+     and genuinely collapses on touch.
+     ====================================================================== */
+  .dsh-strip-item {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 1.6rem 1.5rem 1.6rem 0;
+    text-align: left;
+    border-top: 1px solid var(--border);
+    transition: border-color var(--dur) var(--ease);
+  }
+  .dsh-strip-item[data-open="true"] {
+    border-color: rgba(167, 139, 250, 0.45);
+  }
+
+  /* The node on the timeline. */
+  .dsh-strip-item::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: 0;
+    width: 7px;
+    height: 7px;
+    background-color: var(--bg);
+    border: 1px solid var(--border-strong);
+    transform: rotate(45deg);
+    transition: border-color var(--dur) var(--ease),
+                background-color var(--dur) var(--ease);
+  }
+  .dsh-strip-item[data-open="true"]::before {
+    border-color: var(--accent);
+    background-color: var(--accent);
+  }
+
+  .dsh-strip-i {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    line-height: 1;
+    color: var(--text-muted);
+    transition: color var(--dur) var(--ease);
+  }
+  .dsh-strip-item[data-open="true"] .dsh-strip-i {
+    color: var(--accent);
+  }
+
+  /* 0.82 at rest, not full white. The brief asks the title to brighten on
+     hover, and something already at #ffffff has nowhere to brighten to — this
+     is the smallest step down that leaves the lift perceptible while keeping
+     the resting strip looking unchanged. */
+  .dsh-strip-name {
+    display: block;
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.92rem;
+    line-height: 1.2;
+    color: rgba(255, 255, 255, 0.82);
+    transition: color var(--dur) var(--ease);
+  }
+  .dsh-strip-item[data-open="true"] .dsh-strip-name {
+    color: var(--text-primary);
+  }
+
+  .dsh-strip-role {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 300;
+    line-height: 1.4;
+    color: var(--text-muted);
+    transition: color var(--dur) var(--ease);
+  }
+  .dsh-strip-item[data-open="true"] .dsh-strip-role {
+    color: rgba(255, 255, 255, 0.72);
+  }
+
+  /* ---- The reveal ---- */
+  .dsh-strip-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 260ms var(--ease);
+  }
+  .dsh-strip-item[data-open="true"] .dsh-strip-panel {
+    grid-template-rows: 1fr;
+  }
+
+  .dsh-strip-panel-in {
+    display: block;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 240ms var(--ease), transform 240ms var(--ease);
+  }
+  .dsh-strip-item[data-open="true"] .dsh-strip-panel-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  .dsh-strip-cmd {
+    display: block;
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .dsh-strip-desc {
+    display: block;
+    margin-top: 0.7rem;
+    /* Smaller than the role above it: at a quarter of the container this has
+       to hold two lines, and the role is the label the eye lands on first. */
+    font-size: 0.75rem;
+    font-weight: 300;
+    line-height: 1.55;
+    color: var(--text-muted);
+  }
+
+  /* Pointer devices: the panel is permanently in the flow at full height and
+     only its ink animates, so the grid row never resizes and nothing below the
+     strip can move. Scoped to (hover: hover) rather than to a width, because
+     the thing being protected against is a pointer crossing columns — a
+     touchscreen laptop is wide and has no pointer to protect against. */
+  @media (hover: hover) and (pointer: fine) {
+    .dsh-strip-panel {
+      grid-template-rows: 1fr;
+    }
+  }
+
+  /* ---- Autonomy ladder --------------------------------------------------
+     Four rungs, and the operator is standing on the first one. The segment
+     meter is the whole visual: level N lights N segments, so the progression
+     is legible before a word of it is read. */
+  .dsh-seg {
+    height: 2px;
+    flex: 1;
+    background-color: var(--border);
+    transition: background-color 600ms var(--ease);
+    transition-delay: var(--seg-delay, 0ms);
+  }
+  [data-live="true"] .dsh-seg[data-on="true"] {
+    background-color: var(--accent-mark);
+  }
+
+  /* ---- Module navigation ------------------------------------------------
+     Fixed, left, desktop only. The vertical navigation for the four module
+     screens, and the page's "where am I in the architecture" indicator.
+
+     It has two states. At rest it is four dots and four indices, narrow enough
+     to live in the left gutter without touching the body copy. Engaged — hover
+     or keyboard focus — it opens to the full module names and their roles.
+     That is the compromise the gutter forces: spelled out permanently the rail
+     overlapped the reading column, and reduced permanently to dots it was four
+     anonymous marks. The accessible name is on the row in both states.
+
+     One purple bar travels between rows rather than four lighting in turn.
+     Every row is therefore a fixed --rail-row tall, and the bar is translated
+     by index × that height. ======================================== */
+  .dsh-rail {
+    --rail-row: 2.5rem;
+    position: fixed;
+    left: clamp(1rem, 2.4vw, 2.75rem);
+    top: 50%;
+    z-index: 30;
+    transform: translateY(-50%);
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    background-color: transparent;
+    transition: opacity 500ms var(--ease),
+                background-color 300ms var(--ease),
+                border-color 300ms var(--ease);
+  }
+
+  /* Engaged, the rail becomes a small panel rather than four labels floating
+     over the page. It has to: the left gutter is about 110px and the module
+     names need roughly 200, so an expanded rail WILL cross into the reading
+     column. Overlapping body copy with transparent text is unreadable; opening
+     a bordered panel over it is a flyout, which is a thing people already
+     understand. It closes again the moment the pointer leaves. */
+  .dsh-rail:hover,
+  .dsh-rail:focus-within {
+    border-color: var(--border-strong);
+    background-color: var(--bg);
+  }
+  .dsh-rail[data-show="false"] {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .dsh-rail-line {
+    position: absolute;
+    left: 1rem;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 1px;
+    background-color: var(--border);
+  }
+
+  /* The travelling indicator. */
+  .dsh-rail-mark {
+    position: absolute;
+    left: 1rem;
+    top: 0.5rem;
+    width: 2px;
+    height: var(--rail-row);
+    border-radius: 1px;
+    background-color: var(--accent);
+    opacity: 0;
+    transform: translateY(calc(var(--rail-index, 0) * var(--rail-row)));
+    transition: transform 420ms var(--ease), opacity 300ms var(--ease);
+  }
+  .dsh-rail-mark[data-on="true"] {
+    opacity: 1;
+  }
+
+  .dsh-rail-item {
+    position: relative;
+    display: flex;
+    height: var(--rail-row);
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .dsh-rail-dot {
+    position: relative;
+    z-index: 1;
+    width: 7px;
+    height: 7px;
+    margin-left: -3px;
+    flex-shrink: 0;
+    border: 1px solid var(--border-strong);
+    border-radius: 50%;
+    background-color: var(--bg);
+    transition: border-color var(--dur) var(--ease),
+                background-color var(--dur) var(--ease);
+  }
+  .dsh-rail-item:hover .dsh-rail-dot {
+    border-color: var(--accent);
+  }
+  .dsh-rail-item[data-on="true"] .dsh-rail-dot {
+    border-color: var(--accent);
+    background-color: var(--accent);
+  }
+
+  .dsh-rail-index {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    color: var(--text-muted);
+    opacity: 0.6;
+    transition: color var(--dur) var(--ease), opacity var(--dur) var(--ease);
+  }
+  .dsh-rail-item:hover .dsh-rail-index,
+  .dsh-rail-item[data-on="true"] .dsh-rail-index {
+    color: var(--text-primary);
+    opacity: 1;
+  }
+
+  /* max-width, not display: none — the labels have to be able to transition,
+     and they have to stay in the accessibility tree while collapsed. */
+  .dsh-rail-text {
+    display: block;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 0;
+    transition: max-width 420ms var(--ease), opacity 300ms var(--ease);
+  }
+  .dsh-rail:hover .dsh-rail-text,
+  .dsh-rail:focus-within .dsh-rail-text {
+    max-width: 12rem;
+    opacity: 1;
+  }
+
+  .dsh-rail-name {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    line-height: 1.2;
+    color: var(--text-muted);
+    transition: color var(--dur) var(--ease);
+  }
+  .dsh-rail-item:hover .dsh-rail-name {
+    color: var(--text-primary);
+  }
+  .dsh-rail-item[data-on="true"] .dsh-rail-name {
+    color: var(--accent);
+  }
+
+  .dsh-rail-role {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.62rem;
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--text-muted);
+    opacity: 0.7;
+  }
+
+
+  /* ---- Flight hero: the photograph as ground ---------------------------
+     The one screen on the page whose right-hand half is a photograph rather
+     than a drawing. Three things have to be true at once: the spacecraft sits
+     in the right ~60%, the reading column on the left stays at full contrast,
+     and the frame has no edge — the image has to end in the page's own black,
+     not in a rectangle.
+
+     It is built from a masked <img> plus one scrim, and nothing else. */
+  .dsh-hero {
+    position: relative;
+    overflow: hidden;
+    /* Tighter than a standard screen: this one has to fit an identifier, a
+       three-line heading, a lead, the workflow AND six feature blocks into a
+       single column, and every one of them has to be above the fold for the
+       composition to say what it is meant to say. */
+    padding-block: clamp(3rem, 4vw, 4.75rem);
+  }
+
+  .dsh-hero-media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .dsh-hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    /* The flip is opt-in per photograph, not a property of the class.
+
+       Flight's asset carries Earth and the spacecraft on its LEFT with empty
+       space to the right, and that composition needs the opposite — one axis
+       flip is the whole move. Task's asset is composed the same way and CANNOT
+       be flipped: it is a room full of wall displays carrying a world map and
+       readable labels, every one of which would come out reversed. That screen
+       moves its reading column instead. See FLIGHT_HERO / TASK_HERO. */
+    transform: none;
+  }
+  .dsh-hero-img[data-mirrored="true"] {
+    transform: scaleX(-1);
+
+    /* ONE mask layer. Two layers intersected with mask-composite silently
+       drops the image in Chrome (the same trap documented on .dsh-monitor-img),
+       so this is a single ellipse centred on the spacecraft that dissolves in
+       every direction at once: no left edge, no top edge, no bottom edge, and
+       the photograph simply becomes the canvas.
+
+       NOTE THE 26%: the mask is applied in the element's own coordinate space
+       and the scaleX(-1) above flips the painted result, so a mask centred at
+       26% lands at 74% on screen. Move one, move the other. */
+    -webkit-mask-image: radial-gradient(
+      ellipse 62% 66% at 26% 50%,
+      #000 26%,
+      rgba(0, 0, 0, 0.62) 62%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 62% 66% at 26% 50%,
+      #000 26%,
+      rgba(0, 0, 0, 0.62) 62%,
+      transparent 100%
+    );
+  }
+
+  /* Media on the LEFT: the subject is already there, nothing is flipped, so
+     the mask sits where it looks — no 26%/74% inversion to reason about. */
+  .dsh-hero-media[data-side="left"] .dsh-hero-img {
+    -webkit-mask-image: radial-gradient(
+      ellipse 58% 70% at 30% 50%,
+      #000 30%,
+      rgba(0, 0, 0, 0.6) 64%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 58% 70% at 30% 50%,
+      #000 30%,
+      rgba(0, 0, 0, 0.6) 64%,
+      transparent 100%
+    );
+  }
+
+  /* The reading scrim, and the second (and last) place on the site where paint
+     is laid in a gradient. It is not decoration: the left column is white type
+     over a photograph, and the contrast has to be guaranteed rather than hoped
+     for. It resolves to the canvas colour at the left edge, so the column it
+     protects is sitting on the same black as every other section. */
+  .dsh-hero-veil {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background-image: linear-gradient(
+      to right,
+      var(--bg) 0%,
+      rgba(0, 0, 0, 0.95) 30%,
+      rgba(0, 0, 0, 0.66) 46%,
+      rgba(0, 0, 0, 0.2) 62%,
+      transparent 78%
+    );
+  }
+
+  /* Media on the left → the column it protects is on the right, so the same
+     gradient runs the other way. */
+  .dsh-hero-media[data-side="left"] .dsh-hero-veil {
+    background-image: linear-gradient(
+      to left,
+      var(--bg) 0%,
+      rgba(0, 0, 0, 0.95) 26%,
+      rgba(0, 0, 0, 0.66) 42%,
+      rgba(0, 0, 0, 0.2) 60%,
+      transparent 78%
+    );
+  }
+
+  /* Below lg the photograph stops being a composition and starts being a
+     texture behind the type: there is no room for a 40/60 split on a phone.
+     It drops to a dim band at the top of the screen, and the column reads on
+     black as it does everywhere else. */
+  @media (max-width: 1023px) {
+    .dsh-hero-img {
+      transform: scale(1.15);
+      -webkit-mask-image: radial-gradient(ellipse 90% 46% at 40% 22%, #000 0%, transparent 100%);
+      mask-image: radial-gradient(ellipse 90% 46% at 40% 22%, #000 0%, transparent 100%);
+      opacity: 0.55;
+    }
+    .dsh-hero-img[data-mirrored="true"] {
+      transform: scaleX(-1) scale(1.15);
+    }
+    /* Stacked, the media has no side — the column spans the width either way,
+       so both heroes use the same downward scrim. */
+    .dsh-hero-media[data-side="left"] .dsh-hero-img {
+      -webkit-mask-image: radial-gradient(ellipse 90% 46% at 40% 22%, #000 0%, transparent 100%);
+      mask-image: radial-gradient(ellipse 90% 46% at 40% 22%, #000 0%, transparent 100%);
+    }
+    .dsh-hero-media[data-side="left"] .dsh-hero-img {
+      opacity: 0.85;
+    }
+    .dsh-hero-media[data-side="left"] .dsh-hero-veil {
+      background-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(0, 0, 0, 0.86) 42%,
+        var(--bg) 72%
+      );
+    }
+    .dsh-hero-veil {
+      background-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.4) 0%,
+        rgba(0, 0, 0, 0.86) 42%,
+        var(--bg) 72%
+      );
+    }
+  }
+
+  /* ---- Orbit key features ----------------------------------------------
+     The black column's lower half. Not cards: a hairline box, an index, a
+     notation token, a rule, a sentence. The information density is what makes
+     the negative space read as deliberate rather than unfinished.
+
+     A faint ground is unavoidable here — unlike every other block on the site
+     these sit over a photograph, and a transparent box over Earth's limb is
+     not a box. It is flat, it is black, and it is not a gradient. */
+  .dsh-feat {
+    position: relative;
+    overflow: hidden;
+    padding: 0.7rem 0.85rem 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: var(--radius);
+    background-color: rgba(0, 0, 0, 0.55);
+    transition: border-color var(--dur) var(--ease),
+                background-color var(--dur) var(--ease);
+  }
+  .dsh-feat:hover {
+    border-color: rgba(167, 139, 250, 0.42);
+    background-color: rgba(124, 58, 237, 0.08);
+  }
+
+  /* The orbital line: a hairline that traces the top edge on hover, left to
+     right, once. This is the "glow" — a lit edge and a purple wash, rather
+     than a shadow, because the site does not have shadows. */
+  .dsh-feat::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background-color: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 560ms var(--ease);
+  }
+  .dsh-feat:hover::after {
+    transform: scaleX(1);
+  }
+
+  .dsh-feat-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .dsh-feat-i {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.57rem;
+    letter-spacing: 0.12em;
+    line-height: 1;
+    color: var(--text-muted);
+  }
+
+  .dsh-feat-mark {
+    width: 5px;
+    height: 5px;
+    flex-shrink: 0;
+    background-color: var(--accent-mark);
+    transform: rotate(45deg);
+    transition: background-color var(--dur) var(--ease);
+  }
+  .dsh-feat:hover .dsh-feat-mark {
+    background-color: var(--accent);
+  }
+
+  /* The notation token — a symbol for a quantity, never a value of one. */
+  .dsh-feat-sym {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    white-space: nowrap;
+    color: rgba(167, 139, 250, 0.75);
+  }
+
+  .dsh-feat-code {
+    margin-top: 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    line-height: 1.35;
+    color: var(--text-primary);
+  }
+
+  .dsh-feat-rule {
+    margin-top: 0.5rem;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+
+  .dsh-feat-desc {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--text-muted);
+  }
+
+  /* ---- Product photograph -----------------------------------------------
+     The one place on the site where light is painted, and it is doing a
+     physical job: DISHA_in_Monitor is a photograph of a lit object, and a lit
+     object dropped on flat black with no ambient bounce reads as a rectangle
+     pasted onto the page rather than an object standing in it.
+
+     Three layers, back to front:
+       bounce  ambient purple, heavily blurred, larger than the object
+       shade   black of the same footprint, blurred — occludes that ambient
+               light exactly where the hardware is, which is what makes the
+               rim read as depth rather than as a glow
+       image   masked at its own edges so the photograph's near-black
+               background dissolves into the page's true black instead of
+               ending on a visible seam
+
+     Everything here is scoped to this component. Nothing else on the site is
+     permitted a shadow or a glow. */
+  .dsh-monitor {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .dsh-monitor-bounce,
+  .dsh-monitor-shade {
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .dsh-monitor-bounce {
+    inset: 4% 2% 12%;
+    border-radius: 40%;
+    background-color: var(--monitor-bounce);
+    filter: blur(60px);
+    z-index: 0;
+  }
+
+  .dsh-monitor-shade {
+    inset: 10% 8% 16%;
+    background-color: var(--monitor-shade);
+    filter: blur(34px);
+    z-index: 1;
+  }
+
+  .dsh-monitor-img {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 100%;
+    height: auto;
+    /* ONE mask layer, and deliberately so: the obvious version of this is two
+       gradients (edges and base) intersected with mask-composite, and that
+       combination silently drops the whole image in Chrome — the standard and
+       -webkit- spellings of mask-composite disagree, and the losing one
+       composites the layer to nothing. A single layer needs no compositing at
+       all, and the asset's own background is already true black at the left and
+       right edges, so only the base actually needed softening: the stand
+       dissolves into the page instead of ending on a cut line. */
+    -webkit-mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
+
+    /* The lit screen was the brightest thing on the page by a wide margin and
+       pulled the eye off the headline beside it. Down a step; the UI inside
+       stays legible, which is the constraint that sets the floor. */
+    filter: brightness(0.82);
+  }
+
+  /* A few degrees of perspective on the hero unit only — enough to read as a
+     workstation standing on a desk, far too little to cost legibility of the
+     screen inside it. Desktop only: on a phone the monitor is already small,
+     and any rotation there just makes the UI harder to see. The showcase
+     section deliberately does NOT tilt — that one is for reading. */
+  @media (min-width: 1024px) {
+    .dsh-tilt {
+      transform: perspective(2400px) rotateY(-5deg) rotateX(1deg);
+      transform-origin: 65% 50%;
+    }
+  }
+
+  /* ---- Showcase callouts ------------------------------------------------ */
+  .dsh-callout {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.13em;
+    color: var(--text-muted);
+    transition: color var(--dur) var(--ease);
+  }
+  .dsh-callout:hover {
+    color: var(--text-primary);
+  }
+  .dsh-callout::before {
+    content: "";
+    width: 1.5rem;
+    height: 1px;
+    flex-shrink: 0;
+    background-color: var(--border-strong);
+    transition: background-color var(--dur) var(--ease);
+  }
+  .dsh-callout:hover::before {
+    background-color: var(--accent);
+  }
+
+
+  /* ======================================================================
+     Early Adopter Programme — one screen, one statement
+     ----------------------------------------------------------------------
+     This block used to run to about two hundred lines: an adoption rail, a
+     set of commercial points and a scale ladder, each with its own hover and
+     reveal. All three sections are gone and their CSS went with them.
+
+     What is left is a section sized to the viewport with a photograph behind
+     it. svh, not vh: on a phone the browser toolbar collapses as you scroll
+     and a vh-sized section changes height underneath you.
+
+     min-height rather than height, because the section must still be allowed
+     to grow — at 320px wide with large text the copy is taller than the
+     screen, and clipping the CTA to hold a round number would be the one
+     failure this section cannot have.
+     ====================================================================== */
+  .dsh-invite {
+    /* THE width of the copy column, and the reason the two halves cannot
+       collide.
+
+       They used to be set independently: the picture at a flat 62% of the
+       viewport, the copy at a flat 38rem pinned right. Those only clear each
+       other when the viewport is wide enough to hold both — at 1280 they
+       overlapped by about 120px and the photograph's EXECUTE / MONITOR labels
+       ran straight through the headline and the CTA row.
+
+       Now the copy declares its width here and the picture takes what is left
+       minus a gutter, so the split holds at every width by arithmetic rather
+       than by luck. */
+    --invite-copy: clamp(22rem, 40vw, 36rem);
+    --invite-gutter: clamp(1.75rem, 4vw, 4.5rem);
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    min-height: 100svh;
+    /* Deliberately small. The section is sized by the viewport, so padding
+       here only decides how close the copy may come to the edges. */
+    padding-block: clamp(3rem, 5vw, 4.5rem);
+    border-top: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  /* A LEFT-HAND PANEL, not a full-width layer.
+
+     It used to span the section and run underneath the copy, with a gradient
+     scrim doing the work of keeping the two apart. That is a fragile way to
+     separate them: the scrim has to be heavy enough to suppress whatever the
+     photograph happens to have at that x-position, and the photograph has its
+     own PLAN / TASK / EXECUTE labels there in the same mono face this page
+     uses.
+
+     Ending the image before the copy starts makes the separation structural
+     instead. The picture occupies the left, the copy sits on the page's own
+     black, and nothing has to be hidden. */
+  .dsh-invite-bg {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: calc(100% - var(--invite-copy) - var(--invite-gutter));
+    z-index: -1;
+  }
+
+  .dsh-invite-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* Left-anchored, because the composition is not symmetrical: spacecraft,
+       Earth and console occupy the left, and the right is near-black. A narrow
+       viewport therefore crops the empty side rather than the subject, which
+       is the opposite of what a centred crop does. */
+    object-fit: cover;
+    /* 22%, not left: the panel is much taller than the source is tall, so
+       cover crops hard on the horizontal. Anchoring at the far left put the
+       satellite half off the page; 22% keeps the whole of it with the Earth
+       still filling the frame. */
+    object-position: 22% center;
+    opacity: 1;
+    /* The panel's right edge dissolves rather than ending on a line. ONE mask
+       layer, deliberately — two composited with mask-composite silently drop
+       the whole image in Chrome, which is the same trap .dsh-hero-img
+       documents. */
+    -webkit-mask-image: linear-gradient(to right, #000 54%, transparent 88%);
+    mask-image: linear-gradient(to right, #000 54%, transparent 88%);
+  }
+
+  /* Light, and only over the picture. The copy is on the page's own black
+     now, so the scrim is no longer keeping text readable — it is just settling
+     the photograph into the page. It covers the panel, not the section. */
+  .dsh-invite-scrim {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.28) 0%,
+      rgba(0, 0, 0, 0.2) 45%,
+      rgba(0, 0, 0, 0.35) 100%
+    );
+  }
+
+  /* Content in the RIGHT half, and the composition is the reason.
+
+     The photograph puts the spacecraft, Earth and control centre on the left
+     and leaves the right near-black. Copy on the left therefore sat directly
+     over the subject — including the image's own PLAN / TASK / EXECUTE labels,
+     which are set in the same mono face this page uses and read as a second,
+     broken layer of notation behind the real one. Copy on the right sits on
+     pixels that are already black.
+
+     Text stays left-aligned inside the block; it is the block that moves. */
+  .dsh-invite-body {
+    margin-inline-start: auto;
+    /* Declared once on the section, because the picture's width is derived
+       from it — see --invite-copy above. */
+    max-width: var(--invite-copy);
+  }
+
+  /* Phones crop harder toward the console and lift the scrim: at 400px wide
+     the frame is mostly subject, so the copy no longer has a dark corner of
+     its own to sit in. */
+  @media (max-width: 899px) {
+    /* Stacked, there is no left or right — the copy spans the column, so the
+       block stops being pushed across and the gradient runs downward. */
+    .dsh-invite-body {
+      margin-inline-start: 0;
+      max-width: none;
+    }
+    .dsh-invite-bg {
+      width: 100%;
+    }
+    .dsh-invite-img {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .dsh-invite-img {
+      object-position: 32% center;
+      opacity: 0.6;
+    }
+    .dsh-invite-scrim {
+      background-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.55) 0%,
+        rgba(0, 0, 0, 0.78) 45%,
+        rgba(0, 0, 0, 0.85) 100%
+      );
+    }
+  }
+
+  /* ---- Solution hero: the photograph as ground -------------------------
+     One page uses it. The NEXUS hero image is composed for this layout rather
+     than cropped into it — empty on the left where the copy sits, constellation
+     and Earth's limb on the right where the figure used to be — so nothing is
+     mirrored, panned or zoomed. The picture already agrees with the page.
+
+     Full-bleed: the section loses its container and the inner grid takes it,
+     so the image runs edge to edge while the copy stays on the same left
+     margin as every other page. */
+  .sol-hero-shot {
+    isolation: isolate;
+    overflow: hidden;
+    /* The photograph needs room to read, and the hero's own copy no longer
+       has a figure beside it setting the height. */
+    padding-bottom: clamp(4rem, 7vw, 7rem);
+  }
+
+  .sol-hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .sol-hero-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Anchored right: the subject lives there, so a narrow viewport crops the
+       empty side rather than the constellation. */
+    object-position: right center;
+
+    /* The bottom edge dissolves instead of ending on a line. Without it the
+       hero reads as a rectangle pasted onto the page, which is the one thing
+       every other photograph on this site is masked to avoid.
+
+       ONE layer, deliberately: two gradients composited with mask-composite
+       silently drop the whole image in Chrome — see .dsh-hero-img. The left
+       edge needs nothing, because the frame is already black there. */
+    -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+  }
+
+  /* Light, and weighted to the copy. The left of this frame is already black,
+     so the scrim is doing almost nothing there; it only has to guarantee the
+     headline's contrast where the image starts to brighten. */
+  .sol-hero-scrim {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.4) 34%,
+      rgba(0, 0, 0, 0.18) 58%,
+      rgba(0, 0, 0, 0.12) 100%
+    );
+  }
+
+  /* Stacked, the copy spans the width and the picture sits behind all of it,
+     so the scrim runs downward and the crop pulls toward the subject. */
+  @media (max-width: 1023px) {
+    .sol-hero-img {
+      object-position: 78% center;
+      opacity: 0.7;
+    }
+    .sol-hero-scrim {
+      background-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.78) 50%,
+        rgba(0, 0, 0, 0.86) 100%
+      );
+    }
+  }
+
+  /* ======================================================================
+     Solutions — NETRA, NEXUS, Onboard Optical Processing
+     ----------------------------------------------------------------------
+     Three pages, one visual system, three different compositions. They share
+     the .dsh-* technical primitives (notation, chains, panels, terminals,
+     readouts) because those are the site's technical language now; what lives
+     here is the vocabulary the Solutions pages add on top — the vertical
+     process flow, the dependency web, the fleet rows, the comparison columns
+     and the cross-link strip.
+
+     Same rules as the rest of the site: hairlines carry the structure, there
+     are no shadows, and the only fill anywhere is a lit state. Motion is
+     once-only and keyed off `data-live`, so a section that never receives the
+     attribute renders finished rather than blank.
+     ====================================================================== */
+
+  /* ---- Vertical process flow -------------------------------------------
+     The workhorse of all three pages: RAW TELEMETRY → PARAMETERS → EVENTS,
+     MISSION OBJECTIVE → TASK → CONSTRAINTS, SENSOR → RAW IMAGE → …
+
+     A rail down the left, a node per stage, the stage code and one sentence.
+     Vertical rather than horizontal on purpose — a horizontal flow with eight
+     stages is unreadable on a phone, and these have to survive 375px. */
+  .sol-flow {
+    position: relative;
+  }
+
+  /* The rail. Sits under the nodes and stops at the last one, so the flow
+     ends on a stage rather than trailing into whitespace. */
+  .sol-flow::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 0.75rem;
+    bottom: 0.75rem;
+    width: 1px;
+    background-color: var(--border);
+  }
+
+  .sol-step {
+    position: relative;
+    display: grid;
+    grid-template-columns: 11px minmax(0, 1fr);
+    gap: 0 1.15rem;
+    padding-bottom: 1.55rem;
+  }
+  .sol-step:last-child {
+    padding-bottom: 0;
+  }
+
+  .sol-step-node {
+    position: relative;
+    z-index: 1;
+    width: 11px;
+    height: 11px;
+    margin-top: 0.3rem;
+    border: 1px solid var(--border-strong);
+    border-radius: 50%;
+    background-color: var(--bg);
+    transition: border-color 400ms var(--ease), background-color 400ms var(--ease);
+  }
+
+  .sol-step-code {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.11em;
+    line-height: 1.4;
+    color: var(--text-primary);
+  }
+
+  .sol-step-desc {
+    margin-top: 0.3rem;
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  /* The flow powers up top to bottom, once. Nodes light in sequence and the
+     text settles behind them — a pipeline coming online, not a list arriving. */
+  [data-live="false"] .sol-step-node {
+    border-color: var(--border);
+  }
+  [data-live="true"] .sol-step-node {
+    animation: sol-node-on 460ms var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 150ms);
+  }
+  @keyframes sol-node-on {
+    from {
+      border-color: var(--border);
+      background-color: var(--bg);
+    }
+    to {
+      border-color: var(--accent);
+      background-color: var(--accent);
+    }
+  }
+
+  [data-live="false"] .sol-step-body {
+    opacity: 0;
+  }
+  [data-live="true"] .sol-step-body {
+    animation: sol-fade-up 460ms var(--ease) both;
+    animation-delay: calc(var(--i, 0) * 150ms + 90ms);
+  }
+  @keyframes sol-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+  }
+
+  /* ---- Spec list --------------------------------------------------------
+     The capability and service listings. An index, a rule, a code, a
+     sentence. Not cards: eight of these have to read as a specification.
+     Distinct from the DISHA page's .dsh-cap by carrying its index and by
+     ruling on the left rather than the top. */
+  .sol-spec {
+    display: grid;
+    grid-template-columns: 2.1rem minmax(0, 1fr);
+    gap: 0 0.75rem;
+    padding: 0.9rem 0 0.9rem 0;
+    border-top: 1px solid var(--border);
+    transition: border-color var(--dur) var(--ease);
+  }
+  .sol-spec:hover {
+    border-color: rgba(167, 139, 250, 0.4);
+  }
+
+  .sol-spec-i {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+    color: var(--text-muted);
+    transition: color var(--dur) var(--ease);
+  }
+  .sol-spec:hover .sol-spec-i {
+    color: var(--accent);
+  }
+
+  .sol-spec-code {
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.1em;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  .sol-spec-desc {
+    margin-top: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  /* ---- Chip -------------------------------------------------------------
+     Audiences, representative task types, potential applications. A pill of
+     type, nothing more — these are lists, and a list that becomes six boxes
+     reads as six features. */
+  .sol-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    color: var(--text-muted);
+    transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .sol-chip:hover {
+    border-color: rgba(167, 139, 250, 0.42);
+    color: var(--text-primary);
+  }
+  .sol-chip::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    flex-shrink: 0;
+    background-color: var(--accent-mark);
+    transform: rotate(45deg);
+  }
+
+  /* Plain-language chips (audiences) drop the monospace and the mark. */
+  .sol-chip[data-plain="true"] {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    letter-spacing: 0.01em;
+    font-weight: 300;
+    padding: 0.55rem 1rem;
+  }
+  .sol-chip[data-plain="true"]::before {
+    display: none;
+  }
+
+  /* ---- Panel row --------------------------------------------------------
+     The fleet listing on NETRA and any other status-bearing row. A hairline
+     rule per row, a mark, an identifier, a word state. Never a number. */
+  .sol-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--border);
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.11em;
+  }
+  .sol-row:last-child {
+    border-bottom: 0;
+  }
+
+  .sol-row-id {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--text-primary);
+  }
+
+  .sol-row-dot {
+    width: 5px;
+    height: 5px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: var(--text-muted);
+  }
+  .sol-row[data-state="attention"] .sol-row-dot {
+    background-color: var(--accent);
+  }
+  .sol-row[data-state="attention"] .sol-row-state {
+    color: var(--accent);
+  }
+
+  .sol-row-state {
+    color: var(--text-muted);
+  }
+
+  /* ---- Comparison columns ----------------------------------------------
+     Onboard Optical's TRADITIONAL vs ONBOARD PROCESSING. Two panels side by
+     side; the second is the one being argued for, so it carries the accent
+     hairline and the first stays neutral. Never a red/green good/bad pair —
+     the traditional path is not wrong, it is just carrying more. */
+  .sol-compare {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem 1.4rem 1.6rem;
+    height: 100%;
+  }
+  .sol-compare[data-lead="true"] {
+    border-color: rgba(167, 139, 250, 0.3);
+    background-color: rgba(124, 58, 237, 0.04);
+  }
+
+  .sol-compare-title {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    color: var(--text-muted);
+  }
+  .sol-compare[data-lead="true"] .sol-compare-title {
+    color: var(--accent);
+  }
+
+  /* A compact stage list for inside a comparison column: no descriptions, and
+     an arrow between rows rather than a rail. */
+  .sol-stage {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    color: var(--text-primary);
+  }
+  .sol-stage-arrow {
+    display: block;
+    margin: 0.45rem 0 0.45rem 0.15rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.28);
+  }
+  .sol-stage-mark {
+    width: 4px;
+    height: 4px;
+    flex-shrink: 0;
+    background-color: var(--border-strong);
+    transform: rotate(45deg);
+  }
+  .sol-compare[data-lead="true"] .sol-stage-mark {
+    background-color: var(--accent);
+  }
+
+  /* ---- Cross-links ------------------------------------------------------
+     The other two solutions, at the foot of every page. Deliberately quiet:
+     one hairline rule each, a name, a role, an arrow that moves on hover. It
+     is a way out of the page, not a second call to action. */
+  .sol-cross {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.35rem 0;
+    border-top: 1px solid var(--border);
+    transition: border-color var(--dur) var(--ease);
+  }
+  .sol-cross:hover {
+    border-color: rgba(167, 139, 250, 0.45);
+  }
+
+  .sol-cross-name {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+    transition: color var(--dur) var(--ease);
+  }
+  .sol-cross:hover .sol-cross-name {
+    color: var(--accent);
+  }
+
+  .sol-cross-role {
+    margin-top: 0.35rem;
+    font-size: 0.78rem;
+    font-weight: 300;
+    color: var(--text-muted);
+  }
+
+  .sol-cross-arrow {
+    flex-shrink: 0;
+    color: var(--text-muted);
+    transition: transform var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .sol-cross:hover .sol-cross-arrow {
+    transform: translateX(4px);
+    color: var(--accent);
+  }
+
+  /* ---- The family band --------------------------------------------------
+     OBSERVE / ORCHESTRATE / PROCESS over UNIFY + AUTOMATE. Present on all
+     three pages, and understated on all three: it says where the page sits,
+     not that DISHA is the real product. */
+  .sol-family {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .sol-family-cell {
+    padding: 0.9rem 0;
+    border-top: 1px solid var(--border);
+    transition: border-color var(--dur) var(--ease);
+  }
+  .sol-family-cell[data-self="true"] {
+    border-color: var(--accent);
+  }
+
+  .sol-family-name {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.11em;
+    color: var(--text-muted);
+    transition: color var(--dur) var(--ease);
+  }
+  .sol-family-cell[data-self="true"] .sol-family-name {
+    color: var(--text-primary);
+  }
+
+  .sol-family-verb {
+    margin-top: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    color: rgba(255, 255, 255, 0.3);
+  }
+  .sol-family-cell[data-self="true"] .sol-family-verb {
+    color: var(--accent);
+  }
+
+  /* ---- SVG figure vocabulary for the Solutions plates -------------------
+     Shares the .dsh-fig-* stroke language; these are the extra marks the
+     Solutions figures need. */
+  /* Figure labels are sized in viewBox units, so a plate that is legible at
+     560px wide renders its 9px labels at about 5px on a 375px phone. Bumping
+     the label size relative to the viewBox is the only fix that keeps the
+     figure whole — the alternative is a horizontal scroll, which the layout
+     does not have anywhere else. Scoped to .sol-fig: the DISHA page's diagrams
+     size their labels against much tighter node boxes and would overflow. */
+  /* A figure node's second line: the gloss under its label. */
+  .dsh-fig-sub {
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    letter-spacing: 0.06em;
+    fill: var(--text-muted);
+  }
+
+  @media (max-width: 700px) {
+    .sol-fig .dsh-fig-label {
+      font-size: 13px;
+      letter-spacing: 0.06em;
+    }
+    .sol-fig .dsh-fig-sub {
+      font-size: 11px;
+    }
+  }
+
+  .sol-fig-band {
+    fill: rgba(167, 139, 250, 0.08);
+    stroke: none;
+  }
+  .sol-fig-faint {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.16);
+    stroke-width: 1;
+  }
+  .sol-fig-mark {
+    fill: var(--accent);
+  }
+
+  /* ---- Section rhythm ---------------------------------------------------
+     Solutions sections are shorter than the DISHA page's full screens; they
+     are read, not stepped through. */
+  .sol-section {
+    padding-top: clamp(4rem, 7.5vw, 8rem);
+    padding-bottom: clamp(4rem, 7.5vw, 8rem);
+  }
+
+
+  /* ======================================================================
+     Company page
+     ----------------------------------------------------------------------
+     Two sections and a CTA. It borrows almost everything — the .dsh-* notation
+     and figure language, the .sol-section rhythm, the site's cards and CTAs —
+     so the only rule left here is the one shape the page adds: the pair of
+     autonomy blocks.
+     ====================================================================== */
+
+  /* Strategic on the ground, tactical onboard. They are PEERS: same border
+     treatment, same accent rule, and the only difference is the barely-there
+     wash that marks which side of the link each one sits on. Ranking them
+     visually would contradict the section's whole argument. */
+  .abt-level {
+    padding: clamp(1.3rem, 2.4vw, 1.9rem);
+    border: 1px solid var(--border);
+    border-top: 1px solid rgba(167, 139, 250, 0.55);
+    border-radius: var(--radius-lg);
+  }
+  .abt-level[data-side="onboard"] {
+    background-color: rgba(124, 58, 237, 0.04);
+  }
+
+  .abt-level-where {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+  }
+
+
+  /* ======================================================================
+     People
+     ----------------------------------------------------------------------
+     One grid, one card treatment, nine people. The founders, the engineers
+     and the advisors are drawn identically on purpose — the only thing that
+     separates them is the role under the name, because a page that styles
+     its advisors as a lesser tier says something about the company that is
+     not true.
+
+     The photographs are the visual focus, so everything around them is
+     hairlines and small type. At rest they are monochrome, which is what makes
+     nine portraits read as one group rather than nine styles of photograph.
+     The card under the pointer resolves to colour — the eye going to it is the
+     point at that moment, because it is about to be clicked.
+     ====================================================================== */
+
+  .ppl-card {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    text-align: left;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background-color: var(--bg);
+    transition: border-color var(--dur) var(--ease),
+                background-color var(--dur) var(--ease);
+  }
+  .ppl-card:hover {
+    border-color: rgba(167, 139, 250, 0.42);
+    background-color: rgba(124, 58, 237, 0.04);
+  }
+
+  .ppl-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: top;
+    filter: grayscale(1);
+    opacity: 0.86;
+    transition: opacity var(--dur) var(--ease), filter var(--dur) var(--ease);
+  }
+  /* Colour on hover. The grid reads as one monochrome group portrait at rest,
+     and the card you are pointing at resolves into a photograph of a person —
+     which is the moment you are about to open their profile. */
+  .ppl-card:hover .ppl-photo {
     filter: grayscale(0);
     opacity: 1;
+  }
+
+  /* No photograph yet → initials, at exactly the photo's footprint so the
+     grid never jumps and the person is never visibly "missing". */
+  .ppl-initials {
+    display: flex;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--surface-raised);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    transition: color var(--dur) var(--ease);
+  }
+  .ppl-card:hover .ppl-initials {
+    color: var(--text-primary);
+  }
+
+  .ppl-body {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.15rem 1.25rem 1.2rem;
+    border-top: 1px solid var(--border);
+    transition: border-color var(--dur) var(--ease);
+  }
+  .ppl-card:hover .ppl-body {
+    border-color: rgba(167, 139, 250, 0.28);
+  }
+
+  /* FOUNDER / ENGINEERING / SCIENCE / ADVISOR / STRATEGY. Secondary by design:
+     it is how you tell an advisor from an engineer, not a ranking. */
+  .ppl-label {
+    font-family: var(--font-mono);
+    font-size: 0.54rem;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.34);
+    transition: color var(--dur) var(--ease);
+  }
+  .ppl-card:hover .ppl-label {
+    color: var(--accent);
+  }
+
+  .ppl-name {
+    margin-top: 0.65rem;
+    font-size: 1.02rem;
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--text-muted);
+    transition: color var(--dur) var(--ease);
+  }
+  .ppl-card:hover .ppl-name {
+    color: var(--text-primary);
+  }
+
+  .ppl-role {
+    margin-top: 0.3rem;
+    font-size: 0.78rem;
+    font-weight: 300;
+    line-height: 1.4;
+    color: var(--text-muted);
+  }
+
+  /* The affordance. Present at rest so the card is visibly clickable, and it
+     resolves to the accent on hover rather than appearing from nothing. */
+  .ppl-cue {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.28);
+    transition: color var(--dur) var(--ease);
+  }
+  .ppl-card:hover .ppl-cue {
+    color: var(--accent);
+  }
+
+  /* ---- Profile dialog ---------------------------------------------------
+     Radix handles the focus trap, the Escape key, the outside click and the
+     scroll lock; what lives here is the look and the transition. Both states
+     are animated, so the panel leaves the way it arrived instead of being cut.
+     Under prefers-reduced-motion the global duration override collapses both
+     to nothing, which is correct — the dialog still opens and closes. */
+  .ppl-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    background-color: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .ppl-overlay[data-state="open"] {
+    animation: ppl-fade 240ms var(--ease);
+  }
+  .ppl-overlay[data-state="closed"] {
+    animation: ppl-fade 180ms var(--ease) reverse;
+  }
+
+  @keyframes ppl-fade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .ppl-dialog {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    z-index: 61;
+    width: min(56rem, calc(100vw - 2rem));
+    max-height: min(46rem, calc(100dvh - 2rem));
+    overflow-y: auto;
+    transform: translate(-50%, -50%);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-lg);
+    background-color: var(--bg);
+  }
+  .ppl-dialog[data-state="open"] {
+    animation: ppl-enter 280ms var(--ease);
+  }
+  .ppl-dialog[data-state="closed"] {
+    animation: ppl-enter 200ms var(--ease) reverse;
+  }
+
+  @keyframes ppl-enter {
+    from {
+      opacity: 0;
+      transform: translate(-50%, calc(-50% + 10px)) scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+
+  /* "× CLOSE" — a labelled control rather than a bare glyph, and it sits in
+     the dialog's own corner rather than floating over the photograph. */
+  .ppl-close {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    line-height: 1;
+    color: var(--text-muted);
+    transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .ppl-close:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+  }
+
+  .ppl-dialog-photo {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: top;
+    filter: grayscale(1);
+    border-radius: var(--radius);
   }
 
   /* ---- News post body ---------------------------------------------------
@@ -514,6 +3058,488 @@
     bottom: -6px;
     height: 1px;
     background: var(--accent);
+  }
+
+  /* ======================================================================
+     Footer — the one white surface on the site
+     ----------------------------------------------------------------------
+     Inverted on purpose. A black footer under a black page does not end the
+     page, it just stops it; turning the surface over draws a hard line under
+     the site and gives the link layer a place that is visibly not content.
+
+     Every colour here comes from the --*-invert tokens. The accent is
+     --accent-mark (#7c3aed), NOT --accent (#a78bfa) — the light tone exists
+     for contrast against black and disappears on white.
+
+     Headings are black and bold; purple is reserved for hover and for the two
+     micro-labels. A footer whose headings are all accent-coloured reads as a
+     marketing page, not as the foot of a company site.
+
+     Separators are one hairline at 14% black — the inverse weight of the
+     --border used everywhere above. Nothing gains a shadow by being on a light
+     background.
+     ====================================================================== */
+  .ft {
+    /* The element is already full-bleed: it is a child of the page's flex
+       column, which has no max-width. The CONTENT is what is constrained, by
+       .container-page, so the white runs edge to edge while the columns stay
+       on the same grid as every page above. Stated here because "the footer
+       looks boxed in" is almost always this distinction. */
+    width: 100%;
+    background-color: var(--bg-invert);
+    color: var(--text-invert-muted);
+  }
+
+  .ft-mark {
+    display: block;
+    height: 2.1rem;
+    width: 8.5rem;
+    background-color: var(--text-invert);
+    transition: opacity var(--dur) var(--ease);
+  }
+  .ft-mark:hover {
+    opacity: 0.75;
+  }
+
+  .ft-tagline {
+    margin-top: 1.6rem;
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-invert-muted);
+  }
+
+  /* Black, bold, small. Mono, so the footer reads as the same design system
+     inverted rather than as a different site bolted on the bottom. */
+  .ft-heading {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--text-invert);
+  }
+
+  .ft-link {
+    display: inline-block;
+    font-size: 0.83rem;
+    font-weight: 300;
+    line-height: 1.4;
+    /* Darker than --text-invert-muted, which is the tone for the tagline and
+       the address. A navigation link is primary text: at the secondary tone it
+       weighed the same as the prose beside it and the columns stopped reading
+       as links at a glance. */
+    color: #33333c;
+    /* 220ms — inside the 200–250ms the brief asks for, and the same easing
+       every other hover on the site uses. No glow, no underline. */
+    transition: color 220ms var(--ease);
+  }
+  .ft-link:hover {
+    color: var(--accent-mark);
+  }
+
+  /* A fact rather than a destination: same type, no hover. */
+  .ft-static {
+    cursor: default;
+  }
+  .ft-static:hover {
+    color: #33333c;
+  }
+
+  .ft-social {
+    display: inline-flex;
+    height: 2.15rem;
+    width: 2.15rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border-invert);
+    border-radius: var(--radius-pill);
+    color: var(--text-invert);
+    transition: border-color 220ms var(--ease), color 220ms var(--ease);
+  }
+  .ft-social:hover {
+    border-color: var(--accent-mark);
+    color: var(--accent-mark);
+  }
+
+  /* ---- Current location ----
+     The campus address in the Contact column. One step down from the link
+     size and in the secondary tone: it is reference information sitting in a
+     row of navigation, and if it matched the links it would read as five more
+     of them. */
+  .ft-loc {
+    margin-top: 0.9rem;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--text-invert-muted);
+  }
+
+  /* ---- Footer CTA ----
+     Small, and it has to stay small: the page above already ends on a full
+     CTA band, so a second one at that weight would be the third ending in a
+     row. This is a label, a line and a control — it occupies space that was
+     white anyway rather than asking for a section of its own. */
+  .ft-cta-mark {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    color: var(--accent-mark);
+  }
+
+  /* The sigil is decoration, not content — see <Notation> on the dark pages,
+     which does the same thing for the same reason. */
+  .ft-sigil {
+    opacity: 0.55;
+  }
+
+  .ft-cta-line {
+    margin-top: 0.85rem;
+    max-width: 22rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--text-invert);
+  }
+
+  /* White with a thin black border, inverting to solid purple on hover. NOT
+     the .cta pill used on the dark pages: that one is built for white-on-black
+     and its border tone disappears here. Same timing as every other footer
+     hover. */
+  .ft-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 1.25rem;
+    padding: 0.7rem 1.25rem;
+    border: 1px solid var(--text-invert);
+    border-radius: var(--radius-btn);
+    background-color: var(--bg-invert);
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--text-invert);
+    transition: background-color 220ms var(--ease), border-color 220ms var(--ease),
+                color 220ms var(--ease);
+  }
+  .ft-cta:hover {
+    background-color: var(--accent-mark);
+    border-color: var(--accent-mark);
+    color: var(--bg-invert);
+  }
+
+  .ft-cta svg {
+    transition: transform 220ms var(--ease);
+  }
+  .ft-cta:hover svg {
+    transform: translateX(3px);
+  }
+
+  /* ---- Incorporation band ----
+     Present and readable, deliberately not loud. This is the one place purple
+     is used at rest, and only on the two labels — they are technical markers
+     in the same family as the # / $ notation on the dark pages. */
+  .ft-rule {
+    border-top: 1px solid var(--border-invert);
+  }
+
+  .ft-micro-heading {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--accent-mark);
+  }
+
+  /* Sized for a NAME, not for an acronym. This was mono at 1.05rem/600 with
+     letter-spacing — a wordmark treatment, which is right for "FSID" and wrong
+     for a ninety-character organisation name: at that size it filled its
+     column and out-shouted the navigation above it.
+
+     So: the sans face, ordinary weight, and a line-height that lets three
+     lines sit as a block. It now reads as what it is — an institution named
+     properly — and it balances the registered office beside it instead of
+     competing with it. */
+  .ft-fsid {
+    margin-top: 0.8rem;
+    max-width: 20rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--text-invert);
+  }
+
+  .ft-address {
+    margin-top: 0.85rem;
+    font-size: 0.78rem;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--text-invert-muted);
+  }
+
+  /* One block, four lines. This was briefly set in two CSS columns to save
+     vertical space; at the width of its grid cell the two columns landed 300px
+     apart and the address stopped reading as one address. A registered office
+     is a single unit of information and is set as one. */
+
+  /* ---- Back to top ----
+     One control, two grounds. Over the black pages it is a lifted panel with a
+     hairline; over the white footer it inverts to a solid black disc with a
+     white arrow, because a dark-grey disc edged in white-at-14% has no visible
+     edge on white and no visible arrow either. Both states hover to purple.
+     See useOverFooter in BackToTop.tsx for how it knows. */
+  .btt {
+    position: fixed;
+    bottom: 2rem;
+    right: 1.5rem;
+    z-index: 30;
+    display: flex;
+    height: 3rem;
+    width: 3rem;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background-color: var(--surface-raised);
+    color: var(--text-muted);
+    transition: opacity 300ms var(--ease), transform 300ms var(--ease),
+                background-color 300ms var(--ease), border-color 300ms var(--ease),
+                color 300ms var(--ease);
+  }
+  @media (min-width: 768px) {
+    .btt { right: 2rem; }
+  }
+  .btt:hover {
+    color: var(--text-primary);
+    border-color: var(--border-strong);
+  }
+
+  .btt[data-light="true"] {
+    background-color: var(--text-invert);
+    border-color: var(--text-invert);
+    color: var(--bg-invert);
+  }
+  .btt[data-light="true"]:hover {
+    background-color: var(--accent-mark);
+    border-color: var(--accent-mark);
+    color: var(--bg-invert);
+  }
+
+  /* ---- Legal bar ---- */
+  .ft-fine {
+    font-size: 0.72rem;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    color: var(--text-invert-muted);
+  }
+  .ft-fine-link {
+    transition: color 220ms var(--ease);
+  }
+  .ft-fine-link:hover {
+    color: var(--accent-mark);
+  }
+
+  /* ======================================================================
+     Launch transition
+     ----------------------------------------------------------------------
+     Black, the wordmark, a hairline that draws across, gone. Roughly a second.
+
+     Everything here is opacity and transform, so the whole sequence runs on
+     the compositor and cannot block the app mounting underneath it. There is
+     no spinner and no progress bar, because neither would be telling the
+     truth — nothing is being measured.
+
+     The component unmounts itself when the sequence finishes, so none of this
+     survives as an invisible layer over the page.
+     ====================================================================== */
+  .boot {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg);
+    transition: opacity 420ms var(--ease);
+  }
+  .boot[data-phase="out"] {
+    opacity: 0;
+    /* Released the moment it starts leaving — the page underneath is live and
+       must be clickable through the tail of the fade. */
+    pointer-events: none;
+  }
+
+  .boot-in {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .boot-mark {
+    display: block;
+    width: clamp(9rem, 22vw, 13rem);
+    height: clamp(2.25rem, 5.5vw, 3.25rem);
+    background-color: var(--text-primary);
+    animation: boot-mark 720ms var(--ease) both;
+  }
+
+  @keyframes boot-mark {
+    from { opacity: 0; transform: scale(0.965); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .boot-note {
+    margin-top: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    color: var(--text-muted);
+    animation: boot-note 620ms var(--ease) 180ms both;
+  }
+  .boot-cmd {
+    color: var(--accent);
+  }
+
+  @keyframes boot-note {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* scaleX from a centre origin: the rule opens outward from under the mark
+     rather than sweeping in from one side, which is the difference between a
+     system coming up and a banner sliding on. */
+  .boot-rule {
+    margin-top: 1.5rem;
+    display: block;
+    width: clamp(9rem, 22vw, 13rem);
+    height: 1px;
+    background-color: var(--accent);
+    opacity: 0.55;
+    transform-origin: center;
+    animation: boot-rule 760ms var(--ease) 120ms both;
+  }
+
+  @keyframes boot-rule {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
+  /* No movement, no draw-in, no stagger — the mark is simply there and the
+     overlay fades. The component's own timers are unchanged, so this still
+     resolves in about a second. */
+  @media (prefers-reduced-motion: reduce) {
+    .boot-mark,
+    .boot-note,
+    .boot-rule {
+      animation: none;
+    }
+  }
+
+  /* ---- Dropdown row -----------------------------------------------------
+     One row treatment for every dropdown on the site, so the DISHA panel and
+     the Solutions panel are visibly the same control listing different things.
+
+     Three pieces: a purple bar that grows from nothing on the left, the
+     label with its plain-language gloss, and the `$ command()` held at the
+     right edge. The bar occupies its space at all times — animating width
+     rather than inserting an element is what keeps the label from stepping
+     sideways as the pointer crosses the row. */
+  .nav-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: var(--radius-sm);
+    transition: background-color var(--dur) var(--ease);
+  }
+  .nav-row:hover,
+  .nav-row[data-active="true"] {
+    background-color: var(--surface-hover);
+  }
+
+  /* The row pointing at the section's own page, separated from the modules
+     beneath it — see the isLead note in Nav.tsx. */
+  .nav-row[data-lead="true"] {
+    margin-bottom: 0.35rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  }
+
+  .nav-row-bar {
+    flex-shrink: 0;
+    width: 2px;
+    height: 1.6rem;
+    border-radius: 1px;
+    background-color: var(--accent);
+    transform: scaleY(0);
+    transform-origin: center;
+    opacity: 0;
+    transition: transform var(--dur) var(--ease), opacity var(--dur) var(--ease);
+  }
+  .nav-row:hover .nav-row-bar,
+  .nav-row[data-active="true"] .nav-row-bar {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+
+  /* Mono, because every one of these rows names a system the rest of the site
+     also sets in mono. The Company rows inherit it too and that is fine —
+     they are short, and the alternative is two label treatments in one panel. */
+  .nav-row-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    color: var(--text-muted);
+    transition: color var(--dur) var(--ease);
+  }
+  .nav-row:hover .nav-row-label {
+    color: var(--text-primary);
+  }
+  .nav-row[data-active="true"] .nav-row-label {
+    color: var(--accent);
+  }
+
+  .nav-row-hint {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.68rem;
+    font-weight: 300;
+    line-height: 1.3;
+    color: var(--text-muted);
+    opacity: 0.72;
+  }
+
+  .nav-row-cmd {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-3px);
+    transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+  }
+  .nav-row:hover .nav-row-cmd,
+  .nav-row[data-active="true"] .nav-row-cmd {
+    opacity: 0.85;
+    transform: none;
   }
 
   /* ---- Nav over dark media ----------------------------------------------
@@ -596,15 +3622,6 @@
     transform: none;
   }
 
-  /* Stop the marquee outright rather than letting the global duration
-     override snap it to its end position. */
-  .marquee {
-    animation: none !important;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-  }
-
   /* Panels show their content immediately; the sticky stacking still works,
      it just doesn't animate. */
   .panel-in,
@@ -613,25 +3630,64 @@
     transform: none;
   }
 
-  /* Architecture cards keep their colour response to hover — border, lit
-     surface, dimming — but give up every bit of movement. Zeroing the
-     durations globally is not enough on its own: the transforms would still
-     apply, they would just snap. */
-  .arch-card,
-  .arch-card[data-hover="true"],
-  .arch-card[data-hover="true"] .arch-figure,
-  .arch-card[data-hover="true"] .arch-stage,
-  .arch-card[data-hover="true"] .arch-cap {
+  /* The edge ring still appears on hover, it just stops orbiting. */
+  .card:hover::before,
+  .card:hover::after {
+    animation: none !important;
+  }
+
+  /* Why Orbtrix rows still open and close — that is the content, not decoration
+     — but they do it without the slide and without the image moving. The global
+     duration override above already makes the height change instant; these two
+     rules remove the transforms so nothing jumps as it snaps. */
+  .why-panel-in,
+  .why-row[data-open="true"] .why-panel-in,
+  .partner-logo:hover,
+  .cta:hover svg {
     transform: none !important;
   }
 
-  /* The edge ring still appears on hover, it just stops orbiting. */
-  .card:hover::before,
-  .card:hover::after,
-  .arch-card[data-hover="true"]::before,
-  .arch-card[data-hover="true"]::after,
-  .arch-flow,
-  .arch-particle {
+  /* The console goes completely still: no caret blink, no travelling signal.
+     Both are removed rather than frozen — a caret held at opacity 0 would read
+     as a rendering fault, and a signal parked mid-rail as a stray dot. The
+     links still light on hover, which is the part that carries meaning. */
+  .cns-caret {
+    animation: none !important;
+    opacity: 1;
+  }
+  .cns-link[data-active="true"] .cns-signal {
+    animation: none !important;
+  }
+  .cns-signal {
+    display: none;
+  }
+
+  /* The DISHA screens are built to be complete when nothing moves: every
+     animation there is `both`-filled, so the global duration override above
+     already snaps each one to its finished state. What survives the override
+     is the stagger — without this the screen would still paint itself in over
+     two seconds, one row at a time, which is the exact effect the visitor
+     asked not to have. Zero every delay and the whole screen arrives at once. */
+  [data-live="true"] .sol-step-node,
+  [data-live="true"] .sol-step-body,
+  [data-live="true"] .dsh-chain-node,
+  [data-live="true"] .dsh-chain-arrow,
+  [data-live="true"] .dsh-line,
+  [data-live="true"] .dsh-draw,
+  [data-live="true"] .dsh-tl-block,
+  .dsh-seg {
+    animation-delay: 0ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  /* The caret and the loop ring stop outright rather than freezing: a caret
+     held at opacity 0 reads as a rendering fault, and a loop parked at a
+     random angle reads as a broken diagram. */
+  .dsh-caret {
+    animation: none !important;
+    opacity: 1;
+  }
+  .dsh-orbit {
     animation: none !important;
   }
 }

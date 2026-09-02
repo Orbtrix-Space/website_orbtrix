@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
+import { Notation } from "@/components/tech/TechParts";
 import { usePageMeta } from "@/lib/usePageMeta";
 import { NEWS_POSTS, formatDate } from "@/lib/news";
 
@@ -11,11 +12,14 @@ export default function News() {
     <>
       <section className="relative overflow-hidden">
 
-        <div className="container-page relative z-10 pb-16 pt-40 md:pt-48">
+        <div className="container-page page-head relative z-10">
           <Reveal>
-            <h1 className="text-[clamp(1.95rem,4.8vw,3.5rem)] leading-[1.08]">News</h1>
+            <Notation ident="NEWS" cmd="orbtrix.updates()" />
           </Reveal>
-          <Reveal delay={100}>
+          <Reveal delay={60}>
+            <h1 className="mt-7 text-[clamp(1.95rem,4.8vw,3.5rem)] leading-[1.08]">News</h1>
+          </Reveal>
+          <Reveal delay={120}>
             <p className="mt-8 max-w-2xl text-lg leading-relaxed md:text-xl">
               What we are building, and what we are learning.
             </p>
@@ -23,13 +27,13 @@ export default function News() {
         </div>
       </section>
 
-      <section className="container-page pb-32">
+      <section className="container-page pb-24">
         {NEWS_POSTS.length === 0 ? (
           <Reveal>
             <p className="text-lg">Nothing published yet. Check back soon.</p>
           </Reveal>
         ) : (
-          <ul className="mx-auto max-w-3xl">
+          <ul className="max-w-3xl">
             {NEWS_POSTS.map((post, i) => (
               <li key={post.slug}>
                 <Reveal delay={i * 60}>

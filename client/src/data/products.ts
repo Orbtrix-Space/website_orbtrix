@@ -1,25 +1,23 @@
-import { Cpu, Radar, Camera, Satellite, Eye, CalendarClock, type LucideIcon } from "lucide-react";
+import { Cpu, Satellite, Eye, CalendarClock, type LucideIcon } from "lucide-react";
 
 /* ==========================================================================
    PRODUCT NAME GATING
    --------------------------------------------------------------------------
-   Flip to `true` once the trademark is filed. Nothing else needs to change.
+   The gate is OPEN: the real names ship. Set back to `false` to fall the whole
+   site — nav, footer, page copy, <title> — back to the generic labels in one
+   edit. Nothing else needs to change.
 
-   Real names (DISHA, NEXUS, NETRA) appear ONLY in this file. Every page,
-   nav item, footer link, and page <title> reads through `productName()` or
-   the `name` field below, so the flag governs the whole site.
-
-   Guard against regressions:
-     grep -rn "DISHA\|NEXUS\|NETRA" client/src --exclude=data/products.ts
-   should return nothing.
+   Real names appear ONLY in this file. Every page, nav item, footer link, and
+   page <title> reads through `productName()` or the `name` field below, so the
+   flag governs the whole site.
    ========================================================================== */
-export const USE_REAL_NAMES = false;
+export const USE_REAL_NAMES = true;
 
 /** The single set of gated labels. Left = real, right = generic. */
 const NAMES = {
-  platform: { real: "DISHA", generic: "Autonomy Platform" },
-  groundAutonomy: { real: "NEXUS", generic: "Ground Autonomy" },
-  anomalyDetection: { real: "NETRA", generic: "Anomaly Detection" },
+  platform: { real: "DISHA", generic: "Ground Intelligence Platform" },
+  groundAutonomy: { real: "Nexus", generic: "Mission Tasking & Operations" },
+  anomalyDetection: { real: "Netra", generic: "Telemetry Intelligence" },
 } as const;
 
 export type GatedName = keyof typeof NAMES;
@@ -36,10 +34,12 @@ export function productName(key: GatedName): string {
 export interface ProductItem {
   /** Stable anchor id — safe to expose, never a trademarked name. */
   id: string;
-  /** Gated key, or a literal for ungated items (SAR, Optical, Rigel OS). */
+  /** Gated key, or a literal for ungated items (Rigel OS). */
   nameKey?: GatedName;
-  /** Used only when `nameKey` is absent. SAR/Optical are generic terms. */
+  /** Used only when `nameKey` is absent — a generic or unregistered name. */
   literalName?: string;
+  /** The product-line label that sits under the name, e.g. "Onboard Autonomy". */
+  role?: string;
   tagline: string;
   description: string;
   icon: LucideIcon;
@@ -67,39 +67,24 @@ export function itemHint(item: ProductItem): string | undefined {
 
 export const PLATFORM = {
   nameKey: "platform" as GatedName,
-  eyebrow: "The platform",
+  eyebrow: "Ground Intelligence Platform",
   /** Preserved from the previous site. */
   headline: "Autonomous operations for the next generation of satellite constellations",
   intro:
     "One platform for constellation-scale missions. Anomaly detection, orbit determination, mission planning, and flight data analysis in a single system, designed to give a small operations team the reach of a much larger one.",
-  /** Real acronym expansion — gated, as it reveals the real name. */
-  realNameHint: "Digital Infrastructure for Spacecraft Handling and Analytics",
+  /* The architecture-section positioning, kept in one place so the homepage
+     card and the DISHA page cannot drift apart. */
+  positioning:
+    "Mission control rebuilt for autonomy. Ingests telemetry, orbital dynamics, and spacecraft health to generate decisions, not dashboards.",
+  /* NOTE: an earlier version of this file expanded DISHA as "Digital
+     Infrastructure for Spacecraft Handling and Analytics". The expansion is
+     not restored here on purpose — /disha does not use one, and one line of
+     brand copy that only exists in this file is how two pages start disagreeing
+     about what the product is called. Add it back only if it is the real,
+     current expansion. */
   vision:
     "Intelligent ground operations as the foundation for autonomous space systems.",
 };
-
-/* ==========================================================================
-   Onboard Solutions → Data Processing
-   ========================================================================== */
-
-export const DATA_PROCESSING: ProductItem[] = [
-  {
-    id: "sar",
-    literalName: "SAR",
-    tagline: "Synthetic aperture radar processing, onboard.",
-    description:
-      "Radar data reduced to usable products on the spacecraft, so the downlink carries answers rather than raw frames.",
-    icon: Radar,
-  },
-  {
-    id: "optical",
-    literalName: "Optical",
-    tagline: "Optical imagery processing, onboard.",
-    description:
-      "Scene assessment and product generation at the sensor, so only what matters comes down.",
-    icon: Camera,
-  },
-];
 
 /* ==========================================================================
    Onboard Solutions → Rigel OS
@@ -109,6 +94,7 @@ export const DATA_PROCESSING: ProductItem[] = [
 export const RIGEL: ProductItem & { status: string; features: string[] } = {
   id: "rigel-os",
   literalName: "Rigel OS",
+  role: "Onboard Autonomy",
   tagline: "Onboard intelligence for autonomous spacecraft.",
   description:
     "Part of the long-term vision for end-to-end autonomous mission stacks. An onboard flight software layer designed to give spacecraft the ability to execute mission logic independently. Currently in early research and development.",
@@ -122,30 +108,6 @@ export const RIGEL: ProductItem & { status: string; features: string[] } = {
   ],
 };
 
-/* ==========================================================================
-   Ground Solutions
-   ========================================================================== */
-
-export const GROUND_SOLUTIONS: ProductItem[] = [
-  {
-    id: "ground-autonomy",
-    nameKey: "groundAutonomy",
-    tagline: "Mission planning and command for constellations.",
-    description:
-      "Builds conflict-free schedules, sends commands across the fleet, and re-plans automatically when conditions change. One operator can manage tasking for the entire constellation.",
-    icon: CalendarClock,
-    realNameHint: "NEXUS, Latin for connection. The action layer of the platform.",
-  },
-  {
-    id: "anomaly-detection",
-    nameKey: "anomalyDetection",
-    tagline: "Fleet-wide intelligent monitoring.",
-    description:
-      "Continuous visibility across every spacecraft in the fleet. Anomaly detection that learns from operational data and surfaces issues with context, not just alerts.",
-    icon: Eye,
-    realNameHint: "NETRA, Sanskrit for eye. The perception layer of the platform.",
-  },
-];
 
 /* ==========================================================================
    Platform capabilities — preserved from the previous DISHA page.

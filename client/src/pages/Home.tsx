@@ -1,109 +1,102 @@
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
+import { Notation } from "@/components/tech/TechParts";
 import { CinematicHero } from "@/components/CinematicHero";
-import { Architecture } from "@/components/Architecture";
-import { TrustedBy } from "@/components/TrustedBy";
-import { MissionClasses } from "@/components/MissionClasses";
+import { OperationalLoop } from "@/components/OperationalLoop";
+import { ApproachConsole } from "@/components/ApproachConsole";
+import { WhyOrbtrix } from "@/components/WhyOrbtrix";
+import { WhoWeServe } from "@/components/WhoWeServe";
+import { PartnersBackers } from "@/components/PartnersBackers";
 import { usePageMeta } from "@/lib/usePageMeta";
-
-/* ---- Why Orbtrix ---- */
-/* Three columns of near-equal length on purpose — the grid reads as ragged the
-   moment one entry runs long, so the copy is kept to roughly 210–240
-   characters each. */
-const WHY: { title: string; body: string }[] = [
-  {
-    title: "Autonomy, not dashboards",
-    body: "Most mission ops software gives you better screens to stare at. Orbtrix makes decisions and acts on them. Ground-side through DISHA. Onboard through Rigel OS. Synchronized through MiSync. Your ops team shrinks. Your spacecraft gets smarter.",
-  },
-  {
-    title: "One proprietary stack, ground to orbit",
-    body: "A single synchronized architecture connects ground decision-making and onboard autonomy. DISHA plans. Rigel OS executes. MiSync keeps them aligned. When comms go dark, your spacecraft doesn’t stop thinking.",
-  },
-  {
-    title: "Intelligence that evolves with the mission",
-    body: "Our proprietary models don’t ship frozen. They learn the behavior of each spacecraft you fly, orbit by orbit. Months in, your anomaly detection catches what generic models never would. The longer you fly with Orbtrix, the wider the gap.",
-  },
-];
 
 export default function Home() {
   usePageMeta(
     "",
-    "Orbtrix builds the intelligence layer for space operations, from ground control to onboard decision-making.",
+    "Orbtrix builds intelligence and autonomy infrastructure for spacecraft: DISHA for ground mission operations, and onboard autonomy for the spacecraft itself.",
   );
 
+  /* The homepage is one argument, in order:
+       01 hero            — what Orbtrix does
+       02 the challenge   — why operations still run through the ground
+       03 the approach    — DISHA + Rigel OS, as one architecture console
+       04 why Orbtrix     — what makes that architecture different
+       05 who we serve    — the commercial framing, and the four domains
+       06 company         — credibility
+       07 contact         — the CTA
+     Solutions has no homepage section of its own: Nexus, Netra and Rigel OS
+     are reached through the small gateway CTA at the foot of 04, and live in
+     full on /solutions. A second large product block here duplicated that
+     page without adding to the argument.
+     Mission #1 has been removed from the site; /mission-1 and its two older
+     aliases redirect to /disha.
+
+     The separate "Our Architecture" section that used to sit between 03 and 04
+     is gone: the approach console covers the same two systems, and the pair
+     back to back said the same thing twice. DISHA and Rigel OS are unaffected
+     everywhere else — /disha, /solutions and the nav all still carry them.
+
+     Sections 02–06 are plain page canvas; the scene belongs to the hero. */
   return (
     <>
-      {/* ===================== CINEMATIC OPENING =====================
-          The hero AND the "what we do" narrative now live here as one
-          continuous scene over a single pinned video. There is no separate
-          white section — the story doesn't break. */}
+      {/* ===================== 01 · CINEMATIC OPENING =====================
+          The hero AND the "what we do" narrative live here as one continuous
+          scene over a single pinned video. The narrative screen doubles as the
+          statement of the problem, which is why 02 opens on the comparison
+          rather than restating it. */}
       <CinematicHero />
 
-      {/* ===================== OUR ARCHITECTURE =====================
-          DISHA / MiSync / Rigel OS as three faces of one stack. */}
-      <Architecture />
+      {/* ===================== 02 · THE CHALLENGE ===================== */}
+      <OperationalLoop />
 
-      {/* ===================== WHY ORBTRIX ===================== */}
-      <section className="section container-page pt-0">
+      {/* ===================== 03 · THE ORBTRIX APPROACH ===================== */}
+      <ApproachConsole />
+
+      {/* ===================== 04 · WHY ORBTRIX ===================== */}
+      <WhyOrbtrix />
+
+      {/* ===================== 05 · WHO WE SERVE =====================
+          The old "For mission providers" section and the mission-class strip,
+          merged: the positioning now leads straight into the four domains, and
+          the four abstract benefit blocks are gone — each of those claims now
+          lives inside the domain it actually applies to. */}
+      <WhoWeServe />
+
+      {/* ===================== 06 · PARTNERS & BACKERS =====================
+          Driven entirely by client/public/Logos_Partners/ — see the
+          partner-logos plugin in vite.config.ts. */}
+      <PartnersBackers />
+
+      {/* ===================== 07 · CLOSING & CONTACT =====================
+          The last black thing on the page, and it hands off directly to the
+          white footer. Compact on purpose: a tall CTA immediately above a
+          substantial footer reads as two endings. */}
+      <section className="container-page pb-[clamp(4rem,6vw,5.5rem)] pt-0">
         <Reveal>
-          <h2 className="text-balance text-[clamp(1.63rem,3.5vw,2.6rem)]">Why Orbtrix</h2>
-        </Reveal>
-
-        <div className="mt-16 grid gap-12 md:grid-cols-3 md:gap-10">
-          {WHY.map((item, i) => (
-            <Reveal key={item.title} delay={i * 80}>
-              <div>
-                <span
-                  className="text-sm tabular-nums"
-                  style={{ color: "var(--accent)" }}
-                  aria-hidden="true"
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h3
-                  className="mt-4 border-t pt-6 text-xl leading-snug"
-                  style={{ borderColor: "var(--border)" }}
-                >
-                  {item.title}
-                </h3>
-                <p className="measure mt-4 leading-relaxed">{item.body}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* ===================== CREDIBILITY STRIP ===================== */}
-      <TrustedBy />
-
-      {/* ===================== CLOSING ===================== */}
-      <section className="section container-page pt-0">
-        <Reveal>
-          <p className="max-w-3xl text-balance text-[clamp(1.3rem,2.8vw,2.15rem)] font-normal leading-snug text-ink">
+          <p className="max-w-5xl text-balance text-[clamp(1.3rem,2.8vw,2.15rem)] font-normal leading-snug text-ink">
             We start with software that fits how missions run today. Over time, Orbtrix becomes
             the <span style={{ color: "var(--accent)" }}>autonomy layer</span> beneath them all.
           </p>
         </Reveal>
 
-        {/* The mission classes the sentence above used to list inline. */}
-        <MissionClasses />
-
+        {/* The mission classes moved up into Who We Serve, where each one now
+            carries the reason a mission in that class would use Orbtrix. */}
         <Reveal delay={120}>
           <div
-            className="mt-20 flex flex-col items-start justify-between gap-8 border-t pt-16 md:flex-row md:items-center"
+            className="mt-12 border-t pt-12"
             style={{ borderColor: "var(--border)" }}
           >
-            <h2 className="max-w-xl text-balance text-[clamp(1.3rem,2.6vw,1.95rem)]">
-              Building or flying a mission that needs autonomy?
-            </h2>
-            <Link
-              href="/contact"
-              className="btn btn-primary group shrink-0 px-7 py-3.5 text-base"
-            >
-              Let&apos;s talk
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 ease-brand group-hover:translate-x-1" />
-            </Link>
+            <Notation ident="ORBTRIX" cmd="mission.connect()" />
+
+            <div className="mt-7 flex flex-col items-start justify-between gap-7 md:flex-row md:items-center">
+              <h2 className="max-w-xl text-balance text-[clamp(1.3rem,2.6vw,1.95rem)]">
+                Building or flying a mission that needs autonomy?
+              </h2>
+              <Link href="/contact" className="cta cta-primary shrink-0">
+                Let&apos;s talk
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         </Reveal>
       </section>

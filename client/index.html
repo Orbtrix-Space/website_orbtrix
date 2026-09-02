@@ -8,11 +8,26 @@
     <title>Orbtrix Space — Every orbit. Every planet. Absolute autonomy.</title>
     <meta
       name="description"
-      content="Orbtrix builds AI-native mission operations software for spacecraft. Ground autonomy today, full mission autonomy ahead."
+      content="Orbtrix builds intelligence and autonomy infrastructure for spacecraft. DISHA for ground intelligence, Rigel OS for onboard autonomy, validated by Mission #1."
     />
     <link rel="icon" type="image/png" href="/favicon.png" />
+
+    <!-- Google Sans Flex. Linked here rather than @import-ed from index.css so
+         the browser discovers it while parsing the HTML, instead of after the
+         stylesheet has been fetched and parsed — one fewer round trip before
+         any text can paint.
+
+         One variable file per subset covers the whole 100–1000 weight range,
+         so the 300/400/500/600 the design system uses cost a single download.
+         The wdth and ROND axes this family also carries are deliberately NOT
+         requested: nothing here varies width or roundness, and each extra axis
+         adds weight to the file. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..1000&display=swap"
+    />
   </head>
   <body>
     <div id="root"></div>

@@ -1,4 +1,6 @@
 import { useEffect, useRef } from "react";
+import { Link } from "wouter";
+import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 
 /**
@@ -25,8 +27,8 @@ const NARRATIVE =
    Deeper in: frosted glass. Exposure up and contrast DOWN, which is what
    "lifting the shadows" actually means (a lower contrast raises the black
    point, so detail returns in the darks instead of the image washing out). --- */
-const HERO = { veil: 0.4, brightness: 1.0, contrast: 1.0, blur: 0 };
-const DEEP = { veil: 0.44, brightness: 1.25, contrast: 0.88, blur: 16 };
+const HERO = { veil: 0.4, brightness: 0.82, contrast: 1.0, blur: 0 };
+const DEEP = { veil: 0.44, brightness: 1.07, contrast: 0.88, blur: 16 };
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
@@ -74,6 +76,10 @@ export function CinematicHero() {
         const h = clamp01(y / (vh * 0.55));
         headline.style.opacity = String(1 - h);
         headline.style.transform = `translate3d(0, ${(h * -50).toFixed(1)}px, 0)`;
+        // The block carries the hero CTAs. Once it has faded out they are
+        // invisible but would still be clickable, so drop them out of hit
+        // testing rather than leaving two dead targets over the scene.
+        headline.style.pointerEvents = h > 0.9 ? "none" : "";
       }
     };
 
@@ -144,7 +150,10 @@ export function CinematicHero() {
       <div className="relative -mt-[100svh]">
         {/* ===== Hero — headline alone, lower-left. Nothing else on screen. ===== */}
         <section className="flex h-[100svh] items-end">
-          <div className="w-full pb-[13vh] pl-[8vw] pr-6">
+          {/* Bottom padding eases off on short viewports: the hero now carries a
+              positioning line and two CTAs under the headline, and 13vh of
+              padding pushed that past the fold on a phone. */}
+          <div className="w-full pb-[8vh] pl-[8vw] pr-6 md:pb-[12vh]">
             <div ref={headlineRef} style={{ willChange: "opacity, transform" }}>
               {/* One sentence now, so the line breaks are left to the browser
                   rather than hard-coded as blocks. `text-balance` evens the
@@ -164,6 +173,33 @@ export function CinematicHero() {
               >
                 Intelligent, responsive and resilient space operations
               </h1>
+
+              {/* The positioning line the headline does not carry: what Orbtrix
+                  builds, and the operational economics it is aimed at. */}
+              <p
+                className="mt-8 max-w-[44rem] text-pretty text-[clamp(1rem,1.35vw,1.25rem)] font-light leading-relaxed"
+                style={{ color: "rgba(255,255,255,0.78)" }}
+              >
+                Autonomous spacecraft, lower mission OpEx. Orbtrix builds intelligence and autonomy
+                infrastructure that enables spacecraft to understand, plan, decide and act with less
+                dependence on continuous ground intervention.
+              </p>
+
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                {/* Points at the approach console: it is where the architecture
+                    is presented now that the separate section is gone. */}
+                {/* Both use the on-media tone: a purple hairline vanishes
+                    against the footage behind them. */}
+                <a href="#approach" className="cta cta-on-media">
+                  Explore the architecture
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </a>
+                {/* Was Mission #1, which no longer exists. The platform is the
+                    other thing a first-time visitor is here to find. */}
+                <Link href="/disha" className="cta cta-on-media">
+                  DISHA platform
+                </Link>
+              </div>
             </div>
           </div>
         </section>

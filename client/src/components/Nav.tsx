@@ -18,7 +18,9 @@ function onHashNav() {
  */
 function Logo({
   onClick,
-  className = "h-7 w-28 md:h-8 md:w-32",
+  // 36px tall on desktop. The mobile sheet passes its own smaller size, so
+  // this default only governs the header mark.
+  className = "h-8 w-32 md:h-9 md:w-36",
   dark = false,
 }: {
   onClick?: () => void;
@@ -167,7 +169,7 @@ function Dropdown({ item, location }: { item: NavLink; location: string }) {
     >
       <Link
         href={item.href}
-        className="nav-link inline-flex items-center gap-1.5 py-2 text-[13px]"
+        className="nav-link inline-flex items-center gap-1.5 py-2 text-[0.9rem]"
         data-active={isBranchActive(item, location)}
         aria-expanded={open}
         aria-haspopup="true"
@@ -175,40 +177,72 @@ function Dropdown({ item, location }: { item: NavLink; location: string }) {
       >
         {item.label}
         <ChevronDown
-          className={`h-4 w-4 transition-transform duration-300 ease-brand ${open ? "rotate-180" : ""}`}
+          className={`h-3.5 w-3.5 transition-transform duration-300 ease-brand ${open ? "rotate-180" : ""}`}
           aria-hidden="true"
         />
       </Link>
 
+      {/* w-[19rem], not w-64: "Onboard Optical Processing" and the plain-language
+          hint under it both have to fit on one line, or the panel reads as a
+          ragged list rather than a set of peers. */}
       <div
-        className={`absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 pt-4 transition-all duration-200 ease-brand ${
+        className={`absolute left-1/2 top-full z-50 w-[19rem] -translate-x-1/2 pt-4 transition-all duration-200 ease-brand ${
           open ? "visible translate-y-0 opacity-100" : "invisible -translate-y-1 opacity-0"
         }`}
       >
         <div
-          className="overflow-hidden rounded-lg border p-2"
+          className="overflow-hidden rounded-lg border p-1.5"
           style={{
             backgroundColor: "var(--bg)",
             borderColor: "var(--border-strong)",
           }}
         >
-          {item.children!.map((child) => (
-            <Link
-              key={child.href}
-              href={child.href}
-              onClick={() => {
-                setOpen(false);
-                onHashNav();
-              }}
-              tabIndex={open ? 0 : -1}
-              className="block px-4 py-2.5 text-[13px] transition-colors duration-200 hover:bg-[var(--surface-hover)] hover:text-ink"
-              style={{
-                color: isChildActive(child.href, location) ? "var(--accent)" : "var(--text-muted)",
-              }}
-            >
-              {child.label}
-            </Link>
-          ))}
+          {item.children!.map((child) => {
+            const active = isChildActive(child.href, location);
+            /* The row that points at the section's OWN page — "DISHA" inside
+               the DISHA panel — is the parent of the rows under it, not a peer.
+               A hairline under it is the whole difference between reading the
+               panel as one product with four modules and reading it as five
+               things that happen to share a prefix. */
+            const isLead = child.href === item.href;
+            return (
+              <Link
+                key={child.href}
+                href={child.href}
+                onClick={() => {
+                  setOpen(false);
+                  onHashNav();
+                }}
+                tabIndex={open ? 0 : -1}
+                className="nav-row"
+                data-active={active}
+                data-lead={isLead || undefined}
+              >
+                {/* The purple bar. Present in the flow at all times so the row
+                    never shifts sideways when it lights. */}
+                <span className="nav-row-bar" aria-hidden="true" />
+
+                <span className="min-w-0 flex-1">
+                  <span className="nav-row-label">{child.label}</span>
+
+                  {/* The module rows carry a plain-language gloss: "DISHA_C3"
+                      on its own tells a first-time visitor nothing. */}
+                  {child.hint && <span className="nav-row-hint">{child.hint}</span>}
+                </span>
+
+                {/* The $ line, held at the row's right edge and only visible
+                    once the row is engaged. Present on every module and
+                    solution row, absent on Company — the notation names
+                    systems, and "About" is not one. */}
+                {child.cmd && (
+                  <span className="nav-row-cmd" aria-hidden="true">
+                    <span className="dsh-sigil">$ </span>
+                    {child.cmd}
+                  </span>
+                )}
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -241,7 +275,9 @@ function MobileMenu({
 
   // Crossing to desktop while the sheet is open would strand the scroll lock.
   useEffect(() => {
-    const mq = window.matchMedia("(min-width: 768px)");
+    // Must track the breakpoint the desktop nav actually appears at (lg), or
+    // the sheet stays open behind a visible desktop bar.
+    const mq = window.matchMedia("(min-width: 1024px)");
     const onChange = (e: MediaQueryListEvent) => e.matches && onClose();
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
@@ -256,7 +292,7 @@ function MobileMenu({
   return (
     <>
       <div
-        className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 md:hidden ${
+        className={`fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={onClose}
@@ -265,13 +301,13 @@ function MobileMenu({
 
       <div
         id="mobile-menu"
-        className={`fixed right-0 top-0 z-50 flex h-[100dvh] w-[86vw] max-w-sm flex-col transition-transform duration-300 ease-brand md:hidden ${
+        className={`fixed right-0 top-0 z-50 flex h-[100dvh] w-[86vw] max-w-sm flex-col transition-transform duration-300 ease-brand lg:hidden ${
           open ? "translate-x-0" : "translate-x-full"
         }`}
         style={{ backgroundColor: "var(--surface)", borderLeft: "1px solid var(--border)" }}
         aria-hidden={!open}
       >
-        <div className="flex h-20 items-center justify-between px-6">
+        <div className="flex h-[4.5rem] items-center justify-between px-6">
           {/* The logo is the Home link, so the sheet keeps one too. */}
           <Logo onClick={onClose} className="h-6 w-24" />
           <button
@@ -306,7 +342,10 @@ function MobileMenu({
                   ) : (
                     <Link
                       href={item.href}
-                      onClick={onClose}
+                      onClick={() => {
+                        onClose();
+                        if (item.href.includes("#")) onHashNav();
+                      }}
                       tabIndex={open ? 0 : -1}
                       className="flex-1 py-4 text-lg font-medium transition-colors"
                       style={{
@@ -350,9 +389,16 @@ function MobileMenu({
                               onHashNav();
                             }}
                             tabIndex={open && isOpen ? 0 : -1}
-                            className="py-2 text-[13px] text-ink-muted transition-colors hover:text-ink"
+                            className="py-2 transition-colors"
                           >
-                            {child.label}
+                            <span className="block text-[13px] text-ink-muted transition-colors hover:text-ink">
+                              {child.label}
+                            </span>
+                            {child.hint && (
+                              <span className="mt-0.5 block text-[11px] leading-tight text-ink-muted opacity-70">
+                                {child.hint}
+                              </span>
+                            )}
                           </Link>
                         ))}
                       </div>
@@ -420,10 +466,17 @@ export function Nav() {
           borderBottom: `1px solid ${solid ? "var(--border)" : "transparent"}`,
         }}
       >
-        <div className="container-page flex h-20 items-center justify-between gap-6">
+        {/* 72px. The bar is chrome, not a section: at 88px it was competing
+            with the page it sits over, most visibly on the cinematic hero
+            where there is nothing else at the top of the frame. The 40px
+            control and 36px mark still clear it comfortably. */}
+        <div className="container-page flex h-[4.5rem] items-center justify-between gap-6">
           <Logo dark={overDark} />
 
-          <nav className="hidden items-center gap-10 md:flex lg:gap-12" aria-label="Primary">
+          {/* lg, not md: at the enlarged type the four labels plus the Contact
+              control no longer fit a 768px bar — they overflowed the viewport.
+              Tablet now uses the same sheet as mobile. */}
+          <nav className="hidden items-center gap-8 lg:flex lg:gap-10" aria-label="Primary">
             {NAV_ITEMS.map((item) =>
               item.children?.length ? (
                 <Dropdown key={item.href} item={item} location={location} />
@@ -433,7 +486,7 @@ export function Nav() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="nav-link py-2 text-[13px]"
+                  className="nav-link py-2 text-[0.9rem]"
                 >
                   {item.label}
                 </a>
@@ -441,8 +494,12 @@ export function Nav() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="nav-link py-2 text-[13px]"
+                  className="nav-link py-2 text-[0.9rem]"
                   data-active={isActive(item.href, location)}
+                  // Top-level items can carry a hash. Clicking one while already
+                  // on that page leaves wouter's location unchanged, so the
+                  // scroll needs a nudge.
+                  onClick={item.href.includes("#") ? onHashNav : undefined}
                 >
                   {item.label}
                 </Link>
@@ -451,19 +508,27 @@ export function Nav() {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Link href={NAV_CTA.href} className="btn btn-outline hidden h-10 px-6 text-[13px] md:inline-flex">
+            {/* Header chrome, deliberately NOT the page-level .cta pill — it
+                keeps its own sizing so the bar stays a navigation control
+                rather than becoming a second row of page CTAs.
+
+                rem, not px: the root font-size is fluid (see index.css), so rem
+                sizing grows with the viewport in step with the logo and the
+                bar. A px value would stay pinned and read progressively
+                smaller as the display gets wider. */}
+            <Link href={NAV_CTA.href} className="btn btn-outline hidden h-10 px-6 text-[0.85rem] lg:inline-flex">
               {NAV_CTA.label}
             </Link>
 
             <button
-              className="rounded-pill p-2 transition-colors hover:bg-[var(--surface-hover)] md:hidden"
+              className="rounded-pill p-2 transition-colors hover:bg-[var(--surface-hover)] lg:hidden"
               style={{ color: overDark ? "#ffffff" : "var(--text-primary)" }}
               onClick={() => setMenuOpen(true)}
               aria-label="Open menu"
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
             >
-              <Menu className="h-6 w-6" />
+              <Menu className="h-5 w-5" />
             </button>
           </div>
         </div>

@@ -13,8 +13,8 @@ export default function Policy({ kind }: { kind: "legal" | "privacy" }) {
   usePageMeta(title);
 
   return (
-    <section className="container-page pb-32 pt-40 md:pt-48">
-      <div className="mx-auto max-w-2xl">
+    <section className="container-page page-head pb-24">
+      <div className="max-w-2xl">
         <Reveal>
           <h1 className="text-balance text-[clamp(1.75rem,4.35vw,2.85rem)] leading-[1.08]">{title}</h1>
         </Reveal>
@@ -33,7 +33,7 @@ export default function Policy({ kind }: { kind: "legal" | "privacy" }) {
           </p>
         </Reveal>
         <Reveal delay={140}>
-          <Link href="/" className="btn btn-secondary mt-10 px-6 py-3 text-base">
+          <Link href="/" className="cta cta-secondary mt-10">
             Back home
           </Link>
         </Reveal>

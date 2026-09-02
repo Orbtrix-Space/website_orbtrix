@@ -1,68 +1,99 @@
-import { Check } from "lucide-react";
+import { Link } from "wouter";
+import { ArrowUpRight, Check } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
 import { usePageMeta } from "@/lib/usePageMeta";
-import { SectionHeading, ItemCard, ClosingCTA } from "@/components/ProductParts";
-import { DATA_PROCESSING, GROUND_SOLUTIONS, RIGEL, PLATFORM } from "@/data/products";
+import { SectionHeading, ClosingCTA } from "@/components/ProductParts";
+import { Notation } from "@/components/tech/TechParts";
+import { RIGEL, PLATFORM } from "@/data/products";
+import { FAMILY_NOTE, SOLUTIONS } from "@/data/solutions";
 
 /**
- * Solutions = how the platform is applied. Two families, each an anchor the
- * nav dropdown jumps to: onboard (data processing + Rigel OS) and ground.
+ * The Solutions index.
+ *
+ * Three capabilities Orbtrix can deliver today, each with its own page, plus
+ * the onboard work that is not yet one of them. This page's only job is to say
+ * what the three are and get out of the way — every word about what NETRA,
+ * NEXUS or onboard optical processing actually does lives on its own page, and
+ * repeating it here is how two pages start disagreeing.
+ *
+ * Rigel OS keeps its block: it is real, and it is not currently a deliverable
+ * capability with a page of its own.
  */
 export default function Solutions() {
   usePageMeta(
     "Solutions",
-    "Onboard and ground solutions: data processing at the sensor, autonomous mission planning, and fleet-wide monitoring.",
+    "Three Orbtrix capabilities available today: NETRA telemetry intelligence, NEXUS mission tasking and ground operations, and onboard optical payload processing.",
   );
 
   return (
     <>
       {/* ===================== INTRO ===================== */}
-      <section className="relative overflow-hidden">
+      <section className="container-page page-head">
+        <Reveal>
+          <Notation ident="SOLUTIONS" cmd="orbtrix.capabilities()" />
+        </Reveal>
 
-        <div className="container-page relative z-10 pb-16 pt-40 md:pt-48">
-          <Reveal>
-            <p className="eyebrow">Solutions</p>
-          </Reveal>
-          <Reveal delay={80}>
-            <h1 className="mt-6 max-w-4xl text-balance text-[clamp(1.95rem,4.8vw,3.5rem)] leading-[1.08]">
-              Autonomy from the spacecraft to the ground
-            </h1>
-          </Reveal>
-          <Reveal delay={160}>
-            <p className="mt-8 max-w-2xl text-pretty text-lg leading-relaxed md:text-xl">
-              The same platform, applied in two places: onboard the spacecraft, and across the
-              ground segment that runs the fleet.
-            </p>
-          </Reveal>
-        </div>
+        <Reveal delay={80}>
+          <h1 className="mt-7 max-w-4xl text-balance text-[clamp(1.95rem,4.6vw,3.4rem)] leading-[1.08]">
+            Capabilities we can deliver to your mission today
+          </h1>
+        </Reveal>
+
+        <Reveal delay={160}>
+          <p className="measure mt-8 text-pretty text-lg leading-relaxed">
+            Three focused engineering capabilities, delivered around one mission's problem — and
+            built toward DISHA, Orbtrix's unified mission operations platform.
+          </p>
+        </Reveal>
       </section>
 
-      {/* ===================== ONBOARD SOLUTIONS ===================== */}
-      <section className="section container-page pt-0">
+      {/* ===================== THE THREE ===================== */}
+      <section className="sol-section container-page pt-0">
+        <ul>
+          {SOLUTIONS.map((solution, i) => (
+            <Reveal key={solution.slug} as="li" delay={i * 80}>
+              <Link href={`/solutions/${solution.slug}`} className="sol-cross">
+                <span className="flex min-w-0 flex-col gap-1">
+                  <span className="dsh-mono text-[0.58rem]" style={{ color: "var(--accent)" }}>
+                    <span className="dsh-sigil" aria-hidden="true">
+                      #{" "}
+                    </span>
+                    {solution.ident}
+                  </span>
+                  <span className="text-[clamp(1.15rem,2.2vw,1.7rem)] font-medium leading-tight text-ink">
+                    {solution.name}
+                  </span>
+                  <span className="sol-cross-role">{solution.role}</span>
+                </span>
+                <ArrowUpRight className="sol-cross-arrow h-5 w-5" aria-hidden="true" />
+              </Link>
+            </Reveal>
+          ))}
+        </ul>
+
+        <Reveal delay={240}>
+          <p
+            className="measure mt-10 border-l pl-6 text-[0.85rem] font-light leading-relaxed"
+            style={{ borderColor: "var(--border-accent)" }}
+          >
+            {FAMILY_NOTE}
+          </p>
+        </Reveal>
+      </section>
+
+      {/* ===================== ONBOARD (NOT YET A SOLUTION PAGE) ===================== */}
+      <section className="sol-section container-page pt-0">
         <SectionHeading
           id="onboard"
-          eyebrow="Onboard solutions"
+          eyebrow="Onboard"
           title="Autonomy that travels with the spacecraft"
-          lead="Processing and decision-making at the sensor, so the downlink carries answers rather than raw frames."
+          lead="Processing and decision-making at the sensor, so the downlink carries answers rather than raw frames. Onboard optical processing is available today; the flight software below is earlier work."
         />
 
-        {/* ---- Data Processing (sub-section) ---- */}
-        <div className="mt-20">
-          <Reveal id="data-processing">
-            <h3 className="text-2xl md:text-3xl">Data processing</h3>
-            <p className="mt-4 max-w-2xl leading-relaxed">
-              Turning sensor data into products before it ever reaches the ground.
-            </p>
-          </Reveal>
-
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            {DATA_PROCESSING.map((item, i) => (
-              <ItemCard key={item.id} item={item} delay={i * 80} />
-            ))}
-          </div>
-        </div>
-
-        {/* ---- Rigel OS (onboard flight software) ---- */}
+        {/* ---- Rigel OS ----
+            The only thing in this section now. It used to sit under a card
+            grid; with that gone it carries the section on its own, so it no
+            longer needs the small gap that separated it from the cards. */}
         <div className="mt-16">
           <Reveal id="rigel-os">
             <div className="card p-8 md:p-14">
@@ -107,23 +138,6 @@ export default function Solutions() {
         </div>
       </section>
 
-      {/* ===================== GROUND SOLUTIONS ===================== */}
-      <section className="section container-page pt-0">
-        <SectionHeading
-          id="ground"
-          eyebrow="Ground solutions"
-          title="One operator, one fleet"
-          lead="Team size decoupled from fleet size. Hours of manual work become minutes of review."
-        />
-
-        <div className="mt-16 grid gap-6 md:grid-cols-2">
-          {GROUND_SOLUTIONS.map((item, i) => (
-            <ItemCard key={item.id} item={item} delay={i * 80} />
-          ))}
-        </div>
-      </section>
-
-      {/* ===================== CLOSING ===================== */}
       <ClosingCTA heading={PLATFORM.vision} />
     </>
   );
